@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: xwu <xwu@student.42urduliz.com>            +#+  +:+       +#+        */
+/*   By: gcassi-d <gcassi-d@42urduliz.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/31 22:58:22 by xwu               #+#    #+#             */
-/*   Updated: 2025/11/09 22:59:47 by xwu              ###   ########.fr       */
+/*   Updated: 2026/01/15 16:57:28 by gcassi-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,7 @@ void	here_doc_put(char *limiter, int fd)
 {
 	char	*input;
 	char	*new_limiter;
-	
+
 	new_limiter = ft_strjoin(limiter, "\n");
 	write(1, "\e[1;1mhere_doc> \e[0;0m", 22);
 	input = get_next_line(0);

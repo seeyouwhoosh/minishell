@@ -71,6 +71,9 @@ int main(int ac, char **av, char **env)
 	printf("\e[0;32mCURRENT WORKING DIRECTORY: %s\n\e[0;0m", changed);
 	chdir(cwd);
 
+	for (size_t i = 0; env[i]; i++)
+		printf("%s\n", env[i]);
+
 	/* pid_t fork(void); */
 	int	nb = 0;
 	pid_t pid = fork();
