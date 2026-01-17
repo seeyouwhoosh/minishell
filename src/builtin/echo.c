@@ -6,7 +6,7 @@
 /*   By: gcassi-d <gcassi-d@42urduliz.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/09 17:10:31 by gcassi-d          #+#    #+#             */
-/*   Updated: 2026/01/09 17:31:36 by gcassi-d         ###   ########.fr       */
+/*   Updated: 2026/01/17 21:23:00 by gcassi-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,11 +32,13 @@ bool	isnflag(char *arg)
 	return (flag);
 }
 
-int	echo(char **args)
+int	echo(t_cmdtab *cmdtab, char **args)
 {
 	int		i;
 	bool	flag;
 
+	(void)cmdtab;
+	i = 1;
 	while (args[i] && isnflag(args[i]))
 	{
 		flag = true;
