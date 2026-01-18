@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcassi-d <gcassi-d@42urduliz.com>          +#+  +:+       +#+        */
+/*   By: xwu <xwu@student.42urduliz.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 16:46:16 by xwu               #+#    #+#             */
-/*   Updated: 2026/01/17 21:07:04 by gcassi-d         ###   ########.fr       */
+/*   Updated: 2026/01/18 13:13:08 by xwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,27 +31,40 @@
 #  define PATH_MAX 4096
 # endif
 
+# ifndef TOKEN_DELIMITER
+# define TOKEN_DELIMITER " \t\r\n\a"
+# endif
+
 typedef struct s_cmds
 {
 	char	*cmd;
-	char	*args;
+	char	**split_cmd;
+	int		infile;
+	int		outfile;
+	int		errfile;
 }			t_cmds;
 
 
 typedef struct s_cmdtab
 {
-	int		infile;
-	int		outfile;
-	int		errfile;
 	t_cmds	*cmds;
 	char	*cwd;
 	char	*previous_wd;
 	char	**env;
 }			t_cmdtab;
 
+/* void	(*built_in)(t_cmdtab *, char**) = {
+	&echo,
+	&pwd,
+	&unset,
+	&env,
+	&export,
+	&cd,
+}; */
+
 int	echo(t_cmdtab *cmdtab, char **args);
 int	pwd(t_cmdtab *cmdtab, char **args);
-int	exit(t_cmdtab *cmdtab, char **args);
+//int	exit(t_cmdtab *cmdtab, char **args);
 int	unset(t_cmdtab *cmdtab, char **args);
 int	env(t_cmdtab *cmdtab, char **args);
 int	export(t_cmdtab *cmdtab, char **args);
