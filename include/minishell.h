@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: xwu <xwu@student.42urduliz.com>            +#+  +:+       +#+        */
+/*   By: gcassi-d <gcassi-d@42urduliz.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 16:46:16 by xwu               #+#    #+#             */
-/*   Updated: 2026/01/18 13:13:08 by xwu              ###   ########.fr       */
+/*   Updated: 2026/01/19 17:30:11 by gcassi-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@
 # endif
 
 # ifndef TOKEN_DELIMITER
-# define TOKEN_DELIMITER " \t\r\n\a"
+#  define TOKEN_DELIMITER " \t\r\n\a"
 # endif
 
 typedef struct s_cmds
@@ -44,7 +44,6 @@ typedef struct s_cmds
 	int		errfile;
 }			t_cmds;
 
-
 typedef struct s_cmdtab
 {
 	t_cmds	*cmds;
@@ -53,18 +52,9 @@ typedef struct s_cmdtab
 	char	**env;
 }			t_cmdtab;
 
-/* void	(*built_in)(t_cmdtab *, char**) = {
-	&echo,
-	&pwd,
-	&unset,
-	&env,
-	&export,
-	&cd,
-}; */
-
 int	echo(t_cmdtab *cmdtab, char **args);
 int	pwd(t_cmdtab *cmdtab, char **args);
-//int	exit(t_cmdtab *cmdtab, char **args);
+int	ft_exit(t_cmdtab *cmdtab, char **args);
 int	unset(t_cmdtab *cmdtab, char **args);
 int	env(t_cmdtab *cmdtab, char **args);
 int	export(t_cmdtab *cmdtab, char **args);

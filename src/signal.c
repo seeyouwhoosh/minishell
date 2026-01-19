@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signal.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: xwu <xwu@student.42urduliz.com>            +#+  +:+       +#+        */
+/*   By: gcassi-d <gcassi-d@42urduliz.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/17 01:26:00 by xwu               #+#    #+#             */
-/*   Updated: 2026/01/18 13:18:24 by xwu              ###   ########.fr       */
+/*   Updated: 2026/01/19 17:30:21 by gcassi-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	int_signal(int n)
 	signal(SIGINT, int_signal);
 }
 
-void	signal_manager()
+void	signal_manager(void)
 {
 	signal(SIGINT, int_signal);
 	signal(SIGQUIT, SIG_IGN);
