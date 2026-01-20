@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcassi-d <gcassi-d@42urduliz.com>          +#+  +:+       +#+        */
+/*   By: xwu <xwu@student.42urduliz.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/17 20:59:21 by gcassi-d          #+#    #+#             */
-/*   Updated: 2026/01/17 21:27:26 by gcassi-d         ###   ########.fr       */
+/*   Updated: 2026/01/20 23:49:57 by xwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,6 @@ int	env(t_cmdtab *cmdtab, char **args)
 	if (!cmdtab->env)
 		return (EXIT_FAILURE);
 	while (cmdtab->env[i])
-		ft_putendl_fd(cmdtab->env[i], STDOUT_FILENO);
+		ft_putendl_fd(cmdtab->env[i++], STDOUT_FILENO);
 	return (EXIT_SUCCESS);
 }
