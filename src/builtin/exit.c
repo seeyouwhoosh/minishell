@@ -3,11 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcassi-d <gcassi-d@42urduliz.com>          +#+  +:+       +#+        */
+/*   By: xwu <xwu@student.42urduliz.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/17 20:59:37 by gcassi-d          #+#    #+#             */
-/*   Updated: 2026/01/17 20:59:39 by gcassi-d         ###   ########.fr       */
+/*   Updated: 2026/01/20 19:14:18 by xwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+int		ft_exit(t_cmdtab *cmdtab, char **args)
+{
+	return (0);
+}

@@ -94,7 +94,7 @@ int	process_args(char *line, char **env)
 	char		**tokens;
 	int			pid;
 	t_cmdtab	cmdtab;
-	t_cmds		cmds;
+	t_cmd		cmds;
 	size_t		i;
 	char		*arg;
 	char		*temp;

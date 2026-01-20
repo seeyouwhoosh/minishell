@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcassi-d <gcassi-d@42urduliz.com>          +#+  +:+       +#+        */
+/*   By: xwu <xwu@student.42urduliz.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 16:46:16 by xwu               #+#    #+#             */
-/*   Updated: 2026/01/19 17:30:11 by gcassi-d         ###   ########.fr       */
+/*   Updated: 2026/01/20 23:10:26 by xwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,22 +42,31 @@ typedef struct s_cmds
 	int		infile;
 	int		outfile;
 	int		errfile;
-}			t_cmds;
+	short	here_doc;
+}			t_cmd;
 
 typedef struct s_cmdtab
 {
-	t_cmds	*cmds;
+	t_cmd	*cmds;
 	char	*cwd;
 	char	*previous_wd;
 	char	**env;
 }			t_cmdtab;
 
-int	echo(t_cmdtab *cmdtab, char **args);
-int	pwd(t_cmdtab *cmdtab, char **args);
-int	ft_exit(t_cmdtab *cmdtab, char **args);
-int	unset(t_cmdtab *cmdtab, char **args);
-int	env(t_cmdtab *cmdtab, char **args);
-int	export(t_cmdtab *cmdtab, char **args);
-int	cd(t_cmdtab *cmdtab, char **args);
+/* VARIABLE EXPANSION */
+size_t	n_cmds(char *line);
+char	*search_var(char *var, char **ev);
+char	*next_word(char *line);
+int		insert_var(char **line, char *var, size_t n, char **ev);
+int		variable_expansion(char **line, char **ev);
+
+/* BUILT-IN */
+int		echo(t_cmdtab *cmdtab, char **args);
+int		pwd(t_cmdtab *cmdtab, char **args);
+int		ft_exit(t_cmdtab *cmdtab, char **args);
+int		unset(t_cmdtab *cmdtab, char **args);
+int		env(t_cmdtab *cmdtab, char **args);
+int		export(t_cmdtab *cmdtab, char **args);
+int		cd(t_cmdtab *cmdtab, char **args);
 
 #endif /* MINISHELL_H */

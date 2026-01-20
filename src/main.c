@@ -6,7 +6,7 @@
 /*   By: xwu <xwu@student.42urduliz.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/18 13:00:32 by xwu               #+#    #+#             */
-/*   Updated: 2026/01/20 19:00:13 by xwu              ###   ########.fr       */
+/*   Updated: 2026/01/20 23:28:37 by xwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,138 +45,91 @@ size_t	n_cmds(char *line)
 			dquote = (dquote + 1) % 2;
 		if (line[i] == '\'')
 			squote = (squote + 1) % 2;
-		else if (!dquote  && line[i] == '|')
+		else if ((!dquote || !squote) && line[i] == '|')
 			count++;
 	}
 	return (count + 1);
 }
-
-char	*search_var(char *var, char **ev)
+/* Find match. Returns match; if not match, returns itself */
+char	*matched_quote(char *line)
 {
 	size_t	i;
-	char	*new_var;
 
-	new_var = ft_strjoin(var, "=");
+	i = 0;
+	while (line[++i] && line[i] != line[0])
+		;
+	if (!line[i])
+		return (line);
+	return (line + i);
+}
+
+char	**tokenize(char *line, char **ev)
+{
+	size_t	i;
+
 	i = -1;
-	while (ev[++i])
+	while (line[++i])
 	{
-		if (!ft_strncmp(ev[i], new_var, ft_strlen(new_var)))
-		{
-			free(new_var);
-			return (ev[i] + i + 1);
-		}
+		if (isredirecction(line[i]))
+			; //coger el elemento justamente posterior ó coger el siguiente token
+		if (!matched_quote(line))
+			; //almacenar el coso entero como token
+		else
+			;
 	}
-	free(new_var);
-	return ("");
 }
 
-char	*next_word(char *line)
+void	str_to_cmd(char *s, t_cmd cmd, char **ev)
 {
-	char	*word;
-	size_t	i;
-
-	i = 0;
-	while (line[i] && line[i] != ' ')
-		i++;
-	word = malloc(i + 1);
-	if (!word)
-		return (NULL);
-	ft_memcpy(word, line, i);
-	word[i] = 0;
-	return (word);
+	
+	free(s);
 }
 
-int	insert_var(char **line, char *var, size_t n, char **ev)
+int	process_line(char *line, t_cmdtab *cmdtab)
 {
-	char	*new;
-	size_t	ll;
-	size_t	lv;
-	char	*tmp;
-	char	*expanded;
-
-	expanded = search_var(var, ev);
-	tmp = *line;
-	ll = ft_strlen(*line);
-	lv = ft_strlen(expanded);
-	new = malloc(ll + lv + 1);
-	if (!new)
-		return (0);
-	ft_memcpy(new, *line, n);
-	ft_memcpy(new + n, expanded, lv);
-	ft_memcpy(new + n + lv, *line + n + ft_strlen(var), ll - n - ft_strlen(var) - 1);
-	new[ll + lv] = 0;
-	free(tmp);
-	*line = new;
-	return (lv);
-}
-
-int	variable_expansion(char **line, char **ev)
-{
-	short	dquote;
-	size_t	i;
-	char	*var;
-
-	i = 0;
-	dquote = 0;
-	while ((*line)[i])
-	{
-		if ((*line)[i] == '\'')
-			dquote = (dquote + 1) % 2;
-		else if ((*line)[i] == '$' && !dquote)
-		{
-			var = next_word(*line + i + 1);
-			if (!var)
-				return (1);
-			i += insert_var(line, var, i, ev);
-			free(var);
-		}
-		i++;
-	}
-	return (0);
-}
-
-/* int	process_line(char *line, t_cmdtab *cmdtab)
-{
-	char	**tokens;
-	int		i;
-	size_t	number_cmds;
+	size_t	ncmds;
 	short	quote;
+	size_t	j;
+	size_t	k;
 
-	cmdtab->cmds = malloc(n_cmds(line) * sizeof(t_cmds));
-	variable_expansion(&line, cmdtab->env);
-	tokens = ft_split_charset(line, TOKEN_DELIMITER);
-	if (!tokens)
+	ncmds = n_cmds(line);
+	cmdtab->cmds = malloc(ncmds * sizeof(t_cmd) + 1);
+	if (!cmdtab->cmds)
 		return (1);
-	i = 0;
-	quote = 0;
-	while (*tokens)
+	cmdtab->cmds[ncmds].cmd = NULL;
+	j = -1;
+	k = 0;
+	while (line[++j])
 	{
-		if (line[i] == '\"')
-			quote = (quote + 1) % 2;
-		else if (ft_strcmp(tokens[i], "|"))
-			i++;
-		tokens++;
+		if ((line[j] == '\'' || line[j] == '\"'))
+			quote = matched_quote(line);
+		if ((line[j] == '|' && (line + j) > quote) || ((j + 1) == ft_strlen(line)))
+		{
+			str_to_cmd(ft_substr(line, k, j + 1), *(cmdtab->cmds)++, cmdtab->env);
+			k = j + 1;
+		}
 	}
-} */
-
-/* int	execute_line(t_cmdtab *cmdtab)
+}
+void	free_cmds(t_cmd *cmds)
 {
-	;
-} */
+	size_t	i;
 
-int main(int ac, char **av, char **ev)
-{
-	(void)av;
-	(void)ac;
-	char	*s =  "\'hola$PATH adios\'";
-	char	*line = malloc(ft_strlen(s) + 1);
-	ft_memcpy(line, s, ft_strlen(s));
-	line[ft_strlen(s)] = 0;
-	variable_expansion(&line, ev);
-    printf("%s\n", line);
+	i = -1;
+	while (cmds[++i].cmd) //por si se alloca algo allí
+	{
+		;
+	}
+	free(cmds);
 }
 
-/* int	main(int ac, char **av, char **ev)
+
+int	execute_line(t_cmdtab *cmdtab)
+{
+	
+	free_cmds(cmdtab->cmds);
+}
+
+int	main(int ac, char **av, char **ev)
 {
 	char		*line;
 	t_cmdtab	*cmdtab;
@@ -187,7 +140,6 @@ int main(int ac, char **av, char **ev)
 
 	signal_manager();
 	cmdtab->env = ev;
-
 	line = (char *)1;
 	while (line)
 	{
@@ -200,4 +152,4 @@ int main(int ac, char **av, char **ev)
 		add_history(line);
 		free(line);
 	}
-} */
+}
