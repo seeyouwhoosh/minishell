@@ -17,14 +17,17 @@ RM			= rm -rf
 
 # Libs
 LINKER		= -lreadline
+LIBFT_DIR	= include/libft
+LIBFT		= $(LIBFT_DIR)/libft.a
+LINKER		+= -lft -L$(LIBFT_DIR)
 
 # Includes
 INCLUDE_DIR	= include
-INCLUDES	= -I$(INCLUDE_DIR) \
+INCLUDES	= -I$(INCLUDE_DIR) -I$(LIBFT_DIR)
 
 # Sources
 SRC_DIR		= src
-SOURCES		= main.c signal.c
+SOURCES		= main.c 
 
 # Objects
 OBJ_DIR		= obj
@@ -46,7 +49,10 @@ all: $(OBJECTS) $(NAME)
 # Main program
 all: $(NAME)
 
-$(NAME): $(OBJECTS)
+$(LIBFT):
+	make bonus -C $(LIBFT_DIR)
+
+$(NAME): $(LIBFT) $(OBJECTS)
 	@echo "$(BBLUE)$(NAME)$(NC): Creating $(GREEN)$@$(NC)..."
 	$(CC) $(CFLAGS) -o $@ $(OBJECTS) $(LINKER)
 	@echo "$(BBLUE)$(NAME)$(NC): $(GREEN)$(NAME)$(NC) created"
@@ -64,17 +70,19 @@ bonus: $(BOBJECTS)
 
 $(BOBJ_DIR)/%.o: $(BOBJ_DIR)/%.c
 	@mkdir -p $(BOBJ_DIR)
-	@$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
+	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
 
 
 # Cleaning targets
 clean:
 	@$(RM) $(OBJ_DIR)
+	@make -C $(LIBFT_DIR) clean
 	@$(RM) $(BOBJ_DIR)
 	@echo "$(BBLUE)$(NAME)$(NC): Objects cleaned"
 
 fclean: clean
 	@$(RM) $(NAME)
+	@make -C $(LIBFT_DIR) fclean
 	@echo "$(BBLUE)$(NAME)$(NC): Fully cleaned"
 
 re: fclean all
