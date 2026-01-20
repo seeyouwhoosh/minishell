@@ -6,14 +6,13 @@
 /*   By: xwu <xwu@student.42urduliz.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/18 13:00:32 by xwu               #+#    #+#             */
-/*   Updated: 2026/01/20 17:51:19 by xwu              ###   ########.fr       */
+/*   Updated: 2026/01/20 19:00:13 by xwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 /*
-0. Separar por ; y hacer subprocesos según la cantidad de instrucciones (optativo, mejor que no)
 1. AÚN QUEDA POR PENSAR EN QUÉ ORDEN PARSEAR LAS EXPANSIONES Y LAS COMILLAS
 2. Parsear comandos por pipes
 3. Parsear redirecciones. Tener en cuenta que si tiene infile, se redirecciona tanto el infile como el pipe anterior; lo mismo con el outfile
@@ -96,7 +95,6 @@ int	insert_var(char **line, char *var, size_t n, char **ev)
 	char	*expanded;
 
 	expanded = search_var(var, ev);
-	printf("%s", expanded);
 	tmp = *line;
 	ll = ft_strlen(*line);
 	lv = ft_strlen(expanded);
@@ -105,7 +103,7 @@ int	insert_var(char **line, char *var, size_t n, char **ev)
 		return (0);
 	ft_memcpy(new, *line, n);
 	ft_memcpy(new + n, expanded, lv);
-	ft_memcpy(new + n + lv, *line + n, ll - n);
+	ft_memcpy(new + n + lv, *line + n + ft_strlen(var), ll - n - ft_strlen(var) - 1);
 	new[ll + lv] = 0;
 	free(tmp);
 	*line = new;
@@ -124,14 +122,13 @@ int	variable_expansion(char **line, char **ev)
 	{
 		if ((*line)[i] == '\'')
 			dquote = (dquote + 1) % 2;
-		else if ((*line)[i] == '$')
+		else if ((*line)[i] == '$' && !dquote)
 		{
 			var = next_word(*line + i + 1);
 			if (!var)
 				return (1);
 			i += insert_var(line, var, i, ev);
 			free(var);
-			break;
 		}
 		i++;
 	}
@@ -171,11 +168,12 @@ int main(int ac, char **av, char **ev)
 {
 	(void)av;
 	(void)ac;
-	char	*line = malloc(6);
-	ft_memcpy(line, "$INFOPATH", 5);
-	line[5] = 0;
+	char	*s =  "\'hola$PATH adios\'";
+	char	*line = malloc(ft_strlen(s) + 1);
+	ft_memcpy(line, s, ft_strlen(s));
+	line[ft_strlen(s)] = 0;
 	variable_expansion(&line, ev);
-    printf("%s", line);
+    printf("%s\n", line);
 }
 
 /* int	main(int ac, char **av, char **ev)
