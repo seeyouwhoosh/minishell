@@ -6,7 +6,7 @@
 /*   By: xwu <xwu@student.42urduliz.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/18 13:00:32 by xwu               #+#    #+#             */
-/*   Updated: 2026/01/21 12:49:45 by xwu              ###   ########.fr       */
+/*   Updated: 2026/01/21 13:44:13 by xwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ char	*matched_quote(char *line)
 	return (line + i);
 }
 
-void	append(char ***split, char *start, char *end)
+void	append(char ***split, char *s)
 {
 	char	**old_split;
 	char	**new_split;
@@ -86,7 +86,7 @@ void	append(char ***split, char *start, char *end)
 	if (!split)
 	{
 		*split = malloc(2 * sizeof(char *));
-		ft_strlcpy((*split)[0], start, end - start + 1);
+		ft_memcpy((*split)[0], s, ft_strlen(s) + 1);
 		(*split)[1] = NULL;
 		return ;
 	}
@@ -97,7 +97,7 @@ void	append(char ***split, char *start, char *end)
 	i = -1;
 	while (!(*split)[++i])
 		new_split[i] = (*split)[i];
-	ft_strlcpy(new_split[i], start, end - start + 1);
+	ft_memcpy(new_split[0], s, ft_strlen(s) + 1);
 	*split = new_split;
 	ft_freesplit(old_split);
 }
@@ -141,7 +141,6 @@ int	str_to_cmd(char *s, t_cmd *cmd, char **ev)
 	if (all_whitespace(s) || !s[0])
 		return (free(s), 1);
 	variable_expansion(&s, ev);
-	free(s);
 	i = -1;
 	while (s[++i])
 	{
@@ -202,7 +201,32 @@ int	execute_line(t_cmdtab *cmdtab)
 	return (0);
 }
 
-int	main(int ac, char **av, char **ev)
+int main(int ac, char **av, char **ev)
+{
+	(void)ac;
+	char	*line = malloc(ft_strlen(av[1]) + 1);
+	ft_memcpy(line, av[1], ft_strlen(av[1]));
+	line[ft_strlen(av[1])] = 0;
+
+
+	/* size_t	i = -1;
+	cmdtab.env = ev;
+	process_line(line, &cmdtab);
+	while ((cmdtab.cmds)[++i].split_cmd)
+		ft_putstrstr((cmdtab.cmds)[i++].split_cmd, '\n'); */
+
+	/* t_cmd	cmd;
+	str_to_cmd(line, &cmd, ev);
+	ft_putstrstr(cmd.split_cmd, '\n'); */
+	
+	(void)ev;
+	(void)av;
+	char **split = ft_split("hola don pepito", ' ');
+	ft_putstrstr(split, '\n');
+	append(&split, line);
+}
+
+/* int	main(int ac, char **av, char **ev)
 {
 	char		*line;
 	t_cmdtab	*cmdtab;
@@ -225,4 +249,4 @@ int	main(int ac, char **av, char **ev)
 		add_history(line);
 		free(line);
 	}
-}
+} */

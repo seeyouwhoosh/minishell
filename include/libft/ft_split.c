@@ -6,7 +6,7 @@
 /*   By: xwu <xwu@student.42urduliz.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 18:55:19 by xwu               #+#    #+#             */
-/*   Updated: 2025/04/25 20:18:15 by xwu              ###   ########.fr       */
+/*   Updated: 2026/01/21 13:10:30 by xwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ void	ft_freesplit(char **words)
 	free(words);
 }
 
-static char	*ft_wordcpy(const char *s, size_t j, size_t i)
+char	*ft_wordcpy(const char *s, size_t j, size_t i)
 {
 	char	*word;
 

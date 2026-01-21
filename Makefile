@@ -42,6 +42,9 @@ BSOURCES	=
 BOBJ_DIR	= obj_bonus
 BOBJECTS	= $(addprefix $(BOBJ_DIR)/, $(BSOURCES:.c=.o))
 
+LINKER	+= -L/opt/homebrew/opt/readline/lib
+INCLUDES+= -I/opt/homebrew/opt/readline/include
+
 
 all: $(OBJECTS) $(NAME)
 
@@ -54,7 +57,7 @@ $(LIBFT):
 
 $(NAME): $(LIBFT) $(OBJECTS)
 	@echo "$(BBLUE)$(NAME)$(NC): Creating $(GREEN)$@$(NC)..."
-	$(CC) $(CFLAGS) -o $@ $(OBJECTS) $(LINKER)
+	$(CC) $(CFLAGS) $(OBJECTS) $(LINKER) -o $@
 	@echo "$(BBLUE)$(NAME)$(NC): $(GREEN)$(NAME)$(NC) created"
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
@@ -75,14 +78,14 @@ $(BOBJ_DIR)/%.o: $(BOBJ_DIR)/%.c
 
 # Cleaning targets
 clean:
-	@$(RM) $(OBJ_DIR)
-	@make -C $(LIBFT_DIR) clean
+	$(RM) $(OBJ_DIR)
+	make -C $(LIBFT_DIR) clean
 	@$(RM) $(BOBJ_DIR)
 	@echo "$(BBLUE)$(NAME)$(NC): Objects cleaned"
 
 fclean: clean
-	@$(RM) $(NAME)
-	@make -C $(LIBFT_DIR) fclean
+	(RM) $(NAME)
+	make -C $(LIBFT_DIR) fclean
 	@echo "$(BBLUE)$(NAME)$(NC): Fully cleaned"
 
 re: fclean all

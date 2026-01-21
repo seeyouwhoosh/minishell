@@ -6,7 +6,7 @@
 /*   By: xwu <xwu@student.42urduliz.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 11:57:02 by xwu               #+#    #+#             */
-/*   Updated: 2026/01/18 01:38:18 by xwu              ###   ########.fr       */
+/*   Updated: 2026/01/21 13:10:36 by xwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -151,6 +151,8 @@ void	ft_freesplit(char **words);
 
 /* Find number of words based on the separator c */
 size_t	ft_strwords(const char *s, char c);
+
+char	*ft_wordcpy(const char *s, size_t j, size_t i);
 
 /* Dedicated putstr for split */
 void	ft_putstrstr(char **s, char sep);

@@ -20,19 +20,19 @@ CFLAGS = -Wall -Wextra -Werror
 all: $(NAME)
 
 $(NAME): $(OBJECTS)
-	@$(AR) -r $@ $?
+	@(AR) -r $@ $?
 
 bonus: $(OBJECTS) $(BOBJECTS)
-	@$(AR) -r $(NAME) $?
+	$(AR) -r $(NAME) $?
 
 %.o: %.c
-	@$(CC) -c $(CFLAGS) $?
+	$(CC) -c $(CFLAGS) $?
 
 clean:
-	@rm -f $(OBJECTS) $(BOBJECTS)
+	rm -f $(OBJECTS) $(BOBJECTS)
 
 fclean: clean
-	@rm -f $(NAME)
+	rm -f $(NAME)
 
 re: fclean all
 
