@@ -6,7 +6,7 @@
 /*   By: xwu <xwu@student.42urduliz.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 16:46:16 by xwu               #+#    #+#             */
-/*   Updated: 2026/01/20 23:10:26 by xwu              ###   ########.fr       */
+/*   Updated: 2026/01/21 12:48:11 by xwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,6 @@
 
 typedef struct s_cmds
 {
-	char	*cmd;
 	char	**split_cmd;
 	int		infile;
 	int		outfile;
@@ -53,12 +52,25 @@ typedef struct s_cmdtab
 	char	**env;
 }			t_cmdtab;
 
+enum 
+{
+	NO_REDIR,
+	INFILE,
+	OUTFILE,
+	HERE_DOC,
+	APPEND
+};
+
 /* VARIABLE EXPANSION */
 size_t	n_cmds(char *line);
 char	*search_var(char *var, char **ev);
 char	*next_word(char *line);
 int		insert_var(char **line, char *var, size_t n, char **ev);
 int		variable_expansion(char **line, char **ev);
+
+/* SIGNAL MANAGER */
+void	int_signal(int n);
+void	signal_manager(void);
 
 /* BUILT-IN */
 int		echo(t_cmdtab *cmdtab, char **args);

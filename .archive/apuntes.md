@@ -225,7 +225,7 @@ son legales.
 - [ ] `>>` should redirect output in append mode.
 - [ ] Pipes
 
-#### Respecto a redirigir el standard error
+#### Respecto a redirigir el standard error x
 `>& file`, `&> file` ó `2> file`.
 Una forma de redirigir el standard error al mismo sitio que el standard output es `> file 2> &1`
 

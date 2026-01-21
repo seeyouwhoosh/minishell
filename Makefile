@@ -27,7 +27,7 @@ INCLUDES	= -I$(INCLUDE_DIR) -I$(LIBFT_DIR)
 
 # Sources
 SRC_DIR		= src
-SOURCES		= main.c 
+SOURCES		= main.c signal.c var_expansion.c
 
 # Objects
 OBJ_DIR		= obj

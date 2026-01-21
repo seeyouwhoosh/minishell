@@ -6,7 +6,7 @@
 /*   By: xwu <xwu@student.42urduliz.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/18 13:00:32 by xwu               #+#    #+#             */
-/*   Updated: 2026/01/20 23:28:37 by xwu              ###   ########.fr       */
+/*   Updated: 2026/01/21 12:49:45 by xwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,19 @@ A partir de aquí, proceso parecido al pipex (más detallado por si acaso)
 	4.2. (3.1.2). Encontrar archivo binario en path.
 	4.3. Matarse.
 */
+
+int	all_whitespace(char	*s)
+{
+	if (!s)
+		return (1);
+	while (*s)
+	{
+		if (*s != 32 || (*s < 9 && *s > 13))
+			return (0);
+		s++;
+	}
+	return (1);
+}
 
 size_t	n_cmds(char *line)
 {
@@ -63,32 +76,92 @@ char	*matched_quote(char *line)
 	return (line + i);
 }
 
-char	**tokenize(char *line, char **ev)
+void	append(char ***split, char *start, char *end)
+{
+	char	**old_split;
+	char	**new_split;
+	size_t	i;
+
+	old_split = *split;
+	if (!split)
+	{
+		*split = malloc(2 * sizeof(char *));
+		ft_strlcpy((*split)[0], start, end - start + 1);
+		(*split)[1] = NULL;
+		return ;
+	}
+	i = 0;
+	while (!(*split)[i++])
+		;
+	new_split = malloc((i + 2) * sizeof(char *));
+	i = -1;
+	while (!(*split)[++i])
+		new_split[i] = (*split)[i];
+	ft_strlcpy(new_split[i], start, end - start + 1);
+	*split = new_split;
+	ft_freesplit(old_split);
+}
+
+void	split_append(char *s, char ***split)
+{
+	char	**tmp;
+	tmp = ft_split_charset(s, TOKEN_DELIMITER) - 1;
+	while (++tmp)
+		append(split, *tmp, *tmp + ft_strlen(*tmp) - 1);
+	ft_freesplit(tmp);
+}
+
+/* Returns according to enum */
+int		isredirecction(char *s)
+{
+	if (ft_strcmp(s, "<"))
+		return (INFILE);
+	else if (ft_strcmp(s, ">"))
+		return (OUTFILE);
+	else if (ft_strcmp(s, ">>"))
+		return (APPEND);
+	else if (ft_strcmp(s, "<<"))
+		return (HERE_DOC);
+	else
+		return(NO_REDIR);
+}
+
+void	redirect(t_cmd *cmd, char *s, int type)
+{
+	(void)cmd;
+	(void)s;
+	if (type == NO_REDIR)
+		return ;
+}
+
+int	str_to_cmd(char *s, t_cmd *cmd, char **ev)
 {
 	size_t	i;
 
-	i = -1;
-	while (line[++i])
-	{
-		if (isredirecction(line[i]))
-			; //coger el elemento justamente posterior ó coger el siguiente token
-		if (!matched_quote(line))
-			; //almacenar el coso entero como token
-		else
-			;
-	}
-}
-
-void	str_to_cmd(char *s, t_cmd cmd, char **ev)
-{
-	
+	if (all_whitespace(s) || !s[0])
+		return (free(s), 1);
+	variable_expansion(&s, ev);
 	free(s);
+	i = -1;
+	while (s[++i])
+	{
+		if ((s[i] == '\"' || s[i] == '\'') && (matched_quote(s + i) != s + i))
+		{
+			append(&(cmd->split_cmd), s + i + 1, matched_quote(s + i) - 1);
+			i = matched_quote(s + i) - s + 1;
+		}
+		else if (isredirecction(s + i))
+			redirect(cmd, s + i, isredirecction(s + i));
+		else
+			split_append(s, &(cmd->split_cmd));
+	}
+	return (0);
 }
 
 int	process_line(char *line, t_cmdtab *cmdtab)
 {
 	size_t	ncmds;
-	short	quote;
+	char	*quote;
 	size_t	j;
 	size_t	k;
 
@@ -96,7 +169,7 @@ int	process_line(char *line, t_cmdtab *cmdtab)
 	cmdtab->cmds = malloc(ncmds * sizeof(t_cmd) + 1);
 	if (!cmdtab->cmds)
 		return (1);
-	cmdtab->cmds[ncmds].cmd = NULL;
+	cmdtab->cmds[ncmds].split_cmd = NULL;
 	j = -1;
 	k = 0;
 	while (line[++j])
@@ -105,28 +178,28 @@ int	process_line(char *line, t_cmdtab *cmdtab)
 			quote = matched_quote(line);
 		if ((line[j] == '|' && (line + j) > quote) || ((j + 1) == ft_strlen(line)))
 		{
-			str_to_cmd(ft_substr(line, k, j + 1), *(cmdtab->cmds)++, cmdtab->env);
+			if (str_to_cmd(ft_substr(line, k, j + 1), cmdtab->cmds++, cmdtab->env))
+				return (1);
 			k = j + 1;
 		}
 	}
+	return (0);
 }
-void	free_cmds(t_cmd *cmds)
+void	free_cmds(t_cmdtab *cmdtab)
 {
 	size_t	i;
 
 	i = -1;
-	while (cmds[++i].cmd) //por si se alloca algo allí
-	{
-		;
-	}
-	free(cmds);
+	while (cmdtab->cmds[++i].split_cmd)
+		ft_freesplit(cmdtab->cmds[++i].split_cmd);
+	free(cmdtab->cmds);
 }
 
 
 int	execute_line(t_cmdtab *cmdtab)
 {
-	
-	free_cmds(cmdtab->cmds);
+	free_cmds(cmdtab);
+	return (0);
 }
 
 int	main(int ac, char **av, char **ev)
@@ -137,8 +210,8 @@ int	main(int ac, char **av, char **ev)
 	(void)av;
 	if (ac != 1)
 		return(write(1, "\e[1;31mInvalid arguments\e[0m\n", 29));
-
 	signal_manager();
+	cmdtab = malloc(sizeof(cmdtab));
 	cmdtab->env = ev;
 	line = (char *)1;
 	while (line)
@@ -147,8 +220,8 @@ int	main(int ac, char **av, char **ev)
 		rl_on_new_line();
 		if (all_whitespace(line))
 			continue ;
-		process_line(line, cmdtab);
-		execute_line(cmdtab);
+		if (!process_line(line, cmdtab))
+			execute_line(cmdtab);
 		add_history(line);
 		free(line);
 	}
