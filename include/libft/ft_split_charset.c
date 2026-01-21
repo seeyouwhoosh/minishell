@@ -6,7 +6,7 @@
 /*   By: xwu <xwu@student.42urduliz.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 18:55:19 by xwu               #+#    #+#             */
-/*   Updated: 2026/01/18 01:37:54 by xwu              ###   ########.fr       */
+/*   Updated: 2026/01/21 13:02:44 by xwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ char	**ft_split_charset(char const *s, const char *charset)
 	size_t	ls;
 	char	**result;
 
-	result = malloc((ft_strwords(s, charset) + 1) * sizeof(char *));
+	result = malloc((ft_strwords_charset(s, charset) + 1) * sizeof(char *));
 	if (!result || !s)
 		return (free(result), NULL);
 	i = 0;
