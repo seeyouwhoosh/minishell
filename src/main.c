@@ -6,7 +6,7 @@
 /*   By: xwu <xwu@student.42urduliz.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/18 13:00:32 by xwu               #+#    #+#             */
-/*   Updated: 2026/01/21 13:44:13 by xwu              ###   ########.fr       */
+/*   Updated: 2026/01/26 00:30:17 by xwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,83 +76,107 @@ char	*matched_quote(char *line)
 	return (line + i);
 }
 
+void	create_split(char ***split, char *s)
+{
+	*split = malloc(2 * sizeof(char *));
+	if (!(*split))
+		return ;
+	(*split)[0] = ft_strdup(s);
+	(*split)[1] = NULL;
+}
+
 void	append(char ***split, char *s)
 {
 	char	**old_split;
 	char	**new_split;
 	size_t	i;
 
-	old_split = *split;
-	if (!split)
-	{
-		*split = malloc(2 * sizeof(char *));
-		ft_memcpy((*split)[0], s, ft_strlen(s) + 1);
-		(*split)[1] = NULL;
+	if (!split || !s)
 		return ;
-	}
+	old_split = *split;
+	if (!old_split)
+		return (create_split(split, s));
 	i = 0;
-	while (!(*split)[i++])
-		;
+	while (old_split[i])
+		i++;
 	new_split = malloc((i + 2) * sizeof(char *));
+	if (!new_split)
+	return ;
 	i = -1;
-	while (!(*split)[++i])
-		new_split[i] = (*split)[i];
-	ft_memcpy(new_split[0], s, ft_strlen(s) + 1);
-	*split = new_split;
+	while (old_split[++i])
+		new_split[i] = ft_strdup(old_split[i]);
+	new_split[i] = ft_strdup(s);
+	new_split[i + 1] = NULL;
 	ft_freesplit(old_split);
+	*split = new_split;
 }
 
 void	split_append(char *s, char ***split)
 {
 	char	**tmp;
-	tmp = ft_split_charset(s, TOKEN_DELIMITER) - 1;
-	while (++tmp)
-		append(split, *tmp, *tmp + ft_strlen(*tmp) - 1);
+	size_t	i;
+
+	tmp = ft_split_charset(s, TOKEN_DELIMITER);
+	i = 0;
+	while (tmp[i])
+		append(split, tmp[i++]);
 	ft_freesplit(tmp);
 }
 
 /* Returns according to enum */
 int		isredirecction(char *s)
 {
-	if (ft_strcmp(s, "<"))
+	if (!ft_strcmp(s, "<"))
 		return (INFILE);
-	else if (ft_strcmp(s, ">"))
+	else if (!ft_strcmp(s, ">"))
 		return (OUTFILE);
-	else if (ft_strcmp(s, ">>"))
+	else if (!ft_strcmp(s, ">>"))
 		return (APPEND);
-	else if (ft_strcmp(s, "<<"))
+	else if (!ft_strcmp(s, "<<"))
 		return (HERE_DOC);
 	else
 		return(NO_REDIR);
 }
 
-void	redirect(t_cmd *cmd, char *s, int type)
+void	redirect(t_cmd *cmd, char *s)
 {
 	(void)cmd;
 	(void)s;
+	int	type;
+
+	type = isredirecction(s);
 	if (type == NO_REDIR)
 		return ;
 }
 
+// Just discovered the case
+/*
+echo "hola"mevoy --> holamevoy
+*/
 int	str_to_cmd(char *s, t_cmd *cmd, char **ev)
 {
 	size_t	i;
+	char *word;
 
-	if (all_whitespace(s) || !s[0])
-		return (free(s), 1);
+	if (all_whitespace(s) || !ft_strcmp(s, ""))
+		return (1);
 	variable_expansion(&s, ev);
 	i = -1;
 	while (s[++i])
 	{
 		if ((s[i] == '\"' || s[i] == '\'') && (matched_quote(s + i) != s + i))
 		{
-			append(&(cmd->split_cmd), s + i + 1, matched_quote(s + i) - 1);
-			i = matched_quote(s + i) - s + 1;
+			append(&(cmd->split_cmd), ft_substr(s, i + 1, matched_quote(s + i) - s + i - 1));
+			i += matched_quote(s + i) - s - i + 1;
 		}
 		else if (isredirecction(s + i))
-			redirect(cmd, s + i, isredirecction(s + i));
+			redirect(cmd, s + i);
 		else
-			split_append(s, &(cmd->split_cmd));
+		{
+			word = next_word(s + i);
+			append(&(cmd->split_cmd), word);
+			i += ft_strlen(word);
+		}
 	}
 	return (0);
 }
@@ -215,15 +239,20 @@ int main(int ac, char **av, char **ev)
 	while ((cmdtab.cmds)[++i].split_cmd)
 		ft_putstrstr((cmdtab.cmds)[i++].split_cmd, '\n'); */
 
-	/* t_cmd	cmd;
+	printf("\n--- str_to_cmd() ---\n");
+	t_cmd	cmd;
+	cmd.split_cmd = NULL;
 	str_to_cmd(line, &cmd, ev);
-	ft_putstrstr(cmd.split_cmd, '\n'); */
-	
-	(void)ev;
-	(void)av;
-	char **split = ft_split("hola don pepito", ' ');
+	ft_putstrstr(cmd.split_cmd, '\n');
+
+	printf("\n--- append() ---\n");
+	char **split;
+	split = NULL;
+	split_append("hola don pepito", &split);
 	ft_putstrstr(split, '\n');
 	append(&split, line);
+	printf("\n--- (Changed) ---\n");
+	ft_putstrstr(split, '\n');
 }
 
 /* int	main(int ac, char **av, char **ev)

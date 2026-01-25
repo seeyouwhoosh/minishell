@@ -84,7 +84,7 @@ clean:
 	@echo "$(BBLUE)$(NAME)$(NC): Objects cleaned"
 
 fclean: clean
-	(RM) $(NAME)
+	$(RM) $(NAME)
 	make -C $(LIBFT_DIR) fclean
 	@echo "$(BBLUE)$(NAME)$(NC): Fully cleaned"
 
