@@ -6,7 +6,7 @@
 /*   By: gcassi-d <gcassi-d@42urduliz.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/17 20:59:43 by gcassi-d          #+#    #+#             */
-/*   Updated: 2026/01/27 21:31:47 by gcassi-d         ###   ########.fr       */
+/*   Updated: 2026/01/27 21:39:28 by gcassi-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,11 +23,26 @@ static void	propagate(char	*arg)
 	//I think there are more, for cases in which arg[0] == '='
 }
 
+static int	do1(t_cmdtab *cmdtab, char *arg)
+{
+	char	*middle;
+
+	middle = ft_strchr(arg, '=');
+	if (middle)
+	{
+		*middle = 0;
+		if (set_env_var(cmdtab, arg, middle + 1))
+			return (EXIT_FAILURE);
+	}
+	else if (set_env_var(cmdtab, arg, middle + 1))
+		return (EXIT_FAILURE);
+	return (EXIT_SUCCESS);
+}
+
 int	export(t_cmdtab *cmdtab, char **args)
 {
-	int		i;
-	char	*middle;
-	int		flag;
+	int	i;
+	int	flag;
 
 	i = 0;
 	flag = 0;
@@ -40,14 +55,8 @@ int	export(t_cmdtab *cmdtab, char **args)
 			flag = 1;
 			continue ;
 		}
-		middle = ft_strchr(args[i], '=');
-		if (middle)
-		{
-			*middle = 0;
-			set_env_var(cmdtab, args[i], middle + 1);
-		}
-		else
-			set_env_var(cmdtab, args[i], "");
+		if (do1(cmdtab, args[i]))
+			; //some malloc fail;	
 	}
 	return (flag);
 }
