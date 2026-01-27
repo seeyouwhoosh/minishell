@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: xwu <xwu@student.42urduliz.com>            +#+  +:+       +#+        */
+/*   By: gcassi-d <gcassi-d@42urduliz.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 16:46:16 by xwu               #+#    #+#             */
-/*   Updated: 2026/01/21 13:00:41 by xwu              ###   ########.fr       */
+/*   Updated: 2026/01/27 21:10:20 by gcassi-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,9 +50,11 @@ typedef struct s_cmdtab
 	char	*cwd;
 	char	*previous_wd;
 	char	**env;
+	size_t	env_capacity;
+	size_t	env_len;
 }			t_cmdtab;
 
-enum 
+enum
 {
 	NO_REDIR,
 	INFILE,
@@ -80,5 +82,16 @@ int		unset(t_cmdtab *cmdtab, char **args);
 int		env(t_cmdtab *cmdtab, char **args);
 int		export(t_cmdtab *cmdtab, char **args);
 int		cd(t_cmdtab *cmdtab, char **args);
+
+/* ENV */
+bool	is_valid_env_var(char *var);
+size_t	get_env_ind(char **env, char *var);
+int		copy_env(t_cmdtab *cmdtab, char **ev);
+int		set_env_var(t_cmdtab *cmdtab, char *var, char *val);
+
+/* UTILS */
+size_t	max(size_t a, size_t b);
+size_t	split_len(char **split);
+void	free_split(char **split);
 
 #endif /* MINISHELL_H */
