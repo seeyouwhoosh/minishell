@@ -6,7 +6,7 @@
 /*   By: gcassi-d <gcassi-d@42urduliz.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/17 20:59:37 by gcassi-d          #+#    #+#             */
-/*   Updated: 2026/01/28 21:27:54 by gcassi-d         ###   ########.fr       */
+/*   Updated: 2026/01/28 21:59:51 by gcassi-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ static int	get_exit_code(char *arg)
 	}
 	if (n > 255)
 		return (128);
-	return  (n);
+	return (n);
 }
 
 int	ft_exit(t_cmdtab *cmdtab, char **args)
