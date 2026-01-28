@@ -6,7 +6,7 @@
 /*   By: gcassi-d <gcassi-d@42urduliz.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 16:46:16 by xwu               #+#    #+#             */
-/*   Updated: 2026/01/28 21:48:33 by gcassi-d         ###   ########.fr       */
+/*   Updated: 2026/01/28 22:09:32 by gcassi-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,7 @@ bool	is_valid_env_var(char *var);
 int		get_env_ind(t_cmdtab *cmdtab, char **env, char *var);
 int		copy_env(t_cmdtab *cmdtab, char **ev);
 int		set_env_var(t_cmdtab *cmdtab, char *var, char *val);
+char	*get_env_val(t_cmdtab *cmdtab, char **env, char *var);
 
 /* UTILS */
 int		max(int a, int b);
