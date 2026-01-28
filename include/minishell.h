@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcassi-d <gcassi-d@42urduliz.com>          +#+  +:+       +#+        */
+/*   By: xwu <xwu@student.42urduliz.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 16:46:16 by xwu               #+#    #+#             */
-/*   Updated: 2026/01/27 21:10:20 by gcassi-d         ###   ########.fr       */
+/*   Updated: 2026/01/28 23:05:40 by xwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@
 # include <sys/types.h>
 # include <sys/wait.h>
 # include "libft.h"
+# include <string.h>
+# include <errno.h>
 
 # ifndef PATH_MAX
 #  define PATH_MAX 4096
