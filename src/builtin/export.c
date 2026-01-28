@@ -6,7 +6,7 @@
 /*   By: gcassi-d <gcassi-d@42urduliz.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/17 20:59:43 by gcassi-d          #+#    #+#             */
-/*   Updated: 2026/01/27 21:39:28 by gcassi-d         ###   ########.fr       */
+/*   Updated: 2026/01/28 21:54:49 by gcassi-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,10 +32,10 @@ static int	do1(t_cmdtab *cmdtab, char *arg)
 	{
 		*middle = 0;
 		if (set_env_var(cmdtab, arg, middle + 1))
-			return (EXIT_FAILURE);
+			return (EXIT_FAILURE); //falla en caso de que malloc falle
 	}
-	else if (set_env_var(cmdtab, arg, middle + 1))
-		return (EXIT_FAILURE);
+	else if (set_env_var(cmdtab, arg, ""))
+		return (EXIT_FAILURE); //lo mismo
 	return (EXIT_SUCCESS);
 }
 
@@ -56,7 +56,10 @@ int	export(t_cmdtab *cmdtab, char **args)
 			continue ;
 		}
 		if (do1(cmdtab, args[i]))
-			; //some malloc fail;	
+		{
+			//some malloc fail;	
+			return (EXIT_FAILURE);
+		}
 	}
 	return (flag);
 }

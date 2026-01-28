@@ -6,15 +6,15 @@
 /*   By: gcassi-d <gcassi-d@42urduliz.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/17 20:59:55 by gcassi-d          #+#    #+#             */
-/*   Updated: 2026/01/27 21:16:02 by gcassi-d         ###   ########.fr       */
+/*   Updated: 2026/01/28 20:42:39 by gcassi-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	remove_env_var(t_cmdtab *cmdtab, char **env, size_t ind)
+static void	remove_env_var(t_cmdtab *cmdtab, char **env, int ind)
 {
-	size_t	i;
+	int	i;
 
 	free(env[ind]);
 	i = ind;
@@ -28,9 +28,9 @@ static void	remove_env_var(t_cmdtab *cmdtab, char **env, size_t ind)
 
 int	unset(t_cmdtab *cmdtab, char **args)
 {
-	int		i;
-	size_t	env_ind;
-	int		flag;
+	int	i;
+	int	env_ind;
+	int	flag;
 
 	i = 1;
 	flag = 0;
@@ -44,8 +44,8 @@ int	unset(t_cmdtab *cmdtab, char **args)
 		}
 		else
 		{
-			env_ind = get_env_ind(cmdtab->env, args[i]);
-			if (env_ind < (size_t)(-1))
+			env_ind = get_env_ind(cmdtab, cmdtab->env, args[i]);
+			if (env_ind > -1)
 				remove_env_var(cmdtab, cmdtab->env, env_ind);
 		}
 		i++;
