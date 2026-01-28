@@ -6,7 +6,7 @@
 /*   By: xwu <xwu@student.42urduliz.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/17 20:59:07 by gcassi-d          #+#    #+#             */
-/*   Updated: 2026/01/28 23:25:53 by xwu              ###   ########.fr       */
+/*   Updated: 2026/01/28 23:32:24 by xwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int	error_msg(char *process, char *strerror)
 	return (1);
 }
 
-int		cd(t_cmdtab *cmdtab, char **args)
+int	cd(t_cmdtab *cmdtab, char **args)
 {
 	if (split_len(args) != 2)
 		return (error_msg("cd", "too many arguments"));
