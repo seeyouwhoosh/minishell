@@ -6,7 +6,7 @@
 /*   By: xwu <xwu@student.42urduliz.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 18:55:19 by xwu               #+#    #+#             */
-/*   Updated: 2026/01/21 13:02:44 by xwu              ###   ########.fr       */
+/*   Updated: 2026/01/21 13:10:00 by xwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,17 +48,6 @@ size_t	ft_strwords_charset(const char *s, const char *charset)
 	return (count);
 }
 
-static char	*ft_wordcpy(const char *s, size_t j, size_t i)
-{
-	char	*word;
-
-	word = malloc(i - j + 1);
-	if (!word)
-		return (NULL);
-	ft_strlcpy(word, &s[j], i - j + 1);
-	return (word);
-}
-
 char	**ft_split_charset(char const *s, const char *charset)
 {
 	size_t	i;
@@ -86,20 +75,6 @@ char	**ft_split_charset(char const *s, const char *charset)
 			i++;
 	}
 	return (result[ls] = NULL, result);
-}
-
-void	ft_putstrstr(char **s, char sep)
-{
-	size_t	i;
-
-	i = 0;
-	while (s[i])
-	{
-		ft_putstr_fd(s[i], 1);
-		if (s[i + 1])
-			ft_putchar_fd(sep, 1);
-		i++;
-	}
 }
 
 /* #include <stdio.h>
