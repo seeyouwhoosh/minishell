@@ -6,7 +6,7 @@
 /*   By: xwu <xwu@student.42urduliz.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 16:46:16 by xwu               #+#    #+#             */
-/*   Updated: 2026/01/28 23:05:40 by xwu              ###   ########.fr       */
+/*   Updated: 2026/01/28 23:28:13 by xwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,8 +52,9 @@ typedef struct s_cmdtab
 	char	*cwd;
 	char	*previous_wd;
 	char	**env;
-	size_t	env_capacity;
-	size_t	env_len;
+	int		env_capacity;
+	int		env_len;
+	int		exit_code;
 }			t_cmdtab;
 
 enum
@@ -87,13 +88,17 @@ int		cd(t_cmdtab *cmdtab, char **args);
 
 /* ENV */
 bool	is_valid_env_var(char *var);
-size_t	get_env_ind(char **env, char *var);
+int		get_env_ind(t_cmdtab *cmdtab, char **env, char *var);
 int		copy_env(t_cmdtab *cmdtab, char **ev);
 int		set_env_var(t_cmdtab *cmdtab, char *var, char *val);
+char	*get_env_val(t_cmdtab *cmdtab, char **env, char *var);
 
 /* UTILS */
-size_t	max(size_t a, size_t b);
-size_t	split_len(char **split);
-void	free_split(char **split);
+int		max(int a, int b);
+int		split_len(char **split);
+void	free_split(char ***split);
+void	free_pointer(char **p);
+void	free_cmdtab(t_cmdtab *cmdtab); //provisional, probablemente habrá que cambiarlo según se añadan más cosas
+void	free_cmd(t_cmd **cmd);
 
 #endif /* MINISHELL_H */
