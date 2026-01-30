@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pwd .c                                             :+:      :+:    :+:   */
+/*   pwd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gcassi-d <gcassi-d@42urduliz.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/17 20:59:51 by gcassi-d          #+#    #+#             */
-/*   Updated: 2026/01/17 21:11:50 by gcassi-d         ###   ########.fr       */
+/*   Updated: 2026/01/30 19:54:08 by gcassi-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,10 +24,7 @@ int	pwd(t_cmdtab *cmdtab, char **args)
 	}
 	cwd = getcwd(path, PATH_MAX);
 	if (!cwd)
-	{
-		//propagate the error idk
-		return (EXIT_FAILURE);
-	}
+		return (error_msg("malloc", NULL, NULL, 1));
 	ft_putendl_fd(cwd, STDOUT_FILENO);
 	return (EXIT_SUCCESS);
 }

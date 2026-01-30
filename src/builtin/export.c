@@ -6,22 +6,11 @@
 /*   By: gcassi-d <gcassi-d@42urduliz.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/17 20:59:43 by gcassi-d          #+#    #+#             */
-/*   Updated: 2026/01/28 21:54:49 by gcassi-d         ###   ########.fr       */
+/*   Updated: 2026/01/30 19:52:36 by gcassi-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-static void	propagate(char	*arg)
-{
-	if (!arg[0]) //yes, empty string gives a different message
-		//message: export: not valid in this context:
-		;
-	else
-		//message: not an identifier: <val>
-		;
-	//I think there are more, for cases in which arg[0] == '='
-}
 
 static int	do1(t_cmdtab *cmdtab, char *arg)
 {
@@ -32,10 +21,10 @@ static int	do1(t_cmdtab *cmdtab, char *arg)
 	{
 		*middle = 0;
 		if (set_env_var(cmdtab, arg, middle + 1))
-			return (EXIT_FAILURE); //falla en caso de que malloc falle
+			return (error_msg("malloc", NULL, NULL, 1));
 	}
 	else if (set_env_var(cmdtab, arg, ""))
-		return (EXIT_FAILURE); //lo mismo
+		return (error_msg("malloc", NULL, NULL, 1));
 	return (EXIT_SUCCESS);
 }
 
@@ -51,15 +40,13 @@ int	export(t_cmdtab *cmdtab, char **args)
 		if (!args[i][0] || !is_valid_env_var(args[i]))
 		{
 			if (!flag)
-				propagate(args[i]);
+				return (error_msg("export",
+						"not valid in this context", args[i], 1));
 			flag = 1;
 			continue ;
 		}
 		if (do1(cmdtab, args[i]))
-		{
-			//some malloc fail;	
 			return (EXIT_FAILURE);
-		}
 	}
 	return (flag);
 }

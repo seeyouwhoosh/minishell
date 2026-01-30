@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: xwu <xwu@student.42urduliz.com>            +#+  +:+       +#+        */
+/*   By: gcassi-d <gcassi-d@42urduliz.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 16:46:16 by xwu               #+#    #+#             */
-/*   Updated: 2026/01/28 23:28:13 by xwu              ###   ########.fr       */
+/*   Updated: 2026/01/30 19:09:36 by gcassi-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ typedef struct s_cmdtab
 	int		env_capacity;
 	int		env_len;
 	int		exit_code;
+	char	**history;
 }			t_cmdtab;
 
 enum
@@ -100,6 +101,6 @@ void	free_split(char ***split);
 void	free_pointer(char **p);
 void	free_cmdtab(t_cmdtab *cmdtab); //provisional, probablemente habrá que cambiarlo según se añadan más cosas
 void	free_cmd(t_cmd **cmd);
-int		error_msg(char *process, char *strerror);
+int		error_msg(char *process, char *details, char *strerror, int error_code);
 
 #endif /* MINISHELL_H */

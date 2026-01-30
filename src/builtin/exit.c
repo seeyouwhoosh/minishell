@@ -6,11 +6,18 @@
 /*   By: gcassi-d <gcassi-d@42urduliz.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/17 20:59:37 by gcassi-d          #+#    #+#             */
-/*   Updated: 2026/01/28 21:59:51 by gcassi-d         ###   ########.fr       */
+/*   Updated: 2026/01/30 19:37:20 by gcassi-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+static int	err(void)
+{
+	ft_putstr_fd("exit: ", STDERR_FILENO);
+	ft_putendl_fd("too many arguments", STDERR_FILENO);
+	return (1);
+}
 
 static int	get_exit_code(char *arg)
 {
@@ -35,10 +42,7 @@ int	ft_exit(t_cmdtab *cmdtab, char **args)
 	int	exit_code;
 
 	if (split_len(args) > 2)
-	{
-		//message: too many arguments
-		return (EXIT_FAILURE);
-	}
+		return (err());
 	else if (!split_len(args))
 		exit_code = cmdtab->exit_code;
 	else
