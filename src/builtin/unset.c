@@ -6,7 +6,7 @@
 /*   By: gcassi-d <gcassi-d@42urduliz.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/17 20:59:55 by gcassi-d          #+#    #+#             */
-/*   Updated: 2026/01/28 22:03:43 by gcassi-d         ###   ########.fr       */
+/*   Updated: 2026/01/30 19:57:00 by gcassi-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ static void	remove_env_var(t_cmdtab *cmdtab, char **env, int ind)
 
 	free(env[ind]);
 	i = ind;
-	while (++i < cmdtab->env_len)
+	while (++i <= cmdtab->env_len)
 	{
 		env[ind] = env[i];
 		ind++;
@@ -36,11 +36,10 @@ int	unset(t_cmdtab *cmdtab, char **args)
 	flag = 0;
 	while (args[i])
 	{
-		if (!is_valid_env_var(args[i]) || ft_strchr(args[i], '='))
+		if ((!is_valid_env_var(args[i]) || ft_strchr(args[i], '=')) && !flag)
 		{
-			if (!flag)
-				flag = 1; //propagate the error idk
 			flag = 1;
+			error_msg("unset", args[i], "invalid parameter name", 1);
 		}
 		else
 		{
