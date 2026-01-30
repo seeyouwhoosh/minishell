@@ -64,7 +64,8 @@ int	insert_var(char **line, char *var, size_t n, char **ev)
 		return (0);
 	ft_memcpy(new, *line, n);
 	ft_memcpy(new + n, expanded, lv);
-	ft_memcpy(new + n + lv, *line + n + ft_strlen(var), ll - n - ft_strlen(var) - 1);
+	ft_memcpy(new + n + lv, *line + n + ft_strlen(var),
+		ll - n - ft_strlen(var) - 1);
 	new[ll + lv] = 0;
 	free(tmp);
 	*line = new;

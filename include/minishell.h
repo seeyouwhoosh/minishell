@@ -66,6 +66,15 @@ enum
 	APPEND
 };
 
+/* INITS */
+int		init_cmd(t_cmd *cmd);
+
+/* FREES */
+void	free_split(char ***split);
+void	free_pointer(char **p);
+void	free_cmdtab(t_cmdtab *cmdtab); //provisional, probablemente habrá que cambiarlo según se añadan más cosas
+void	free_cmd(t_cmd *cmd);
+
 /* VARIABLE EXPANSION */
 size_t	n_cmds(char *line);
 char	*search_var(char *var, char **ev);
@@ -96,10 +105,6 @@ char	*get_env_val(t_cmdtab *cmdtab, char **env, char *var);
 /* UTILS */
 int		max(int a, int b);
 int		split_len(char **split);
-void	free_split(char ***split);
-void	free_pointer(char **p);
-void	free_cmdtab(t_cmdtab *cmdtab); //provisional, probablemente habrá que cambiarlo según se añadan más cosas
-void	free_cmd(t_cmd **cmd);
 int		error_msg(char *process, char *strerror);
 
 #endif /* MINISHELL_H */

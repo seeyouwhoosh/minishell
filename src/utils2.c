@@ -12,15 +12,6 @@
 
 #include "minishell.h"
 
-void	free_cmd(t_cmd **cmd)
-{
-	if (!*cmd)
-		return ;
-	free_split(&((*cmd)->split_cmd));
-	free(*cmd);
-	*cmd = NULL;
-}
-
 int	error_msg(char *process, char *strerror)
 {
 	if (!strerror)

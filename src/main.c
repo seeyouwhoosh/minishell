@@ -12,119 +12,8 @@
 
 #include "minishell.h"
 
-/*
-1. AÚN QUEDA POR PENSAR EN QUÉ ORDEN PARSEAR LAS EXPANSIONES Y LAS COMILLAS
-2. Parsear comandos por pipes
-3. Parsear redirecciones. Tener en cuenta que si tiene infile, se redirecciona tanto el infile como el pipe anterior; lo mismo con el outfile
-	3.1. Redireccionar el stderr, casos especiales (mirar apuntes)
-
-A partir de aquí, proceso parecido al pipex (más detallado por si acaso)
-
-4. Crear un subproceso para cada línea
-	4.1. Separar línea, mirar si el primer coso es built-in
-		3.1.1. Sí: redirigir a la función en concreto
-		3.1.2. No
-	4.2. (3.1.2). Encontrar archivo binario en path.
-	4.3. Matarse.
-*/
-
-int	all_whitespace(char	*s)
-{
-	if (!s)
-		return (1);
-	while (*s)
-	{
-		if (*s != 32 || (*s < 9 && *s > 13))
-			return (0);
-		s++;
-	}
-	return (1);
-}
-
-size_t	n_cmds(char *line)
-{
-	size_t	i;
-	short	squote;
-	short	dquote;
-	size_t	count;
-
-	squote = 0;
-	dquote = 0;
-	count = 0;
-	i = -1;
-	while (line[++i])
-	{
-		if (line[i] == '\"')
-			dquote = (dquote + 1) % 2;
-		if (line[i] == '\'')
-			squote = (squote + 1) % 2;
-		else if ((!dquote || !squote) && line[i] == '|')
-			count++;
-	}
-	return (count + 1);
-}
-/* Find match. Returns match; if not match, returns itself */
-char	*matched_quote(char *line)
-{
-	size_t	i;
-
-	i = 0;
-	while (line[++i] && line[i] != line[0])
-		;
-	if (!line[i])
-		return (line);
-	return (line + i);
-}
-
-void	create_split(char ***split, char *s)
-{
-	*split = malloc(2 * sizeof(char *));
-	if (!(*split))
-		return ;
-	(*split)[0] = ft_strdup(s);
-	(*split)[1] = NULL;
-}
-
-void	append(char ***split, char *s)
-{
-	char	**old_split;
-	char	**new_split;
-	size_t	i;
-
-	if (!split || !s)
-		return ;
-	old_split = *split;
-	if (!old_split)
-		return (create_split(split, s));
-	i = 0;
-	while (old_split[i])
-		i++;
-	new_split = malloc((i + 2) * sizeof(char *));
-	if (!new_split)
-	return ;
-	i = -1;
-	while (old_split[++i])
-		new_split[i] = ft_strdup(old_split[i]);
-	new_split[i] = ft_strdup(s);
-	new_split[i + 1] = NULL;
-	ft_freesplit(old_split);
-	*split = new_split;
-}
-
-void	split_append(char *s, char ***split)
-{
-	char	**tmp;
-	size_t	i;
-
-	tmp = ft_split_charset(s, TOKEN_DELIMITER);
-	i = 0;
-	while (tmp[i])
-		append(split, tmp[i++]);
-	ft_freesplit(tmp);
-}
-
 /* Returns according to enum */
-int		isredirecction(char *s)
+int	isredirecction(char *s)
 {
 	if (!ft_strcmp(s, "<"))
 		return (INFILE);
@@ -135,15 +24,15 @@ int		isredirecction(char *s)
 	else if (!ft_strcmp(s, "<<"))
 		return (HERE_DOC);
 	else
-		return(NO_REDIR);
+		return (NO_REDIR);
 }
 
 void	redirect(t_cmd *cmd, char *s)
 {
-	(void)cmd;
-	(void)s;
 	int	type;
 
+	(void)cmd;
+	(void)s;
 	type = isredirecction(s);
 	if (type == NO_REDIR)
 		return ;
@@ -156,7 +45,7 @@ echo "hola"mevoy --> holamevoy
 int	str_to_cmd(char *s, t_cmd *cmd, char **ev)
 {
 	size_t	i;
-	char *word;
+	char	*word;
 
 	if (all_whitespace(s) || !ft_strcmp(s, ""))
 		return (1);
@@ -208,22 +97,7 @@ int	process_line(char *line, t_cmdtab *cmdtab)
 	}
 	return (0);
 }
-void	free_cmds(t_cmdtab *cmdtab)
-{
-	size_t	i;
 
-	i = -1;
-	while (cmdtab->cmds[++i].split_cmd)
-		ft_freesplit(cmdtab->cmds[++i].split_cmd);
-	free(cmdtab->cmds);
-}
-
-
-int	execute_line(t_cmdtab *cmdtab)
-{
-	free_cmds(cmdtab);
-	return (0);
-}
 
 int main(int ac, char **av, char **ev)
 {
@@ -254,31 +128,3 @@ int main(int ac, char **av, char **ev)
 	printf("\n--- (Changed) ---\n");
 	ft_putstrstr(split, '\n');
 }
-
-/* int	main(int ac, char **av, char **ev)
-{
-	char		*line;
-	t_cmdtab	*cmdtab;
-
-	(void)av;
-	if (ac != 1)
-		return (write(1, "\e[1;31mInvalid arguments\e[0m\n", 29));
-	signal_manager();
-	cmdtab = malloc(sizeof(cmdtab));
-	if (!cmdtab)
-		return (1);
-	if (copy_env(cmdtab, ev))
-		return (free(cmdtab), 1);
-	line = (char *)1;
-	while (line)
-	{
-		line = readline("Minishell> ");
-		rl_on_new_line();
-		if (all_whitespace(line))
-			continue ;
-		if (!process_line(line, cmdtab))
-			execute_line(cmdtab);
-		add_history(line);
-		free(line);
-	}
-} */
