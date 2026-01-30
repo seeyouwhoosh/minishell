@@ -12,19 +12,6 @@
 
 #include "minishell.h"
 
-int	error_msg(char *process, char *strerror)
-{
-	if (!strerror)
-		perror(process);
-	else
-	{
-		ft_putstr_fd(process, STDERR_FILENO);
-		ft_putstr_fd(":", STDERR_FILENO);
-		ft_putendl_fd(strerror, STDERR_FILENO);
-	}
-	return (1);
-}
-
 int	cd(t_cmdtab *cmdtab, char **args)
 {
 	if (split_len(args) != 2)

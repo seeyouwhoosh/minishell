@@ -40,9 +40,9 @@
 typedef struct s_cmds
 {
 	char	**split_cmd;
-	int		infile;
-	int		outfile;
-	int		errfile;
+	int		*infile;
+	int		*outfile;
+	int		*errfile;
 	short	here_doc;
 }			t_cmd;
 
@@ -100,5 +100,6 @@ void	free_split(char ***split);
 void	free_pointer(char **p);
 void	free_cmdtab(t_cmdtab *cmdtab); //provisional, probablemente habrá que cambiarlo según se añadan más cosas
 void	free_cmd(t_cmd **cmd);
+int		error_msg(char *process, char *strerror);
 
 #endif /* MINISHELL_H */

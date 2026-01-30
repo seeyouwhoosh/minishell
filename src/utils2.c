@@ -20,3 +20,16 @@ void	free_cmd(t_cmd **cmd)
 	free(*cmd);
 	*cmd = NULL;
 }
+
+int	error_msg(char *process, char *strerror)
+{
+	if (!strerror)
+		perror(process);
+	else
+	{
+		ft_putstr_fd(process, STDERR_FILENO);
+		ft_putstr_fd(":", STDERR_FILENO);
+		ft_putendl_fd(strerror, STDERR_FILENO);
+	}
+	return (1);
+}
