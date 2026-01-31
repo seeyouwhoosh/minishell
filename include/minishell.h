@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcassi-d <gcassi-d@42urduliz.com>          +#+  +:+       +#+        */
+/*   By: xwu <xwu@student.42urduliz.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 16:46:16 by xwu               #+#    #+#             */
-/*   Updated: 2026/01/30 19:09:36 by gcassi-d         ###   ########.fr       */
+/*   Updated: 2026/01/31 13:38:07 by xwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,15 +40,23 @@
 typedef struct s_cmds
 {
 	char	**split_cmd;
-	int		*infile;
-	int		*outfile;
-	int		*errfile;
-	short	here_doc;
+	t_file	*infile; //cat < a <c
+	t_file	*outfile;
+	char	*here_doc;
 }			t_cmd;
+
+typedef	struct s_file
+{
+	char	*name;
+	int		fd;
+	int		type;
+}			t_file;
+
 
 typedef struct s_cmdtab
 {
 	t_cmd	*cmds;
+	size_t	n_cmds;
 	char	*cwd;
 	char	*previous_wd;
 	char	**env;
@@ -67,14 +75,26 @@ enum
 	APPEND
 };
 
+enum
+{
+	CD,
+	ECHO,
+	ENV,
+	EXIT,
+	EXPORT,
+	PWD,
+	UNSET
+};
+
 /* INITS */
-int		init_cmd(t_cmd *cmd);
+int		init_cmd(t_cmd *cmd, t_cmdtab *cmdtab);
 
 /* FREES */
 void	free_split(char ***split);
 void	free_pointer(char **p);
-void	free_cmdtab(t_cmdtab *cmdtab); //provisional, probablemente habrá que cambiarlo según se añadan más cosas
+void	free_cmdtab(t_cmdtab *cmdtab);
 void	free_cmd(t_cmd *cmd);
+void	free_cmds(t_cmdtab *cmdtab);
 
 /* VARIABLE EXPANSION */
 size_t	n_cmds(char *line);
