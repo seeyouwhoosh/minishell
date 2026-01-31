@@ -6,7 +6,7 @@
 /*   By: xwu <xwu@student.42urduliz.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 16:46:16 by xwu               #+#    #+#             */
-/*   Updated: 2026/01/31 13:38:07 by xwu              ###   ########.fr       */
+/*   Updated: 2026/02/01 00:29:08 by xwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,8 @@
 typedef struct s_cmds
 {
 	char	**split_cmd;
-	t_file	*infile; //cat < a <c
-	t_file	*outfile;
+	t_file	infile; //cat < a <c
+	t_file	outfile;
 	char	*here_doc;
 }			t_cmd;
 
@@ -49,9 +49,8 @@ typedef	struct s_file
 {
 	char	*name;
 	int		fd;
-	int		type;
+	int		mode;
 }			t_file;
-
 
 typedef struct s_cmdtab
 {

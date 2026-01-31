@@ -6,7 +6,7 @@
 /*   By: xwu <xwu@student.42urduliz.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/31 10:45:02 by xwu               #+#    #+#             */
-/*   Updated: 2026/01/31 13:18:48 by xwu              ###   ########.fr       */
+/*   Updated: 2026/02/01 00:20:41 by xwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,22 +107,41 @@ int	exec(char **split_cmd, t_cmdtab *cmdtab)
 	}
 }
 
-int	piping(t_cmd *cmd)
+int	ft_open(const char *filename, int mode)
 {
-	if (cmd->infile)
-	if (cmd->outfile)
-	if (cmd->infile)
-	;
+	int	fd;
+
+	fd = -1;
+	if (mode == INFILE)
+		fd = open(filename, O_RDONLY);
+	else if (mode == OUTFILE)
+		fd = open(filename, O_WRONLY | O_CREAT | O_TRUNC, 0777);
+	else if (mode == APPEND)
+		fd = open(filename, O_WRONLY | O_CREAT | O_APPEND, 0777);
+	if (fd < 0)
+	{
+		perror(filename);
+		return (EXIT_FAILURE);
+	}
+	return (fd);
 }
 
-int	exec_cmd(t_cmd *cmd, t_cmdtab *cmdtab)
+/* int	exec_cmd(t_cmd *cmd, t_cmdtab *cmdtab)
 {
 	int		exit;
 	int		fd[2];
 	pid_t	command;
+	size_t	i;
 
 	if (pipe(fd))
 		return (error_msg("pipe", NULL, NULL, EPIPE));
+	
+	i = -1;
+	while (cmd->infile[++i])
+	{
+		cmd->infile[i].fd = ft_open(cmd->infile[i].name, cmd->infile[i].mode);
+		if ()
+	}
 	if (piping_in(cmd));
 
 
@@ -143,6 +162,93 @@ int	exec_cmd(t_cmd *cmd, t_cmdtab *cmdtab)
 		dup2(fd[0], STDIN_FILENO);
 		close(fd[1]);
 		waitpid(command, NULL, 0);
+	}
+} */
+
+/*
+		i = -1;
+			while (cmd->outfile[++i])
+			{
+				cmd->outfile[i].fd = ft_open(cmd->outfile[i].name, cmd->outfile[i].mode);
+				if (cmd->outfile[i].fd < 0)
+					return (error_msg(*(cmd->split_cmd), cmd->outfile[i].name, NULL, 1));
+				dup2(cmd->infile[i].fd, STDIN_FILENO);
+				close(fd[0]);
+*/
+
+int	child_process(t_cmd *cmd, t_cmdtab *cmdtab)
+{
+	int	exit;
+	int	fd[2];
+
+	if (pipe(fd))
+		return (error_msg("pipe", NULL, NULL, EPIPE));
+	command = fork();
+	if (command == -1)
+		return (error_msg("fork", NULL, NULL, ENOMEM));
+	if (!command)
+	{
+		exit = exec_builtin(cmd, cmdtab);
+		if (exit < 0)
+			exit = exec(cmd->split_cmd, cmdtab);
+		return (exit);
+	}
+	else if (command > 0)
+	{
+		dup2(fd[0], STDIN_FILENO);
+		close(fd[1]);
+		waitpid(command, &exit, 0);
+		return (exit);
+	}
+}
+
+int	multiple_redirections(t_cmd *cmd, t_cmdtab *cmdtab)
+{
+	int	exit;
+
+	if (pipe(fd))
+		return (error_msg("pipe", NULL, NULL, EPIPE));
+	command = fork();
+	if (command == -1)
+		return (error_msg("fork", NULL, NULL, ENOMEM));
+	if (!command)
+	{
+		exit = exec_builtin(cmd, cmdtab);
+		if (exit < 0)
+			exit = exec(cmd->split_cmd, cmdtab);
+		return (exit);
+	}
+	else if (command > 0)
+		waitpid(command, &exit, 0);
+	return (exit);
+}
+}
+
+int	exec_cmd(t_cmd *cmd, t_cmdtab *cmdtab)
+{
+	size_t	i;
+	size_t	j;
+	int		exit;
+
+	i = -1;
+	while (cmd->infile[++i])
+	{
+		cmd->infile[i].fd = ft_open(cmd->infile[i].name, cmd->infile[i].mode);
+		if (cmd->infile[i].fd < 0)
+			return (error_msg(*(cmd->split_cmd), cmd->infile[i].name, NULL, 1));
+		if (dup2(cmd->infile[i].fd, STDIN_FILENO) == -1)
+			return (error_msg(*(cmd->split_cmd), NULL, NULL, 1));
+		j = -1;
+		while (cmd->outfile[++j])
+		{
+			cmd->outfile[j].fd = ft_open(cmd->outfile[j].name, cmd->outfile[j].mode);
+			if (cmd->outfile[j].fd < 0)
+				return (error_msg(*(cmd->split_cmd), cmd->outfile[j].name, NULL, 1));
+			if (dup2(cmd->outfile[i].fd, STDOU T_FILENO) == -1)
+				return (error_msg(*(cmd->split_cmd), NULL, NULL, 1));
+			exit = multiple_redirections(cmd, cmdtab);
+		}
+		child_process(cmd, cmdtab);
 	}
 }
 
