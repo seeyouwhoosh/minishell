@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcassi-d <gcassi-d@42urduliz.com>          +#+  +:+       +#+        */
+/*   By: xwu <xwu@student.42urduliz.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/27 20:20:50 by gcassi-d          #+#    #+#             */
-/*   Updated: 2026/01/28 21:36:58 by gcassi-d         ###   ########.fr       */
+/*   Updated: 2026/01/31 12:13:48 by xwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,13 +29,4 @@ int	max(int a, int b)
 
 
 
-void	free_cmdtab(t_cmdtab *cmdtab) //provisional, probablemente habrá que cambiarlo según se añadan más cosas
-{
-	if (!cmdtab)
-		return ;
-	free_pointer(&(cmdtab->env));
-	free_pointer(&(cmdtab->previous_wd));
-	free_pointer(&(cmdtab->cwd));
-	free_cmd(&(cmdtab->cmds));
-	free(cmdtab);
-}
+

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   frees.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcassi-d <gcassi-d@42urduliz.com>          +#+  +:+       +#+        */
+/*   By: xwu <xwu@student.42urduliz.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/18 13:00:32 by xwu               #+#    #+#             */
-/*   Updated: 2026/01/28 20:34:28 by gcassi-d         ###   ########.fr       */
+/*   Updated: 2026/01/31 12:14:14 by xwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,8 @@ void	free_cmds(t_cmdtab *cmdtab)
 
 	i = -1;
 	while (cmdtab->cmds[++i].split_cmd)
-	{
 		free_cmd(cmdtab->cmds + i);
-		free(cmdtab->cmds + i);
-	}
+	free(cmdtab->cmds);
 	cmdtab->cmds = NULL;
 }
 
@@ -53,4 +51,15 @@ void	free_split(char ***split)
 		free_pointer(&((*split)[i]));
 	free(*split);
 	*split = NULL;
+}
+
+void	free_cmdtab(t_cmdtab *cmdtab)
+{
+	if (!cmdtab)
+		return ;
+	free_pointer(&(cmdtab->env));
+	free_pointer(&(cmdtab->previous_wd));
+	free_pointer(&(cmdtab->cwd));
+	free_cmds(cmdtab);
+	free(cmdtab);
 }

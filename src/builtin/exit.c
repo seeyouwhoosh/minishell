@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcassi-d <gcassi-d@42urduliz.com>          +#+  +:+       +#+        */
+/*   By: xwu <xwu@student.42urduliz.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/17 20:59:37 by gcassi-d          #+#    #+#             */
-/*   Updated: 2026/01/30 19:37:20 by gcassi-d         ###   ########.fr       */
+/*   Updated: 2026/01/31 12:17:41 by xwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,5 @@ int	ft_exit(t_cmdtab *cmdtab, char **args)
 	else
 		exit_code = get_exit_code(args[1]);
 	free_cmdtab(cmdtab);
-	ft_putendl_fd("exit\n", 1); //dónde lo escribe? en qué casos? idk;
 	exit(exit_code);
 }
