@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: xwu <xwu@student.42urduliz.com>            +#+  +:+       +#+        */
+/*   By: gcassi-d <gcassi-d@42urduliz.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/18 13:00:32 by xwu               #+#    #+#             */
-/*   Updated: 2026/01/31 10:47:46 by xwu              ###   ########.fr       */
+/*   Updated: 2026/02/01 18:03:04 by gcassi-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,27 +74,3 @@ void	split_and_append(char *s, char ***split)
 	ft_freesplit(tmp);
 }
 
-/* Counts the number of commands in a line, taking into account
-double and single quotes */
-size_t	n_cmds(char *line)
-{
-	size_t	i;
-	short	squote;
-	short	dquote;
-	size_t	count;
-
-	squote = 0;
-	dquote = 0;
-	count = 0;
-	i = -1;
-	while (line[++i])
-	{
-		if (line[i] == '\"')
-			dquote = (dquote + 1) % 2;
-		if (line[i] == '\'')
-			squote = (squote + 1) % 2;
-		else if ((!dquote || !squote) && line[i] == '|')
-			count++;
-	}
-	return (count + 1);
-}
