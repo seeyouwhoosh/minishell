@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: xwu <xwu@student.42urduliz.com>            +#+  +:+       +#+        */
+/*   By: gcassi-d <gcassi-d@42urduliz.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/27 20:20:50 by gcassi-d          #+#    #+#             */
-/*   Updated: 2026/01/31 12:13:48 by xwu              ###   ########.fr       */
+/*   Updated: 2026/02/01 20:27:22 by gcassi-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ int	max(int a, int b)
 	return (a * (a >= b) + b * (b > a));
 }
 
-
-
-
+bool	is_whitespace(int c)
+{
+	return (c == 32 || (c >= 9 && c <= 13));
+}

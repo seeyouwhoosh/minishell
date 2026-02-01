@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   var_expansion.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: xwu <xwu@student.42urduliz.com>            +#+  +:+       +#+        */
+/*   By: gcassi-d <gcassi-d@42urduliz.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 19:08:41 by xwu               #+#    #+#             */
-/*   Updated: 2026/01/20 22:29:15 by xwu              ###   ########.fr       */
+/*   Updated: 2026/02/01 19:51:20 by gcassi-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,14 +59,13 @@ int	insert_var(char **line, char *var, size_t n, char **ev)
 	tmp = *line;
 	ll = ft_strlen(*line);
 	lv = ft_strlen(expanded);
-	new = malloc(ll + lv + 1);
+	new = ft_calloc(sizeof(char), ll + lv + 1);
 	if (!new)
 		return (0);
 	ft_memcpy(new, *line, n);
 	ft_memcpy(new + n, expanded, lv);
 	ft_memcpy(new + n + lv, *line + n + ft_strlen(var),
 		ll - n - ft_strlen(var) - 1);
-	new[ll + lv] = 0;
 	free(tmp);
 	*line = new;
 	return (lv);

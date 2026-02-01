@@ -6,7 +6,7 @@
 /*   By: gcassi-d <gcassi-d@42urduliz.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 16:46:16 by xwu               #+#    #+#             */
-/*   Updated: 2026/02/01 17:44:26 by gcassi-d         ###   ########.fr       */
+/*   Updated: 2026/02/01 20:44:32 by gcassi-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,13 @@ enum
 	UNSET
 };
 
+enum
+{
+	SUCCESS,
+	MISMATCHED_QUOTES,
+	MALLOC,
+};
+
 /* INITS */
 int		init_cmd(t_cmd *cmd, t_cmdtab *cmdtab);
 
@@ -130,5 +137,12 @@ void	free_pointer(char **p);
 void	free_cmdtab(t_cmdtab *cmdtab); //provisional, probablemente habrá que cambiarlo según se añadan más cosas
 void	free_cmd(t_cmd *cmd);
 int		error_msg(char *process, char *details, char *strerror, int error_code);
+bool	is_whitespace(int c);
+
+/* PARSING */
+size_t	n_cmds(char *line);
+size_t	nth_cmd(char *cmd, size_t n);
+int		add_squote(t_cmd *cmd_ui, char *cmd, size_t *pos, size_t ind);
+int		add_dquote(t_cmd *cmd_ui, char *cmd, size_t *pos, size_t ind);
 
 #endif /* MINISHELL_H */

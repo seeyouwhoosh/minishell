@@ -6,7 +6,7 @@
 /*   By: gcassi-d <gcassi-d@42urduliz.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/18 13:00:32 by xwu               #+#    #+#             */
-/*   Updated: 2026/02/01 18:03:11 by gcassi-d         ###   ########.fr       */
+/*   Updated: 2026/02/01 20:47:22 by gcassi-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,30 @@ int	all_whitespace(char	*s)
 		s++;
 	}
 	return (1);
+}
+
+size_t	nth_cmd(char *cmd, size_t n)
+{
+	size_t	i;
+	size_t	pos;
+	short	dquote;
+	short	squote;
+
+	i = -1;
+	dquote = 0;
+	squote = 0;
+	pos = 0;
+	while (i < n)
+	{
+		if (cmd[pos] == '\"' && !squote)
+			dquote = 1 - dquote;
+		else if (cmd[pos] == '\'' && !dquote)
+			squote = 1 - squote;
+		else if (!dquote && !squote && cmd[pos] == '|')
+			i++;
+		pos++;
+	}
+	return (pos);
 }
 
 /* Counts the number of commands in a line, taking into account
@@ -42,7 +66,7 @@ size_t	n_cmds(char *line)
 	{
 		if (line[i] == '\"' && !squote)
 			dquote = 1 - dquote;
-		if (line[i] == '\'' && !dquote)
+		else if (line[i] == '\'' && !dquote)
 			squote = 1 - squote;
 		else if (!dquote && !squote && line[i] == '|')
 			count++;
@@ -50,4 +74,38 @@ size_t	n_cmds(char *line)
 	if (squote || dquote)
 		return (0);
 	return (count + 1);
+}
+
+int	add_squote(t_cmd *cmd_ui, char *cmd, size_t *pos, size_t ind)
+{
+	char	*token;
+	size_t	i;
+
+	i = 0;
+	while (cmd[*pos + ++i] != '\'')
+		;
+	token = ft_calloc(sizeof(char), i);
+	if (!token)
+		return (MALLOC);
+	ft_memcpy(token, cmd + *pos + 1, i - 1);
+	cmd_ui->split_cmd[ind] = token;
+	*pos += i;
+	return (SUCCESS);
+}
+
+int	add_dquote(t_cmd *cmd_ui, char *cmd, size_t *pos, size_t ind)
+{
+	char	*token;
+	size_t	i;
+
+	i = 0;
+	while (cmd[*pos + ++i] != '\'')
+		;
+	token = ft_calloc(sizeof(char), i);
+	if (!token)
+		return (MALLOC);
+	ft_memcpy(token, cmd + *pos + 1, i - 1);
+	cmd_ui->split_cmd[ind] = token;
+	*pos += i;
+	return (SUCCESS);
 }
