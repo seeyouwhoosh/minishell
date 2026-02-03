@@ -6,7 +6,7 @@
 /*   By: xwu <xwu@student.42urduliz.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/31 10:45:02 by xwu               #+#    #+#             */
-/*   Updated: 2026/02/03 01:16:25 by xwu              ###   ########.fr       */
+/*   Updated: 2026/02/03 01:32:48 by xwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,20 +41,18 @@ int	exec_builtin(t_cmd *cmd, t_cmdtab *cmdtab)
 		return (-1);
 	else if (code == CD)
 		return (cd(cmdtab, cmd->split_cmd));
-	else if (code == CD)
+	else if (code == ECHO)
 		return (echo(cmdtab, cmd->split_cmd));
-	else if (code == CD)
+	else if (code == ENV)
 		return (env(cmdtab, cmd->split_cmd));
-	else if (code == CD)
+	else if (code == EXIT)
 		return (ft_exit(cmdtab, cmd->split_cmd));
-	else if (code == CD)
+	else if (code == EXPORT)
 		return (export(cmdtab, cmd->split_cmd));
-	else if (code == CD)
+	else if (code == PWD)
 		return (pwd(cmdtab, cmd->split_cmd));
-	else if (code == CD)
+	else if (code == UNSET)
 		return (unset(cmdtab, cmd->split_cmd));
-	else
-		return (-1);
 }
 
 char	*get_path(char *cmd, char **env)
