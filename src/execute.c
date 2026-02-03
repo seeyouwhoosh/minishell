@@ -6,7 +6,7 @@
 /*   By: xwu <xwu@student.42urduliz.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/31 10:45:02 by xwu               #+#    #+#             */
-/*   Updated: 2026/02/03 01:32:48 by xwu              ###   ########.fr       */
+/*   Updated: 2026/02/03 01:36:02 by xwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -166,7 +166,7 @@ void	here_doc_put(char *limiter, size_t n_cmds)
 {
 	char	*input;
 	char	*new_limiter;
-	
+
 	new_limiter = ft_strjoin(limiter, "\n");
 	if (!new_limiter)
 		return ;
@@ -244,7 +244,7 @@ int	exec_cmd(t_cmd *cmd, t_cmdtab *cmdtab)
 		return (error_msg("pipe", NULL, NULL, EPIPE));
 	if (cmd->here_doc)
 		here_doc(cmd->here_doc, cmdtab->n_cmds);
-	else if (cmd->infile.name && open_and_dup(&(cmd->infile), STDIN_FILENO));
+	else if (cmd->infile.name && open_and_dup(&(cmd->infile), STDIN_FILENO))
 		return (1);
 	command = fork();
 	if (command == -1)
@@ -279,7 +279,8 @@ int	execute(t_cmdtab *cmdtab)
 	i = 0;
 	while (cmdtab->n_cmds > ++i)
 		cmdtab->exit_code = exec_cmd(cmdtab->cmds + i - 1, cmdtab);
-	if (cmdtab->cmds[i].outfile.name && open_and_dup(&(cmdtab->cmds[i].outfile), STDOUT_FILENO))
+	if (cmdtab->cmds[i].outfile.name && open_and_dup(
+			&(cmdtab->cmds[i].outfile), STDOUT_FILENO))
 		return (1);
 	cmdtab->exit_code = exec_cmd(cmdtab->cmds + i, cmdtab);
 	free_cmds(cmdtab);
