@@ -6,7 +6,7 @@
 /*   By: gcassi-d <gcassi-d@42urduliz.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/27 20:20:50 by gcassi-d          #+#    #+#             */
-/*   Updated: 2026/02/01 20:27:22 by gcassi-d         ###   ########.fr       */
+/*   Updated: 2026/02/04 21:50:01 by gcassi-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,4 +30,17 @@ int	max(int a, int b)
 bool	is_whitespace(int c)
 {
 	return (c == 32 || (c >= 9 && c <= 13));
+}
+
+int	all_whitespace(char	*s)
+{
+	if (!s)
+		return (1);
+	while (*s)
+	{
+		if (*s != 32 || (*s < 9 && *s > 13))
+			return (0);
+		s++;
+	}
+	return (1);
 }

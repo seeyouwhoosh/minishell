@@ -6,7 +6,7 @@
 /*   By: gcassi-d <gcassi-d@42urduliz.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/18 13:00:32 by xwu               #+#    #+#             */
-/*   Updated: 2026/02/01 18:03:04 by gcassi-d         ###   ########.fr       */
+/*   Updated: 2026/02/04 22:10:39 by gcassi-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,3 +74,7 @@ void	split_and_append(char *s, char ***split)
 	ft_freesplit(tmp);
 }
 
+int	is_delimiter(int c)
+{
+	return (is_whitespace(c) || c == '>' || c == '<' || c == '|' || !c);
+}

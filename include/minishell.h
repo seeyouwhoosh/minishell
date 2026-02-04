@@ -6,7 +6,7 @@
 /*   By: gcassi-d <gcassi-d@42urduliz.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 16:46:16 by xwu               #+#    #+#             */
-/*   Updated: 2026/02/04 10:45:43 by gcassi-d         ###   ########.fr       */
+/*   Updated: 2026/02/04 22:20:26 by gcassi-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,13 @@
 #  define TOKEN_DELIMITER " \t\r\n\a"
 # endif
 
+typedef struct s_file
+{
+	char	*name;
+	int		fd;
+	int		mode;
+}			t_file;
+
 typedef struct s_cmds
 {
 	char	**split_cmd;
@@ -45,13 +52,6 @@ typedef struct s_cmds
 	t_file	outfile;
 	char	*here_doc;
 }			t_cmd;
-
-typedef struct s_file
-{
-	char	*name;
-	int		fd;
-	int		mode;
-}			t_file;
 
 typedef struct s_cmdtab
 {
@@ -96,8 +96,9 @@ enum
 
 enum
 {
+	MISMATCHED_SQUOTE = -1,
+	MISMATCHED_DQUOTE,
 	SUCCESS,
-	MISMATCHED_QUOTES,
 	MALLOC,
 };
 
@@ -147,12 +148,13 @@ void	free_cmdtab(t_cmdtab *cmdtab); //provisional, probablemente habrá que camb
 void	free_cmd(t_cmd *cmd);
 int		error_msg(char *process, char *details, char *strerror, int error_code);
 bool	is_whitespace(int c);
+int		all_whitespace(char	*s);
 
 /* PARSING */
-size_t	n_cmds(char *line);
-size_t	nth_cmd(char *cmd, size_t n);
-int		add_squote(t_cmd *cmd_ui, char *cmd, size_t *pos, size_t ind);
-int		add_dquote(t_cmd *cmd_ui, char *cmd, size_t *pos, size_t ind);
+int		cmds_am(char *line, size_t *holder);
 int		get_commands(t_cmd *cmd, char *str);
+char	*get_next_command(t_cmd *cmd, char *pos, size_t ind, t_str str);
+int		extend(t_str *str);
+int		is_delimiter(int c);
 
 #endif /* MINISHELL_H */
