@@ -6,7 +6,7 @@
 /*   By: gcassi-d <gcassi-d@42urduliz.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/01 18:05:48 by gcassi-d          #+#    #+#             */
-/*   Updated: 2026/02/01 20:46:04 by gcassi-d         ###   ########.fr       */
+/*   Updated: 2026/02/04 11:26:52 by gcassi-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,17 +80,14 @@ int	parse_main(t_cmdtab *cmdtab, char *cmd)
 
 	cmd_am = c_cmds(cmd);
 	if (!cmd_am)
-		return (MISMATCHED_QUOTES);
+		return (free(cmd), MISMATCHED_QUOTES);
 	cmdtab->cmds = ft_calloc(cmd_am + 1, sizeof(t_cmd));
 	if (!cmdtab->cmds)
-		return (MALLOC);
-	i = -1;
-	while (++i < cmd_am)
-	{
-		flag = add_next_cmd(cmdtab, i, cmd);
-		if (flag)
-			return (flag);
-	}
+		return (free(cmd), MALLOC);
+	flag = create_raws(cmdtab->cmds, cmd);
+	if (flag)
+		return (free(cmd), flag);
 	free(cmd);
-	return (SUCCESS);
+	flag = get_commands(cmdtab->cmds, cmd);
+	return (flag);
 }

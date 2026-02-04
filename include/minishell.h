@@ -6,7 +6,7 @@
 /*   By: gcassi-d <gcassi-d@42urduliz.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 16:46:16 by xwu               #+#    #+#             */
-/*   Updated: 2026/02/01 20:44:32 by gcassi-d         ###   ########.fr       */
+/*   Updated: 2026/02/04 10:45:43 by gcassi-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@
 typedef struct s_cmds
 {
 	char	**split_cmd;
+	char	*raw; //para facilitar la vida
 	t_file	infile; //cat < a <c
 	t_file	outfile;
 	char	*here_doc;
@@ -64,6 +65,14 @@ typedef struct s_cmdtab
 	int		exit_code;
 	char	**history;
 }			t_cmdtab;
+
+typedef struct str
+{
+	char	*str;
+	size_t	len;
+	size_t	capacity;
+}	t_str;
+
 
 enum
 {
@@ -144,5 +153,6 @@ size_t	n_cmds(char *line);
 size_t	nth_cmd(char *cmd, size_t n);
 int		add_squote(t_cmd *cmd_ui, char *cmd, size_t *pos, size_t ind);
 int		add_dquote(t_cmd *cmd_ui, char *cmd, size_t *pos, size_t ind);
+int		get_commands(t_cmd *cmd, char *str);
 
 #endif /* MINISHELL_H */
