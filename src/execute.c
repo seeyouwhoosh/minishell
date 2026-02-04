@@ -6,7 +6,7 @@
 /*   By: xwu <xwu@student.42urduliz.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/31 10:45:02 by xwu               #+#    #+#             */
-/*   Updated: 2026/02/01 00:20:41 by xwu              ###   ########.fr       */
+/*   Updated: 2026/02/03 01:36:02 by xwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,20 +41,18 @@ int	exec_builtin(t_cmd *cmd, t_cmdtab *cmdtab)
 		return (-1);
 	else if (code == CD)
 		return (cd(cmdtab, cmd->split_cmd));
-	else if (code == CD)
+	else if (code == ECHO)
 		return (echo(cmdtab, cmd->split_cmd));
-	else if (code == CD)
+	else if (code == ENV)
 		return (env(cmdtab, cmd->split_cmd));
-	else if (code == CD)
+	else if (code == EXIT)
 		return (ft_exit(cmdtab, cmd->split_cmd));
-	else if (code == CD)
+	else if (code == EXPORT)
 		return (export(cmdtab, cmd->split_cmd));
-	else if (code == CD)
+	else if (code == PWD)
 		return (pwd(cmdtab, cmd->split_cmd));
-	else if (code == CD)
+	else if (code == UNSET)
 		return (unset(cmdtab, cmd->split_cmd));
-	else
-		return (-1);
 }
 
 char	*get_path(char *cmd, char **env)
@@ -81,8 +79,6 @@ char	*get_path(char *cmd, char **env)
 		free(path);
 	}
 	ft_freesplit(split_paths);
-	write(2, cmd, ft_strlen(cmd));
-	write(2, ": Command not found\n", 20);
 	return (NULL);
 }
 
@@ -96,12 +92,11 @@ int	exec(char **split_cmd, t_cmdtab *cmdtab)
 	{
 		ft_freesplit(split_cmd);
 		free(path);
-		return (error_msg("minishell", NULL, NULL, 127));
+		return (error_msg("minishell", split_cmd[0], "Command not found", 127));
 	}
 	exit = execve(path, split_cmd, cmdtab->env);
 	if (exit)
 	{
-		cmdtab->exit_code = exit;
 		free(path);
 		error_msg(split_cmd[0], NULL, NULL, exit);
 	}
@@ -118,138 +113,163 @@ int	ft_open(const char *filename, int mode)
 		fd = open(filename, O_WRONLY | O_CREAT | O_TRUNC, 0777);
 	else if (mode == APPEND)
 		fd = open(filename, O_WRONLY | O_CREAT | O_APPEND, 0777);
-	if (fd < 0)
-	{
-		perror(filename);
-		return (EXIT_FAILURE);
-	}
 	return (fd);
 }
 
-/* int	exec_cmd(t_cmd *cmd, t_cmdtab *cmdtab)
+void	get_line(int fd, char **line, size_t size)
 {
-	int		exit;
-	int		fd[2];
-	pid_t	command;
 	size_t	i;
+	int		nread;
+	char	c;
 
-	if (pipe(fd))
-		return (error_msg("pipe", NULL, NULL, EPIPE));
-	
-	i = -1;
-	while (cmd->infile[++i])
+	i = 0;
+	nread = read(fd, &c, 1);
+	while (nread > 0)
 	{
-		cmd->infile[i].fd = ft_open(cmd->infile[i].name, cmd->infile[i].mode);
-		if ()
+		if (i + 1 >= size)
+		{
+			*line = ft_realloc(*line, size, size * 2);
+			size *= 2;
+		}
+		(*line)[i++] = c;
+		if (c == '\n')
+			break ;
+		nread = read(fd, &c, 1);
 	}
-	if (piping_in(cmd));
-
-
-
-	command = fork();
-	if (command == -1)
-		return (error_msg("fork", NULL, NULL, ENOMEM));
-	if (!command)
+	if (nread == -1 || (!nread && !i))
 	{
-		exit = exec_builtin(cmd, cmdtab);
-		if (exit > -1)
-			return (exit);
-		else
-			exit = exec(cmd->split_cmd, cmdtab);
+		free(*line);
+		*line = NULL;
+		return ;
 	}
-	else if (command > 0)
-	{
-		dup2(fd[0], STDIN_FILENO);
-		close(fd[1]);
-		waitpid(command, NULL, 0);
-	}
-} */
+	(*line)[i] = '\0';
+}
 
-/*
-		i = -1;
-			while (cmd->outfile[++i])
-			{
-				cmd->outfile[i].fd = ft_open(cmd->outfile[i].name, cmd->outfile[i].mode);
-				if (cmd->outfile[i].fd < 0)
-					return (error_msg(*(cmd->split_cmd), cmd->outfile[i].name, NULL, 1));
-				dup2(cmd->infile[i].fd, STDIN_FILENO);
-				close(fd[0]);
-*/
-
-int	child_process(t_cmd *cmd, t_cmdtab *cmdtab)
+char	*get_next_line(int fd)
 {
-	int	exit;
-	int	fd[2];
+	char	*line;
+	size_t	size;
 
-	if (pipe(fd))
-		return (error_msg("pipe", NULL, NULL, EPIPE));
-	command = fork();
-	if (command == -1)
-		return (error_msg("fork", NULL, NULL, ENOMEM));
-	if (!command)
+	size = 32;
+	if (fd < 0)
+		return (NULL);
+	line = malloc(size);
+	if (!line)
+		return (NULL);
+	get_line(fd, &line, size);
+	if (!line)
+		return (NULL);
+	return (line);
+}
+
+void	here_doc_put(char *limiter, size_t n_cmds)
+{
+	char	*input;
+	char	*new_limiter;
+
+	new_limiter = ft_strjoin(limiter, "\n");
+	if (!new_limiter)
+		return ;
+	while (--n_cmds > 0)
+		ft_putstr_fd("pipe ", 1);
+	ft_putstr_fd("here_doc>", 1);
+	input = get_next_line(0);
+	while (input)
 	{
-		exit = exec_builtin(cmd, cmdtab);
-		if (exit < 0)
-			exit = exec(cmd->split_cmd, cmdtab);
-		return (exit);
-	}
-	else if (command > 0)
-	{
-		dup2(fd[0], STDIN_FILENO);
-		close(fd[1]);
-		waitpid(command, &exit, 0);
-		return (exit);
+		if (!ft_strcmp(input, new_limiter))
+		{
+			free(new_limiter);
+			free(input);
+			exit(0);
+		}
+		write(STDOUT_FILENO, input, ft_strlen(input));
+		free(input);
+		ft_putstr_fd("here_doc>", 1);
+		input = get_next_line(0);
 	}
 }
 
-int	multiple_redirections(t_cmd *cmd, t_cmdtab *cmdtab)
+void	here_doc(char *limiter, size_t n_cmds)
 {
-	int	exit;
+	pid_t	read;
+	int		fd[2];
 
 	if (pipe(fd))
 		return (error_msg("pipe", NULL, NULL, EPIPE));
-	command = fork();
-	if (command == -1)
+	read = fork();
+	if (read == -1)
 		return (error_msg("fork", NULL, NULL, ENOMEM));
-	if (!command)
+	if (!read)
 	{
-		exit = exec_builtin(cmd, cmdtab);
-		if (exit < 0)
-			exit = exec(cmd->split_cmd, cmdtab);
-		return (exit);
+		close(fd[0]);
+		dup2(fd[1], STDOUT_FILENO);
+		close(fd[1]);
+		here_doc_put(limiter, n_cmds);
+		return ;
 	}
-	else if (command > 0)
-		waitpid(command, &exit, 0);
+	else if (read > 0)
+	{
+		close(fd[1]);
+		dup2(fd[0], STDIN_FILENO);
+		close(fd[0]);
+		waitpid(read, NULL, 0);
+	}
+}
+
+int	child_process(t_cmd *cmd, t_cmdtab *cmdtab, int fd[2])
+{
+	int	exit;
+
+	if (cmd->outfile.name && open_and_dup(&(cmd->outfile), STDOUT_FILENO))
+		return (1);
+	else
+	{
+		close(fd[0]);
+		dup2(fd[1], STDOUT_FILENO);
+		close(fd[1]);
+	}
+	exit = exec_builtin(cmd, cmdtab);
+	if (exit < 0)
+		exit = exec(cmd->split_cmd, cmdtab);
 	return (exit);
-}
 }
 
 int	exec_cmd(t_cmd *cmd, t_cmdtab *cmdtab)
 {
-	size_t	i;
-	size_t	j;
 	int		exit;
+	int		fd[2];
+	pid_t	command;
 
-	i = -1;
-	while (cmd->infile[++i])
+	if (pipe(fd))
+		return (error_msg("pipe", NULL, NULL, EPIPE));
+	if (cmd->here_doc)
+		here_doc(cmd->here_doc, cmdtab->n_cmds);
+	else if (cmd->infile.name && open_and_dup(&(cmd->infile), STDIN_FILENO))
+		return (1);
+	command = fork();
+	if (command == -1)
+		return (error_msg("fork", NULL, NULL, ENOMEM));
+	if (!command)
+		exit = child_process(cmd, cmdtab, fd);
+	else if (command > 0)
 	{
-		cmd->infile[i].fd = ft_open(cmd->infile[i].name, cmd->infile[i].mode);
-		if (cmd->infile[i].fd < 0)
-			return (error_msg(*(cmd->split_cmd), cmd->infile[i].name, NULL, 1));
-		if (dup2(cmd->infile[i].fd, STDIN_FILENO) == -1)
-			return (error_msg(*(cmd->split_cmd), NULL, NULL, 1));
-		j = -1;
-		while (cmd->outfile[++j])
-		{
-			cmd->outfile[j].fd = ft_open(cmd->outfile[j].name, cmd->outfile[j].mode);
-			if (cmd->outfile[j].fd < 0)
-				return (error_msg(*(cmd->split_cmd), cmd->outfile[j].name, NULL, 1));
-			if (dup2(cmd->outfile[i].fd, STDOU T_FILENO) == -1)
-				return (error_msg(*(cmd->split_cmd), NULL, NULL, 1));
-			exit = multiple_redirections(cmd, cmdtab);
-		}
-		child_process(cmd, cmdtab);
+		close(fd[1]);
+		dup2(fd[0], STDIN_FILENO);
+		close(fd[0]);
+		waitpid(command, &exit, 0);
+		return (exit);
 	}
+}
+
+int	open_and_dup(t_file *file, int og_fd)
+{
+	file->fd = ft_open(file->name, file->mode);
+	if (file->fd == -1)
+		return (error_msg(file->name, NULL, NULL, 1));
+	if (dup2(file->fd, og_fd) == -1)
+		return (error_msg("dup2", NULL, NULL, 1));
+	close(file->fd);
+	return (0);
 }
 
 int	execute(t_cmdtab *cmdtab)
@@ -257,11 +277,11 @@ int	execute(t_cmdtab *cmdtab)
 	size_t	i;
 
 	i = 0;
-	while (cmdtab->n_cmds > i)
-		cmdtab->exit_code = exec_cmd(cmdtab->cmds + i++, cmdtab);
+	while (cmdtab->n_cmds > ++i)
+		cmdtab->exit_code = exec_cmd(cmdtab->cmds + i - 1, cmdtab);
+	if (cmdtab->cmds[i].outfile.name && open_and_dup(
+			&(cmdtab->cmds[i].outfile), STDOUT_FILENO))
+		return (1);
+	cmdtab->exit_code = exec_cmd(cmdtab->cmds + i, cmdtab);
 	free_cmds(cmdtab);
 }
-
-
-
-
