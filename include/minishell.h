@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: xwu <xwu@student.42urduliz.com>            +#+  +:+       +#+        */
+/*   By: gcassi-d <gcassi-d@42urduliz.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 16:46:16 by xwu               #+#    #+#             */
-/*   Updated: 2026/02/06 00:14:22 by xwu              ###   ########.fr       */
+/*   Updated: 2026/02/06 00:17:24 by gcassi-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -165,6 +165,8 @@ char	*get_next_command(t_cmd *cmd, char *pos, size_t ind, t_str str);
 int		extend(t_str *str);
 int		is_delimiter(int c, short squote, short dquote);
 t_str	new(void);
-int		add_var();
+int		add_var(t_why a, t_str *str, size_t *i, short *squote);
+int		get_token(t_why a, size_t *i, short *squote, short *dquote);
+int		parse_command(t_cmdtab *cmdtab, t_cmd *cmd);
 
 #endif /* MINISHELL_H */
