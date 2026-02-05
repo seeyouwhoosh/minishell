@@ -6,7 +6,7 @@
 /*   By: gcassi-d <gcassi-d@42urduliz.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/04 22:00:12 by gcassi-d          #+#    #+#             */
-/*   Updated: 2026/02/06 00:14:29 by gcassi-d         ###   ########.fr       */
+/*   Updated: 2026/02/06 00:25:06 by gcassi-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,7 +123,7 @@ int	add_var(t_why a, t_str *str, size_t *i, short *squote)
 		return (SUCCESS);
 	}
 	if (a.cmd->raw[*i] != '?')
-		add_exit_code(a, str, (*i)++);
+		return (add_exit_code(a, str, (*i)++));
 	var_name = new();
 	while (ft_isalnum(a.cmd->raw[*i]))
 	{
