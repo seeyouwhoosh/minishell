@@ -6,13 +6,13 @@
 /*   By: xwu <xwu@student.42urduliz.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/05 01:51:44 by xwu               #+#    #+#             */
-/*   Updated: 2026/02/05 01:53:31 by xwu              ###   ########.fr       */
+/*   Updated: 2026/02/06 00:04:50 by xwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	execute(t_cmdtab *cmdtab)
+int	execute_all(t_cmdtab *cmdtab)
 {
 	size_t	i;
 

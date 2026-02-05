@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcassi-d <gcassi-d@42urduliz.com>          +#+  +:+       +#+        */
+/*   By: xwu <xwu@student.42urduliz.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 16:46:16 by xwu               #+#    #+#             */
-/*   Updated: 2026/02/06 00:02:37 by gcassi-d         ###   ########.fr       */
+/*   Updated: 2026/02/06 00:14:22 by xwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,6 @@ enum
 	MISMATCHED_SQUOTE,
 	MISMATCHED_DQUOTE,
 	PIPE,
-
 };
 
 /* INITS */
@@ -132,6 +131,10 @@ int		variable_expansion(char **line, char **ev);
 void	int_signal(int n);
 void	signal_manager(void);
 
+/* FIND BUILT-IN*/
+int		is_builtin(char *str_cmd, t_cmdtab *cmdtab);
+int		exec_builtin(t_cmd *cmd, t_cmdtab *cmdtab);
+
 /* BUILT-IN */
 int		echo(t_cmdtab *cmdtab, char **args);
 int		pwd(t_cmdtab *cmdtab, char **args);
@@ -151,10 +154,6 @@ char	*get_env_val(t_cmdtab *cmdtab, char **env, char *var);
 /* UTILS */
 int		max(int a, int b);
 int		split_len(char **split);
-void	free_split(char ***split);
-void	free_pointer(char **p);
-void	free_cmdtab(t_cmdtab *cmdtab); //provisional, probablemente habrá que cambiarlo según se añadan más cosas
-void	free_cmd(t_cmd *cmd);
 int		error_msg(char *process, char *details, char *strerror, int error_code);
 bool	is_whitespace(int c);
 int		all_whitespace(char	*s);
@@ -166,7 +165,6 @@ char	*get_next_command(t_cmd *cmd, char *pos, size_t ind, t_str str);
 int		extend(t_str *str);
 int		is_delimiter(int c, short squote, short dquote);
 t_str	new(void);
-int		add_var(t_why a, t_str *str, size_t *i, short *squote);
-int		get_token(t_why a, size_t *i, short *squote, short *dquote);
+int		add_var();
 
 #endif /* MINISHELL_H */

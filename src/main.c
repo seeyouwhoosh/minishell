@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcassi-d <gcassi-d@42urduliz.com>          +#+  +:+       +#+        */
+/*   By: xwu <xwu@student.42urduliz.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/18 13:00:32 by xwu               #+#    #+#             */
-/*   Updated: 2026/02/06 00:08:28 by gcassi-d         ###   ########.fr       */
+/*   Updated: 2026/02/06 00:13:26 by xwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	main(int ac, char **av, char **ev)
 
 	(void)av;
 	if (ac != 1)
-		return (write(1, "\e[1;31mInvalid arguments\e[0m\n", 29));
+		return (ft_putendl_fd("\e[1;31mToo many arguments\e[0m\n"));
 	signal_manager();
 	cmdtab = ft_calloc(1, sizeof(cmdtab));
 	if (!cmdtab)
