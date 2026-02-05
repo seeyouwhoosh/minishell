@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: xwu <xwu@student.42urduliz.com>            +#+  +:+       +#+        */
+/*   By: gcassi-d <gcassi-d@42urduliz.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 16:46:16 by xwu               #+#    #+#             */
-/*   Updated: 2026/02/05 01:41:37 by xwu              ###   ########.fr       */
+/*   Updated: 2026/02/05 22:56:00 by gcassi-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,19 +37,19 @@
 #  define TOKEN_DELIMITER " \t\r\n\a"
 # endif
 
-typedef struct s_file
+/* typedef struct s_file
 {
 	char	*name;
 	int		fd;
 	int		mode;
 }			t_file;
-
+ */
 typedef struct s_cmds
 {
 	char	**split_cmd;
 	char	*raw; //para facilitar la vida
-	t_file	infile; //cat < a <c
-	t_file	outfile;
+	int		infile; //cat < a <c
+	int		outfile;
 	char	*here_doc;
 }			t_cmd;
 
@@ -95,10 +95,12 @@ enum e_builtins
 
 enum
 {
-	MISMATCHED_SQUOTE = -1,
-	MISMATCHED_DQUOTE,
 	SUCCESS,
 	MALLOC,
+	MISMATCHED_SQUOTE,
+	MISMATCHED_DQUOTE,
+	PIPE,
+
 };
 
 /* INITS */
@@ -154,6 +156,7 @@ int		cmds_am(char *line, size_t *holder);
 int		get_commands(t_cmd *cmd, char *str);
 char	*get_next_command(t_cmd *cmd, char *pos, size_t ind, t_str str);
 int		extend(t_str *str);
-int		is_delimiter(int c);
+int		is_delimiter(int c, short squote, short dquote);
+t_str	new(void);
 
 #endif /* MINISHELL_H */

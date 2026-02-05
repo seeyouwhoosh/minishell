@@ -6,7 +6,7 @@
 /*   By: gcassi-d <gcassi-d@42urduliz.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/18 13:00:32 by xwu               #+#    #+#             */
-/*   Updated: 2026/02/04 22:00:45 by gcassi-d         ###   ########.fr       */
+/*   Updated: 2026/02/05 22:27:19 by gcassi-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,13 +45,13 @@ char	*get_next_command(t_cmd *cmd, char *pos, size_t ind, t_str str)
 	return (pos);
 }
 
-static t_str	new(void)
+t_str	new(void)
 {
 	t_str	new;
 
 	new.capacity = 100;
 	new.len = 0;
-	new.str = ft_calloc(sizeof(char), 100);
+	new.str = ft_calloc(sizeof(char), 101);
 	return (new);
 }
 

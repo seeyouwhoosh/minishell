@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_utils2.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: xwu <xwu@student.42urduliz.com>            +#+  +:+       +#+        */
+/*   By: gcassi-d <gcassi-d@42urduliz.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/04 22:00:12 by gcassi-d          #+#    #+#             */
-/*   Updated: 2026/02/05 01:57:33 by xwu              ###   ########.fr       */
+/*   Updated: 2026/02/05 21:30:27 by gcassi-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,16 +74,16 @@ int	extend(t_str *str)
 
 	if (str->capacity != str->len)
 		return (SUCCESS);
-	if (str->capacity < ULONG_MAX / 2)
+	if (str->capacity < (ULONG_MAX - 1) / 2)
 	{
-		new = ft_calloc(sizeof(char), str->capacity * 2);
+		new = ft_calloc(sizeof(char), str->capacity * 2 + 1);
 		str->capacity *= 2;
 	}
 	else
 	{
-		if (str->capacity == ULONG_MAX)
+		if (str->capacity == ULONG_MAX - 1)
 			return (free(str->str), MALLOC);
-		new = ft_calloc(sizeof(char), str->capacity + 1);
+		new = ft_calloc(sizeof(char), str->capacity + 2);
 		str->capacity += 1;
 	}
 	if (!new)
