@@ -3,19 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   parse_main.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcassi-d <gcassi-d@42urduliz.com>          +#+  +:+       +#+        */
+/*   By: xwu <xwu@student.42urduliz.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/01 18:05:48 by gcassi-d          #+#    #+#             */
-/*   Updated: 2026/02/04 22:40:54 by gcassi-d         ###   ########.fr       */
+/*   Updated: 2026/02/05 01:36:01 by xwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-//orden pensado: heardoc, variables, redirecciones, do it
+//orden pensado: heredoc, variables, redirecciones, do it
 int	parse_command(t_cmd *cmd)
 {
-	
+	;
 }
 
 //orden: pipes, tokens, locate redirections, env_vars

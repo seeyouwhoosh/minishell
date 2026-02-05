@@ -6,7 +6,7 @@
 /*   By: xwu <xwu@student.42urduliz.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/31 10:45:02 by xwu               #+#    #+#             */
-/*   Updated: 2026/02/03 01:36:02 by xwu              ###   ########.fr       */
+/*   Updated: 2026/02/05 01:35:01 by xwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 int	is_builtin(char *str_cmd, t_cmdtab *cmdtab)
 {
+	(void)cmdtab;
 	if (!strcmp(str_cmd, "cd"))
 		return (CD);
 	else if (!strcmp(str_cmd, "echo"))
@@ -37,9 +38,7 @@ int	exec_builtin(t_cmd *cmd, t_cmdtab *cmdtab)
 	int	code;
 
 	code = is_builtin(cmd->split_cmd[0], cmdtab);
-	if (code < -1)
-		return (-1);
-	else if (code == CD)
+	if (code == CD)
 		return (cd(cmdtab, cmd->split_cmd));
 	else if (code == ECHO)
 		return (echo(cmdtab, cmd->split_cmd));
@@ -53,6 +52,7 @@ int	exec_builtin(t_cmd *cmd, t_cmdtab *cmdtab)
 		return (pwd(cmdtab, cmd->split_cmd));
 	else if (code == UNSET)
 		return (unset(cmdtab, cmd->split_cmd));
+	return (-1);
 }
 
 char	*get_path(char *cmd, char **env)
@@ -98,8 +98,9 @@ int	exec(char **split_cmd, t_cmdtab *cmdtab)
 	if (exit)
 	{
 		free(path);
-		error_msg(split_cmd[0], NULL, NULL, exit);
+		return (error_msg(split_cmd[0], NULL, NULL, exit));
 	}
+	return (0);
 }
 
 int	ft_open(const char *filename, int mode)
@@ -189,7 +190,7 @@ void	here_doc_put(char *limiter, size_t n_cmds)
 	}
 }
 
-void	here_doc(char *limiter, size_t n_cmds)
+int	here_doc(char *limiter, size_t n_cmds)
 {
 	pid_t	read;
 	int		fd[2];
@@ -205,7 +206,7 @@ void	here_doc(char *limiter, size_t n_cmds)
 		dup2(fd[1], STDOUT_FILENO);
 		close(fd[1]);
 		here_doc_put(limiter, n_cmds);
-		return ;
+		return (0);
 	}
 	else if (read > 0)
 	{
@@ -214,6 +215,18 @@ void	here_doc(char *limiter, size_t n_cmds)
 		close(fd[0]);
 		waitpid(read, NULL, 0);
 	}
+	return (0);
+}
+
+int	open_and_dup(t_file *file, int og_fd)
+{
+	file->fd = ft_open(file->name, file->mode);
+	if (file->fd == -1)
+		return (error_msg(file->name, NULL, NULL, 1));
+	if (dup2(file->fd, og_fd) == -1)
+		return (error_msg("dup2", NULL, NULL, 1));
+	close(file->fd);
+	return (0);
 }
 
 int	child_process(t_cmd *cmd, t_cmdtab *cmdtab, int fd[2])
@@ -242,8 +255,8 @@ int	exec_cmd(t_cmd *cmd, t_cmdtab *cmdtab)
 
 	if (pipe(fd))
 		return (error_msg("pipe", NULL, NULL, EPIPE));
-	if (cmd->here_doc)
-		here_doc(cmd->here_doc, cmdtab->n_cmds);
+	if (cmd->here_doc && here_doc(cmd->here_doc, cmdtab->n_cmds))
+		return (1);
 	else if (cmd->infile.name && open_and_dup(&(cmd->infile), STDIN_FILENO))
 		return (1);
 	command = fork();
@@ -257,19 +270,8 @@ int	exec_cmd(t_cmd *cmd, t_cmdtab *cmdtab)
 		dup2(fd[0], STDIN_FILENO);
 		close(fd[0]);
 		waitpid(command, &exit, 0);
-		return (exit);
 	}
-}
-
-int	open_and_dup(t_file *file, int og_fd)
-{
-	file->fd = ft_open(file->name, file->mode);
-	if (file->fd == -1)
-		return (error_msg(file->name, NULL, NULL, 1));
-	if (dup2(file->fd, og_fd) == -1)
-		return (error_msg("dup2", NULL, NULL, 1));
-	close(file->fd);
-	return (0);
+	return (exit);
 }
 
 int	execute(t_cmdtab *cmdtab)
@@ -284,4 +286,5 @@ int	execute(t_cmdtab *cmdtab)
 		return (1);
 	cmdtab->exit_code = exec_cmd(cmdtab->cmds + i, cmdtab);
 	free_cmds(cmdtab);
+	return (cmdtab->exit_code);
 }
