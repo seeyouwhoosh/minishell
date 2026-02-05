@@ -6,7 +6,7 @@
 /*   By: gcassi-d <gcassi-d@42urduliz.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 16:46:16 by xwu               #+#    #+#             */
-/*   Updated: 2026/02/05 22:56:00 by gcassi-d         ###   ########.fr       */
+/*   Updated: 2026/02/05 23:10:44 by gcassi-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ typedef struct s_cmds
 	char	*raw; //para facilitar la vida
 	int		infile; //cat < a <c
 	int		outfile;
+	int		last;
 	char	*here_doc;
 }			t_cmd;
 
@@ -158,5 +159,6 @@ char	*get_next_command(t_cmd *cmd, char *pos, size_t ind, t_str str);
 int		extend(t_str *str);
 int		is_delimiter(int c, short squote, short dquote);
 t_str	new(void);
+int		add_var()
 
 #endif /* MINISHELL_H */
