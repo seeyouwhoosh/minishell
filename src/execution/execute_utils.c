@@ -6,7 +6,7 @@
 /*   By: xwu <xwu@student.42urduliz.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/05 01:53:55 by xwu               #+#    #+#             */
-/*   Updated: 2026/02/05 01:54:39 by xwu              ###   ########.fr       */
+/*   Updated: 2026/02/05 23:55:43 by xwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,27 +39,9 @@ char	*get_path(char *cmd, char **env)
 	return (NULL);
 }
 
-int	ft_open(const char *filename, int mode)
+int	ft_dup(int new_fd, int og_fd)
 {
-	int	fd;
-
-	fd = -1;
-	if (mode == INFILE)
-		fd = open(filename, O_RDONLY);
-	else if (mode == OUTFILE)
-		fd = open(filename, O_WRONLY | O_CREAT | O_TRUNC, 0777);
-	else if (mode == APPEND)
-		fd = open(filename, O_WRONLY | O_CREAT | O_APPEND, 0777);
-	return (fd);
-}
-
-int	open_and_dup(t_file *file, int og_fd)
-{
-	file->fd = ft_open(file->name, file->mode);
-	if (file->fd == -1)
-		return (error_msg(file->name, NULL, NULL, 1));
-	if (dup2(file->fd, og_fd) == -1)
+	if (dup2(new_fd, og_fd) == -1)
 		return (error_msg("dup2", NULL, NULL, 1));
-	close(file->fd);
 	return (0);
 }

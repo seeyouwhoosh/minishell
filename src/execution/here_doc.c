@@ -6,7 +6,7 @@
 /*   By: xwu <xwu@student.42urduliz.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/05 01:50:45 by xwu               #+#    #+#             */
-/*   Updated: 2026/02/05 01:50:58 by xwu              ###   ########.fr       */
+/*   Updated: 2026/02/05 23:58:32 by xwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,13 @@ char	*get_next_line(int fd)
 	return (line);
 }
 
+void	put_heredoc_prompt(size_t n_cmds)
+{
+	while (--n_cmds > 0)
+		ft_putstr_fd("pipe ", 1);
+	ft_putstr_fd("here_doc>", 1);
+}
+
 void	here_doc_put(char *limiter, size_t n_cmds)
 {
 	char	*input;
@@ -66,9 +73,7 @@ void	here_doc_put(char *limiter, size_t n_cmds)
 	new_limiter = ft_strjoin(limiter, "\n");
 	if (!new_limiter)
 		return ;
-	while (--n_cmds > 0)
-		ft_putstr_fd("pipe ", 1);
-	ft_putstr_fd("here_doc>", 1);
+	put_heredoc_prompt(n_cmds);
 	input = get_next_line(0);
 	while (input)
 	{
@@ -78,9 +83,9 @@ void	here_doc_put(char *limiter, size_t n_cmds)
 			free(input);
 			exit(0);
 		}
-		write(STDOUT_FILENO, input, ft_strlen(input));
+		write(1, input, ft_strlen(input));
 		free(input);
-		ft_putstr_fd("here_doc>", 1);
+		put_heredoc_prompt(n_cmds);
 		input = get_next_line(0);
 	}
 }
@@ -98,14 +103,16 @@ int	here_doc(char *limiter, size_t n_cmds)
 	if (!read)
 	{
 		close(fd[0]);
-		dup2(fd[1], STDOUT_FILENO);
+		if (ft_dup(fd[1], STDOUT_FILENO))
+			return (1);
 		here_doc_put(limiter, n_cmds);
 		return (0);
 	}
 	else if (read > 0)
 	{
 		close(fd[1]);
-		dup2(fd[0], STDIN_FILENO);
+		if (ft_dup(fd[0], STDIN_FILENO))
+			return (1);
 		waitpid(read, NULL, 0);
 	}
 	return (0);
