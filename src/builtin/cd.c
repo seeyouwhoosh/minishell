@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcassi-d <gcassi-d@42urduliz.com>          +#+  +:+       +#+        */
+/*   By: xwu <xwu@student.42urduliz.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/17 20:59:07 by gcassi-d          #+#    #+#             */
-/*   Updated: 2026/01/30 19:27:11 by gcassi-d         ###   ########.fr       */
+/*   Updated: 2026/02/04 02:27:54 by xwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,8 @@ int	cd(t_cmdtab *cmdtab, char **args)
 	if (open(args[1], O_DIRECTORY | O_EXEC))
 		return (err(args[1]));
 	chdir(args[1]);
-	free(cmdtab->previous_wd);
+	if (cmdtab->previous_wd)
+		free(cmdtab->previous_wd);
 	cmdtab->previous_wd = cmdtab->cwd;
 	set_env_var(cmdtab, "OLDPWD", cmdtab->previous_wd);
 	cmdtab->cwd = ft_strdup(args[1]);

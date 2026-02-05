@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcassi-d <gcassi-d@42urduliz.com>          +#+  +:+       +#+        */
+/*   By: xwu <xwu@student.42urduliz.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 16:46:16 by xwu               #+#    #+#             */
-/*   Updated: 2026/02/01 20:44:32 by gcassi-d         ###   ########.fr       */
+/*   Updated: 2026/02/04 02:25:49 by xwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ typedef struct s_file
 typedef struct s_cmdtab
 {
 	t_cmd	*cmds;
+	int		stdout_fd;
 	size_t	n_cmds;
 	char	*cwd;
 	char	*previous_wd;
@@ -62,10 +63,9 @@ typedef struct s_cmdtab
 	int		env_capacity;
 	int		env_len;
 	int		exit_code;
-	char	**history;
 }			t_cmdtab;
 
-enum
+enum e_modes
 {
 	NO_REDIR,
 	INFILE,
@@ -74,7 +74,7 @@ enum
 	APPEND
 };
 
-enum
+enum e_builtins
 {
 	CD,
 	ECHO,

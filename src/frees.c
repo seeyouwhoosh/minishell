@@ -6,7 +6,7 @@
 /*   By: xwu <xwu@student.42urduliz.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/18 13:00:32 by xwu               #+#    #+#             */
-/*   Updated: 2026/01/31 12:14:14 by xwu              ###   ########.fr       */
+/*   Updated: 2026/02/04 02:17:35 by xwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,12 +27,8 @@ void	free_cmd(t_cmd *cmd)
 {
 	if (cmd->split_cmd)
 		ft_freesplit(cmd->split_cmd);
-	if (cmd->infile)
-		free(cmd->infile);
-	if (cmd->outfile)
-		free(cmd->outfile);
-	if (cmd->errfile)
-		free(cmd->errfile);
+	if (cmd->here_doc)
+		free(cmd->here_doc);
 }
 
 void	free_pointer(char **p)
