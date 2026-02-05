@@ -6,7 +6,7 @@
 /*   By: xwu <xwu@student.42urduliz.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 16:46:16 by xwu               #+#    #+#             */
-/*   Updated: 2026/02/06 00:13:35 by xwu              ###   ########.fr       */
+/*   Updated: 2026/02/06 00:14:22 by xwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,6 @@ enum
 	MISMATCHED_SQUOTE,
 	MISMATCHED_DQUOTE,
 	PIPE,
-
 };
 
 /* INITS */
@@ -166,6 +165,6 @@ char	*get_next_command(t_cmd *cmd, char *pos, size_t ind, t_str str);
 int		extend(t_str *str);
 int		is_delimiter(int c, short squote, short dquote);
 t_str	new(void);
-int		add_var()
+int		add_var();
 
 #endif /* MINISHELL_H */
