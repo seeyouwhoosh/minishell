@@ -6,106 +6,86 @@
 /*   By: gcassi-d <gcassi-d@42urduliz.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/18 13:00:32 by xwu               #+#    #+#             */
-/*   Updated: 2026/02/01 20:47:22 by gcassi-d         ###   ########.fr       */
+/*   Updated: 2026/02/04 22:00:45 by gcassi-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	all_whitespace(char	*s)
+static void	quote_stuff(int pos, short *squote, short *dquote)
 {
-	if (!s)
-		return (1);
-	while (*s)
-	{
-		if (*s != 32 || (*s < 9 && *s > 13))
-			return (0);
-		s++;
-	}
-	return (1);
+	if (!*squote && pos == '\"')
+		*dquote = 1 - *dquote;
+	if (!*dquote && pos == '\'')
+		*squote = 1 - *squote;
 }
 
-size_t	nth_cmd(char *cmd, size_t n)
+char	*get_next_command(t_cmd *cmd, char *pos, size_t ind, t_str str)
 {
-	size_t	i;
-	size_t	pos;
-	short	dquote;
 	short	squote;
+	short	dquote;
 
-	i = -1;
-	dquote = 0;
 	squote = 0;
-	pos = 0;
-	while (i < n)
+	dquote = 0;
+	while ((*pos != '|' || (squote || dquote)) && *pos)
 	{
-		if (cmd[pos] == '\"' && !squote)
-			dquote = 1 - dquote;
-		else if (cmd[pos] == '\'' && !dquote)
-			squote = 1 - squote;
-		else if (!dquote && !squote && cmd[pos] == '|')
-			i++;
+		if (extend(&str))
+		{
+			cmd[ind].raw = NULL;
+			return (NULL);
+		}
+		quote_stuff(*pos, &squote, &dquote);
+		str.str[str.len] = *pos;
+		str.len++;
 		pos++;
 	}
+	cmd[ind].raw = str.str;
+	if (*pos == '|')
+		pos++;
 	return (pos);
 }
 
-/* Counts the number of commands in a line, taking into account
-double and single quotes, returns 0 if there are unmatched single or double quotes */
-size_t	n_cmds(char *line)
+static t_str	new(void)
+{
+	t_str	new;
+
+	new.capacity = 100;
+	new.len = 0;
+	new.str = ft_calloc(sizeof(char), 100);
+	return (new);
+}
+
+static void	free_raws(t_cmd *cmd)
 {
 	size_t	i;
-	short	squote;
-	short	dquote;
-	size_t	count;
 
-	squote = 0;
-	dquote = 0;
-	count = 0;
-	i = -1;
-	while (line[++i])
+	i = 0;
+	while (cmd[i].raw)
 	{
-		if (line[i] == '\"' && !squote)
-			dquote = 1 - dquote;
-		else if (line[i] == '\'' && !dquote)
-			squote = 1 - squote;
-		else if (!dquote && !squote && line[i] == '|')
-			count++;
+		free(cmd[i].raw);
+		cmd[i].raw = NULL;
 	}
-	if (squote || dquote)
-		return (0);
-	return (count + 1);
 }
 
-int	add_squote(t_cmd *cmd_ui, char *cmd, size_t *pos, size_t ind)
+int	get_commands(t_cmd *cmd, char *str)
 {
-	char	*token;
+	t_str	current;
 	size_t	i;
 
 	i = 0;
-	while (cmd[*pos + ++i] != '\'')
-		;
-	token = ft_calloc(sizeof(char), i);
-	if (!token)
-		return (MALLOC);
-	ft_memcpy(token, cmd + *pos + 1, i - 1);
-	cmd_ui->split_cmd[ind] = token;
-	*pos += i;
-	return (SUCCESS);
-}
-
-int	add_dquote(t_cmd *cmd_ui, char *cmd, size_t *pos, size_t ind)
-{
-	char	*token;
-	size_t	i;
-
-	i = 0;
-	while (cmd[*pos + ++i] != '\'')
-		;
-	token = ft_calloc(sizeof(char), i);
-	if (!token)
-		return (MALLOC);
-	ft_memcpy(token, cmd + *pos + 1, i - 1);
-	cmd_ui->split_cmd[ind] = token;
-	*pos += i;
+	while (is_whitespace(*str))
+		str++;
+	while (*str)
+	{
+		current = new();
+		if (!current.str)
+			return (free_raws(cmd), MALLOC);
+		str = get_next_command(cmd, str, i, current);
+		if (!str)
+			return (free_raws(cmd), MALLOC);
+		i++;
+		while (is_whitespace(*str))
+			str++;
+	}
 	return (SUCCESS);
 }

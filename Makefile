@@ -27,7 +27,9 @@ INCLUDES	= -I$(INCLUDE_DIR) -I$(LIBFT_DIR)
 
 # Sources
 SRC_DIR		= src
-SOURCES		= main.c signal.c var_expansion.c
+SOURCES		= main.c utils.c utils2.c signal.c init.c frees.c execute.c \
+				parsing/parse_main.c parsing/parse_utils.c parsing/parse_utils2.c parsing/parse_utils3.c parsing/parse.c parsing/var_expansion.c \
+				builtin/cd.c builtin/echo.c builtin/env_utils.c builtin/env_utils2.c builtin/env.c builtin/exit.c builtin/exit.c builtin/export.c builtin/pwd.c builtin/unset.c
 
 # Objects
 OBJ_DIR		= obj
@@ -42,9 +44,10 @@ BSOURCES	=
 BOBJ_DIR	= obj_bonus
 BOBJECTS	= $(addprefix $(BOBJ_DIR)/, $(BSOURCES:.c=.o))
 
-LINKER	+= -L/opt/homebrew/opt/readline/lib
-INCLUDES+= -I/opt/homebrew/opt/readline/include
-
+ifeq ($(uname), "Darwin")
+	LINKER	+= -L/opt/homebrew/opt/readline/lib
+	INCLUDES+= -I/opt/homebrew/opt/readline/include
+endif
 
 all: $(OBJECTS) $(NAME)
 
