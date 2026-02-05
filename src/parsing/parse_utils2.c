@@ -6,7 +6,7 @@
 /*   By: gcassi-d <gcassi-d@42urduliz.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/04 22:00:12 by gcassi-d          #+#    #+#             */
-/*   Updated: 2026/02/06 00:07:44 by gcassi-d         ###   ########.fr       */
+/*   Updated: 2026/02/06 00:09:01 by gcassi-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,7 @@ static int	add(t_why a, t_str *str, t_str *var_name)
 	{
 		if (extend(str))
 			return (MALLOC);
-		str->str[str->len];
+		str->str[str->len++];
 	}
 }
 
