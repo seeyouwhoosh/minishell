@@ -6,7 +6,7 @@
 /*   By: gcassi-d <gcassi-d@42urduliz.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 16:46:16 by xwu               #+#    #+#             */
-/*   Updated: 2026/02/05 23:10:44 by gcassi-d         ###   ########.fr       */
+/*   Updated: 2026/02/06 00:02:37 by gcassi-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,12 +67,18 @@ typedef struct s_cmdtab
 	int		exit_code;
 }			t_cmdtab;
 
-typedef struct str
+typedef struct s_str
 {
 	char	*str;
 	size_t	len;
 	size_t	capacity;
 }	t_str;
+
+typedef struct s_why
+{
+	t_cmd		*cmd;
+	t_cmdtab	*cmdtab;
+}	t_why;
 
 enum e_modes
 {
@@ -105,7 +111,8 @@ enum
 };
 
 /* INITS */
-int		init_cmd(t_cmd *cmd, t_cmdtab *cmdtab);
+int		init_cmdtab(t_cmdtab *cmdtab, char **ev);
+void	correct_outfile(t_cmdtab *cmdtab);
 
 /* FREES */
 void	free_split(char ***split);
@@ -159,6 +166,7 @@ char	*get_next_command(t_cmd *cmd, char *pos, size_t ind, t_str str);
 int		extend(t_str *str);
 int		is_delimiter(int c, short squote, short dquote);
 t_str	new(void);
-int		add_var()
+int		add_var(t_why a, t_str *str, size_t *i, short *squote);
+int		get_token(t_why a, size_t *i, short *squote, short *dquote);
 
 #endif /* MINISHELL_H */
