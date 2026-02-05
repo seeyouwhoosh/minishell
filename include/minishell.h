@@ -6,7 +6,7 @@
 /*   By: xwu <xwu@student.42urduliz.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 16:46:16 by xwu               #+#    #+#             */
-/*   Updated: 2026/02/06 00:07:02 by xwu              ###   ########.fr       */
+/*   Updated: 2026/02/06 00:13:35 by xwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,12 +67,18 @@ typedef struct s_cmdtab
 	int		exit_code;
 }			t_cmdtab;
 
-typedef struct str
+typedef struct s_str
 {
 	char	*str;
 	size_t	len;
 	size_t	capacity;
 }	t_str;
+
+typedef struct s_why
+{
+	t_cmd		*cmd;
+	t_cmdtab	*cmdtab;
+}	t_why;
 
 enum e_modes
 {
@@ -105,7 +111,8 @@ enum
 };
 
 /* INITS */
-int		init_cmd(t_cmd *cmd, t_cmdtab *cmdtab);
+int		init_cmdtab(t_cmdtab *cmdtab, char **ev);
+void	correct_outfile(t_cmdtab *cmdtab);
 
 /* FREES */
 void	free_split(char ***split);
@@ -159,12 +166,6 @@ char	*get_next_command(t_cmd *cmd, char *pos, size_t ind, t_str str);
 int		extend(t_str *str);
 int		is_delimiter(int c, short squote, short dquote);
 t_str	new(void);
-
-
-int	manage_infile(t_cmd *cmd, t_cmdtab *cmdtab);
-
-/* EXECUTING */
-int		execute_all(t_cmdtab *cmdtab);
-int		exec_cmd(t_cmd *cmd, t_cmdtab *cmdtab);
+int		add_var()
 
 #endif /* MINISHELL_H */

@@ -6,7 +6,7 @@
 /*   By: gcassi-d <gcassi-d@42urduliz.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/04 22:00:12 by gcassi-d          #+#    #+#             */
-/*   Updated: 2026/02/05 21:30:27 by gcassi-d         ###   ########.fr       */
+/*   Updated: 2026/02/06 00:07:44 by gcassi-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,4 +92,45 @@ int	extend(t_str *str)
 	free(str->str);
 	str->str = new;
 	return (SUCCESS);
+}
+
+static int	add(t_why a, t_str *str, t_str *var_name)
+{
+	char	*val;
+
+	val = get_env_val(a.cmdtab, a.cmdtab->env, var_name->str);
+	free(var_name->str);
+	while (*val)
+	{
+		if (extend(str))
+			return (MALLOC);
+		str->str[str->len];
+	}
+}
+
+int	add_var(t_why a, t_str *str, size_t *i, short *squote)
+{
+	t_str	var_name;
+
+	(*i)++;
+	if (!*squote || (!ft_isalpha(a.cmd->raw[*i]) && a.cmd->raw[*i] != '?'))
+	{
+		if (expand(str))
+			return (MALLOC);
+		str->str[str->len] = '$';
+		str->len++;
+		return (SUCCESS);
+	}
+	if (a.cmd->raw[*i] != '?')
+		add_exit_code(a, str, (*i)++);
+	var_name = new();
+	while (ft_isalnum(a.cmd->raw[*i]))
+	{
+
+		if (expand(&var_name))
+			return (free(str->str), MALLOC);
+		var_name.str[var_name.len] = a.cmd->raw[(*i)++];
+		str->len++;
+	}
+	return (add(a, str, &var_name));
 }

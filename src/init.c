@@ -3,26 +3,25 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: xwu <xwu@student.42urduliz.com>            +#+  +:+       +#+        */
+/*   By: gcassi-d <gcassi-d@42urduliz.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/18 13:00:32 by xwu               #+#    #+#             */
-/*   Updated: 2026/02/05 01:45:13 by xwu              ###   ########.fr       */
+/*   Updated: 2026/02/05 23:25:47 by gcassi-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	init_cmd(t_cmd *cmd, t_cmdtab *cmdtab)
+void	correct_outfile(t_cmdtab *cmdtab)
 {
-	(void)cmdtab;
-	cmd->split_cmd = NULL;
-	cmd->here_doc = NULL;
-	cmd->infile.name = NULL;
-	cmd->infile.fd = STDIN_FILENO;
-	cmd->infile.mode = OUTFILE;
-	cmd->outfile.name = NULL;
-	cmd->outfile.fd = STDOUT_FILENO;
-	return (0);
+	size_t	i;
+
+	i = 0;
+	while (i < cmdtab->n_cmds)
+	{
+		cmdtab->cmds[i].outfile = 1;
+		i++;
+	}
 }
 
 int	init_cmdtab(t_cmdtab *cmdtab, char **ev)

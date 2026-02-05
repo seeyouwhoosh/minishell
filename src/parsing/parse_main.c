@@ -6,7 +6,7 @@
 /*   By: gcassi-d <gcassi-d@42urduliz.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/01 18:05:48 by gcassi-d          #+#    #+#             */
-/*   Updated: 2026/02/05 23:10:55 by gcassi-d         ###   ########.fr       */
+/*   Updated: 2026/02/06 00:01:45 by gcassi-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,39 +27,44 @@ static bool	quote_stuff(char *str, size_t *i, short *squote, short *dquote)
 	return (false);
 }
 
-int	get_token(t_cmd *cmd, size_t *i, short *squote, short *dquote)
+int	get_token(t_why a, size_t *i, short *squote, short *dquote)
 {
 	t_str	str;
 	int		flag;
 
-	if (cmd->raw[*i] == '>' || cmd->raw[*i] == '<')
-		redirection(cmd, i, squote, dquote);
+	if (a.cmd->raw[*i] == '>' || a.cmd->raw[*i] == '<')
+		redirection(a.cmd, i, squote, dquote);
 	str = new();
-	while (!is_delimiter(cmd->raw[*i], *squote, *dquote))
+	while (!is_delimiter(a.cmd->raw[*i], *squote, *dquote))
 	{
-		if (quote_stuff(cmd->raw, i, squote, dquote))
+		if (quote_stuff(a.cmd->raw, i, squote, dquote))
 			continue ;
-		if (!squote && cmd->raw[*i])
+		if (!squote && a.cmd->raw[*i])
 		{
-			flag = add_var(&str, i);
+			flag = add_var(a, &str, i, squote);
 			if (flag)
 				return (flag);
+			continue ;
 		}
 		if (extend(&str))
 			return (MALLOC);
-		str.str[str.len] = cmd->raw[*i];
+		str.str[str.len] = a.cmd->raw[*i];
 		str.len++;
 		i++;
 	}
-	return (SUCCESS);
+	return (append(str, &(a.cmd->split_cmd)));
 }
 
-int	parse_command(t_cmd *cmd)
+int	parse_command(t_cmdtab *cmdtab, t_cmd *cmd)
 {
 	short	squote;
 	short	dquote;
 	size_t	i;
 	int		flag;
+	t_why	a;
+
+	a.cmd = cmd;
+	a.cmdtab = cmdtab;
 
 	squote = 0;
 	dquote = 0;
@@ -68,7 +73,7 @@ int	parse_command(t_cmd *cmd)
 		i++;
 	while (cmd->raw[i])
 	{
-		flag = get_token(cmd, &i, &squote, &dquote);
+		flag = get_token(a, &i, &squote, &dquote);
 		if (flag)
 			return (flag);
 		while (is_whitespace(cmd->raw[i]))
@@ -101,6 +106,7 @@ int	parse_main(t_cmdtab *cmdtab, char *cmd)
 	if (flag)
 		return (free(cmd), flag);
 	cmdtab->cmds = ft_calloc(cmdtab->n_cmds + 1, sizeof(t_cmd));
+	correct_outfile(cmdtab);
 	if (!cmdtab->cmds)
 		return (free(cmd), MALLOC);
 	flag = create_raws(cmdtab->cmds, cmd);
@@ -112,7 +118,7 @@ int	parse_main(t_cmdtab *cmdtab, char *cmd)
 	i = -1;
 	while (++i < cmdtab->n_cmds)
 	{
-		flag = parse_command(cmdtab->cmds + i);
+		flag = parse_command(cmdtab, cmdtab->cmds + i);
 		if (flag)
 			return (free(cmd), flag);
 	}
