@@ -6,7 +6,7 @@
 /*   By: gcassi-d <gcassi-d@42urduliz.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 16:46:16 by xwu               #+#    #+#             */
-/*   Updated: 2026/02/06 00:17:24 by gcassi-d         ###   ########.fr       */
+/*   Updated: 2026/02/06 19:10:40 by gcassi-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,8 +47,8 @@
 typedef struct s_cmds
 {
 	char	**split_cmd;
-	char	*raw; //para facilitar la vida
-	int		infile; //cat < a <c
+	char	*raw;
+	int		infile;
 	int		outfile;
 	int		last;
 	char	*here_doc;

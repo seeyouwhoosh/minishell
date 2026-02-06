@@ -6,7 +6,7 @@
 /*   By: gcassi-d <gcassi-d@42urduliz.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/01 18:05:48 by gcassi-d          #+#    #+#             */
-/*   Updated: 2026/02/06 00:42:06 by gcassi-d         ###   ########.fr       */
+/*   Updated: 2026/02/06 20:06:31 by gcassi-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,13 @@ static bool	quote_stuff(char *str, size_t *i, short *squote, short *dquote)
 	if (!*squote && str[*i] == '\"')
 	{
 		*dquote = 1 - *dquote;
+		(*i)++;
 		return (true);
 	}
-	else if (!*squote && *i == '\'')
+	else if (!*dquote && *i == '\'')
 	{
 		*squote = 1 - *squote;
+		(*i)++;
 		return (true);
 	}
 	return (false);
@@ -85,12 +87,14 @@ int	parse_command(t_cmdtab *cmdtab, t_cmd *cmd)
 static int	check_empty(t_cmdtab *cmdtab)
 {
 	size_t	i;
-	size_t	j;
 
+	if (cmdtab->n_cmds == 1)
+		return (SUCCESS);
 	i = -1;
 	while (++i < cmdtab->n_cmds)
 	{
-		if ((!cmdtab->cmds[i].split_cmd || !cmdtab->cmds[i].split_cmd[0]) && i)
+		if (!cmdtab->cmds[i].split_cmd && !cmdtab->cmds[i].infile
+			&& !cmdtab->cmds[i].here_doc && cmdtab->cmds[i].outfile != 1)
 			return (PIPE);
 	}
 	return (SUCCESS);
@@ -109,9 +113,6 @@ int	parse_main(t_cmdtab *cmdtab, char *cmd)
 	correct_outfile(cmdtab);
 	if (!cmdtab->cmds)
 		return (free(cmd), MALLOC);
-	flag = create_raws(cmdtab->cmds, cmd);
-	if (flag)
-		return (free(cmd), flag);
 	flag = get_commands(cmdtab->cmds, cmd);
 	if (flag)
 		return (free(cmd), flag);
