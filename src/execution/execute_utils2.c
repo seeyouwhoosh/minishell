@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   execute.c                                          :+:      :+:    :+:   */
+/*   execute_utils2.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: xwu <xwu@student.42urduliz.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/31 10:45:02 by xwu               #+#    #+#             */
-/*   Updated: 2026/02/05 23:58:57 by xwu              ###   ########.fr       */
+/*   Updated: 2026/02/06 00:32:24 by xwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	exec(char **split_cmd, t_cmdtab *cmdtab)
+int	exec_bin(char **split_cmd, t_cmdtab *cmdtab)
 {
 	char	*path;
 	int		exit;
@@ -26,10 +26,7 @@ int	exec(char **split_cmd, t_cmdtab *cmdtab)
 	}
 	exit = execve(path, split_cmd, cmdtab->env);
 	if (exit)
-	{
-		free(path);
-		return (error_msg(split_cmd[0], NULL, NULL, exit));
-	}
+		return (free(path), error_msg(split_cmd[0], NULL, NULL, exit));
 	return (0);
 }
 
@@ -71,8 +68,8 @@ int	child_process(t_cmd *cmd, t_cmdtab *cmdtab, int fd[2])
 			return (1);
 	}
 	exit = exec_builtin(cmd, cmdtab);
-	if (exit < 0)
-		exit = exec(cmd->split_cmd, cmdtab);
+	if (exit == -1)
+		exit = exec_bin(cmd->split_cmd, cmdtab);
 	return (exit);
 }
 
@@ -100,7 +97,9 @@ int	exec_cmd(t_cmd *cmd, t_cmdtab *cmdtab)
 	{
 		if (manage_infile(cmd, cmdtab))
 			return (1);
-		exit = child_process(cmd, cmdtab, fd);
+		if (child_process(cmd, cmdtab, fd))
+			return (1)
+		return (0);
 	}
 	else if (command > 0)
 	{

@@ -6,7 +6,7 @@
 /*   By: gcassi-d <gcassi-d@42urduliz.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/18 13:00:32 by xwu               #+#    #+#             */
-/*   Updated: 2026/02/06 19:38:26 by gcassi-d         ###   ########.fr       */
+/*   Updated: 2026/02/06 20:10:14 by gcassi-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,8 @@ int	main(int ac, char **av, char **ev)
 		rl_on_new_line();
 		if (all_whitespace(line))
 			continue ;
-		if (!process_line(line, cmdtab))
-			execute_line(cmdtab);
+/* 		if (!process_line(line, cmdtab))
+			execute_line(cmdtab); */
 		add_history(line);
 		free(line);
 	}
