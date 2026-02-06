@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcassi-d <gcassi-d@42urduliz.com>          +#+  +:+       +#+        */
+/*   By: xwu <xwu@student.42urduliz.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 16:46:16 by xwu               #+#    #+#             */
-/*   Updated: 2026/02/06 00:17:24 by gcassi-d         ###   ########.fr       */
+/*   Updated: 2026/02/06 00:39:36 by xwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -157,6 +157,8 @@ int		split_len(char **split);
 int		error_msg(char *process, char *details, char *strerror, int error_code);
 bool	is_whitespace(int c);
 int		all_whitespace(char	*s);
+int		ft_dup(int new_fd, int og_fd);
+char	*get_path(char *cmd, char **env);
 
 /* PARSING */
 int		cmds_am(char *line, size_t *holder);
@@ -168,5 +170,20 @@ t_str	new(void);
 int		add_var(t_why a, t_str *str, size_t *i, short *squote);
 int		get_token(t_why a, size_t *i, short *squote, short *dquote);
 int		parse_command(t_cmdtab *cmdtab, t_cmd *cmd);
+
+/* EXECUTING */
+int		execute_all(t_cmdtab *cmdtab);
+int		exec_cmd(t_cmd *cmd, t_cmdtab *cmdtab);
+int		manage_infile(t_cmd *cmd, t_cmdtab *cmdtab);
+int		child_process(t_cmd *cmd, t_cmdtab *cmdtab, int fd[2]);
+int		exec_last_cmd(t_cmd *cmd, t_cmdtab *cmdtab);
+int		exec_bin(char **split_cmd, t_cmdtab *cmdtab);
+
+/* HERE_DOC */
+int		here_doc(char *limiter, size_t n_cmds);
+void	here_doc_put(char *limiter, size_t n_cmds);
+void	put_heredoc_prompt(size_t n_cmds);
+char	*get_next_line(int fd);
+void	get_line(int fd, char **line, size_t size);
 
 #endif /* MINISHELL_H */

@@ -6,7 +6,7 @@
 /*   By: xwu <xwu@student.42urduliz.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/18 13:00:32 by xwu               #+#    #+#             */
-/*   Updated: 2026/02/06 00:13:26 by xwu              ###   ########.fr       */
+/*   Updated: 2026/02/06 00:42:21 by xwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	main(int ac, char **av, char **ev)
 
 	(void)av;
 	if (ac != 1)
-		return (ft_putendl_fd("\e[1;31mToo many arguments\e[0m\n"));
+		return (ft_putendl_fd("\e[1;31mToo many arguments\e[0m\n", 1), 1);
 	signal_manager();
 	cmdtab = ft_calloc(1, sizeof(cmdtab));
 	if (!cmdtab)
@@ -33,8 +33,8 @@ int	main(int ac, char **av, char **ev)
 		rl_on_new_line();
 		if (all_whitespace(line))
 			continue ;
-		if (!process_line(line, cmdtab))
-			execute_line(cmdtab);
+/* 		if (!process_line(line, cmdtab))
+			execute_line(cmdtab); */
 		add_history(line);
 		free(line);
 	}

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcassi-d <gcassi-d@42urduliz.com>          +#+  +:+       +#+        */
+/*   By: xwu <xwu@student.42urduliz.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/18 13:00:32 by xwu               #+#    #+#             */
-/*   Updated: 2026/02/05 23:25:47 by gcassi-d         ###   ########.fr       */
+/*   Updated: 2026/02/06 00:43:40 by xwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,6 @@ int	init_cmdtab(t_cmdtab *cmdtab, char **ev)
 {
 	char	path[PATH_MAX];
 
-	cmdtab = malloc(sizeof(cmdtab));
 	if (!cmdtab)
 		return (1);
 	if (copy_env(cmdtab, ev))
@@ -40,4 +39,5 @@ int	init_cmdtab(t_cmdtab *cmdtab, char **ev)
 	cmdtab->previous_wd = strdup("");
 	if (!cmdtab->previous_wd)
 		return (error_msg("malloc", NULL, NULL, 1));
+	return (0);
 }
