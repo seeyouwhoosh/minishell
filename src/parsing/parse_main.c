@@ -6,7 +6,7 @@
 /*   By: gcassi-d <gcassi-d@42urduliz.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/01 18:05:48 by gcassi-d          #+#    #+#             */
-/*   Updated: 2026/02/06 00:01:45 by gcassi-d         ###   ########.fr       */
+/*   Updated: 2026/02/06 00:42:06 by gcassi-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ int	get_token(t_why a, size_t *i, short *squote, short *dquote)
 	{
 		if (quote_stuff(a.cmd->raw, i, squote, dquote))
 			continue ;
-		if (!squote && a.cmd->raw[*i])
+		if (!squote && a.cmd->raw[*i] == '$')
 		{
 			flag = add_var(a, &str, i, squote);
 			if (flag)
@@ -50,7 +50,7 @@ int	get_token(t_why a, size_t *i, short *squote, short *dquote)
 			return (MALLOC);
 		str.str[str.len] = a.cmd->raw[*i];
 		str.len++;
-		i++;
+		(*i)++;
 	}
 	return (append(str, &(a.cmd->split_cmd)));
 }
