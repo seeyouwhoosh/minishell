@@ -6,7 +6,7 @@
 /*   By: xwu <xwu@student.42urduliz.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/17 20:59:07 by gcassi-d          #+#    #+#             */
-/*   Updated: 2026/02/04 02:27:54 by xwu              ###   ########.fr       */
+/*   Updated: 2026/02/06 19:34:51 by xwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	cd(t_cmdtab *cmdtab, char **args)
 {
 	if (split_len(args) != 2)
 		return (error_msg("cd", NULL, "too many arguments", 1));
-	if (open(args[1], O_DIRECTORY | O_EXEC))
+	if (open(args[1], O_DIRECTORY | O_EXCL))
 		return (err(args[1]));
 	chdir(args[1]);
 	if (cmdtab->previous_wd)

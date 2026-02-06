@@ -6,7 +6,7 @@
 /*   By: xwu <xwu@student.42urduliz.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/18 13:00:32 by xwu               #+#    #+#             */
-/*   Updated: 2026/02/06 00:42:21 by xwu              ###   ########.fr       */
+/*   Updated: 2026/02/06 20:31:35 by xwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	main(int ac, char **av, char **ev)
 	cmdtab = ft_calloc(1, sizeof(cmdtab));
 	if (!cmdtab)
 		return (1);
-	if (copy_env(cmdtab, ev))
+	if (init_cmdtab(cmdtab, ev))
 		return (free(cmdtab), 1);
 	line = (char *)1;
 	while (line)
@@ -35,6 +35,14 @@ int	main(int ac, char **av, char **ev)
 			continue ;
 /* 		if (!process_line(line, cmdtab))
 			execute_line(cmdtab); */
+
+/* -------------------- TESTING AREA --------------------- */
+	cmdtab->cmds = calloc(2, sizeof(t_cmd));
+
+
+
+/* ------------------------------------------------------- */
+
 		add_history(line);
 		free(line);
 	}

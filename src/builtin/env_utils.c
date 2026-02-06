@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcassi-d <gcassi-d@42urduliz.com>          +#+  +:+       +#+        */
+/*   By: xwu <xwu@student.42urduliz.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/27 19:34:17 by gcassi-d          #+#    #+#             */
-/*   Updated: 2026/01/28 21:28:45 by gcassi-d         ###   ########.fr       */
+/*   Updated: 2026/02/06 20:20:36 by xwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 int	copy_env(t_cmdtab *cmdtab, char **ev)
 {
 	int	i;
-	int	j;
 
 	cmdtab->env = ft_calloc(sizeof(char *),
 			max(1024, split_len(ev)));

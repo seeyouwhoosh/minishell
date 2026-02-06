@@ -6,7 +6,7 @@
 /*   By: xwu <xwu@student.42urduliz.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/31 10:45:02 by xwu               #+#    #+#             */
-/*   Updated: 2026/02/06 00:32:24 by xwu              ###   ########.fr       */
+/*   Updated: 2026/02/06 20:19:56 by xwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,18 +37,20 @@ int	exec_last_cmd(t_cmd *cmd, t_cmdtab *cmdtab)
 
 	command = fork();
 	if (command == -1)
-	return (error_msg("fork", NULL, NULL, ENOMEM));
+		return (error_msg("fork", NULL, NULL, ENOMEM));
 	if (!command)
 	{
 		if (manage_infile(cmd, cmdtab))
 			return (1);
+		if (!cmd->split_cmd)
+			return (ft_putendl_fd(0, 1), 0);
 		if (cmd->outfile && ft_dup(cmd->outfile, STDOUT_FILENO))
 			return (1);
 		else if (ft_dup(cmdtab->stdout_fd, STDOUT_FILENO))
 			return (1);
 		exit = exec_builtin(cmd, cmdtab);
 		if (exit == -1)
-			exit = exec(cmd->split_cmd, cmdtab);
+			exit = exec_bin(cmd->split_cmd, cmdtab);
 		return (exit);
 	}
 	waitpid(command, &exit, 0);
@@ -97,16 +99,15 @@ int	exec_cmd(t_cmd *cmd, t_cmdtab *cmdtab)
 	{
 		if (manage_infile(cmd, cmdtab))
 			return (1);
+		if (!cmd->split_cmd)
+			return (ft_putendl_fd(0, 1), 0);
 		if (child_process(cmd, cmdtab, fd))
-			return (1)
+			return (1);
 		return (0);
 	}
-	else if (command > 0)
-	{
-		close(fd[1]);
-		if (ft_dup(fd[0], STDIN_FILENO))
-			return (1);
-		waitpid(command, &exit, 0);
-	}
+	close(fd[1]);
+	if (ft_dup(fd[0], STDIN_FILENO))
+		return (1);
+	waitpid(command, &exit, 0);
 	return (exit);
 }

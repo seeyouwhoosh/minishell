@@ -27,10 +27,10 @@ INCLUDES	= -I$(INCLUDE_DIR) -I$(LIBFT_DIR)
 
 # Sources
 SRC_DIR		= src
-SOURCES		= main.c utils.c utils2.c signal.c init.c frees.c execute.c \
-	parsing/parse_main.c parsing/parse_utils.c parsing/parse_utils2.c parsing/parse_utils3.c parsing/parse.c parsing/var_expansion.c \
-	builtin/cd.c builtin/echo.c builtin/env_utils.c builtin/env_utils2.c builtin/env.c builtin/exit.c builtin/exit.c builtin/export.c builtin/pwd.c builtin/unset.c \
+SOURCES		= main.c utils.c utils2.c signal.c init.c frees.c \
+	builtin/cd.c builtin/echo.c builtin/env_utils.c builtin/env_utils2.c builtin/env.c builtin/exit.c builtin/export.c builtin/pwd.c builtin/unset.c \
 	execution/builtin.c execution/execute_main.c execution/execute_utils.c execution/execute_utils2.c execution/here_doc.c
+# parsing/parse_main.c parsing/parse_utils.c parsing/parse_utils2.c parsing/parse_utils3.c parsing/parse.c parsing/var_expansion.c 
 
 # Objects
 OBJ_DIR		= obj
@@ -54,7 +54,7 @@ all: $(OBJECTS) $(NAME)
 
 
 # Main program
-all: $(NAME)
+all: $(LIBFT) $(OBJECTS) $(NAME)
 
 $(LIBFT):
 	make bonus -C $(LIBFT_DIR)
@@ -66,6 +66,9 @@ $(NAME): $(LIBFT) $(OBJECTS)
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
 	@mkdir -p $(OBJ_DIR)
+	@mkdir -p $(OBJ_DIR)/builtin
+	@mkdir -p $(OBJ_DIR)/execution
+	@mkdir -p $(OBJ_DIR)/parsing
 	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@ 
 
 

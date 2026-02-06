@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcassi-d <gcassi-d@42urduliz.com>          +#+  +:+       +#+        */
+/*   By: xwu <xwu@student.42urduliz.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/09 17:10:31 by gcassi-d          #+#    #+#             */
-/*   Updated: 2026/01/17 21:23:00 by gcassi-d         ###   ########.fr       */
+/*   Updated: 2026/02/06 20:06:22 by xwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,10 +46,10 @@ int	echo(t_cmdtab *cmdtab, char **args)
 	}
 	while (args[i])
 	{
-		ft_putstr_fd(1, args[i]);
+		ft_putstr_fd(args[i], 1);
 		i++;
 		if (args[i])
-			ft_putchar_fd(1, ' ');
+			ft_putchar_fd(' ', 1);
 	}
 	if (!flag)
 		ft_putchar_fd(1, '\n');
