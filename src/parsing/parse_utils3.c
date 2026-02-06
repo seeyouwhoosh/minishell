@@ -6,7 +6,7 @@
 /*   By: gcassi-d <gcassi-d@42urduliz.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/04 22:11:29 by gcassi-d          #+#    #+#             */
-/*   Updated: 2026/02/06 00:40:37 by gcassi-d         ###   ########.fr       */
+/*   Updated: 2026/02/06 19:47:40 by gcassi-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ int	add_exit_code(t_why a, t_str *str, size_t i)
 	char	*c;
 	int		j;
 
+	(void)i;
 	c = ft_itoa(a.cmdtab->exit_code);
 	if (!c)
 		return (free(str->str), MALLOC);
@@ -43,4 +44,43 @@ int	add_exit_code(t_why a, t_str *str, size_t i)
 		j++;
 	}
 	return (free(c), SUCCESS);
+}
+
+static int	create_split(char ***split, char *s)
+{
+	*split = ft_calloc(2, sizeof(char *));
+	if (!(*split))
+		return (MALLOC);
+	(*split)[0] = s;
+	return (SUCCESS);
+}
+
+/* Appends s at the end of split */
+int	append(char *s, char ***split)
+{
+	char	**new_split;
+	size_t	i;
+
+	if (*split)
+		return (create_split(split, s));
+	i = 0;
+	while ((*split)[i])
+		i++;
+	new_split = ft_calloc(i + 2, sizeof(char *));
+	if (!new_split)
+		return (MALLOC);
+	i = -1;
+	while ((*split)[++i])
+		new_split[i] = (*split)[i];
+	new_split[i] = s;
+	free(*split);
+	*split = new_split;
+	return (SUCCESS);
+}
+
+int	is_delimiter(int c, short squote, short dquote)
+{
+	if (squote || dquote)
+		return (0);
+	return (is_whitespace(c) || c == '>' || c == '<' || !c);
 }

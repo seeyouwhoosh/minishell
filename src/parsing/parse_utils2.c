@@ -6,7 +6,7 @@
 /*   By: gcassi-d <gcassi-d@42urduliz.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/04 22:00:12 by gcassi-d          #+#    #+#             */
-/*   Updated: 2026/02/06 00:25:06 by gcassi-d         ###   ########.fr       */
+/*   Updated: 2026/02/06 19:24:37 by gcassi-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,7 +114,7 @@ int	add_var(t_why a, t_str *str, size_t *i, short *squote)
 	t_str	var_name;
 
 	(*i)++;
-	if (!*squote || (!ft_isalpha(a.cmd->raw[*i]) && a.cmd->raw[*i] != '?'))
+	if (*squote || (!ft_isalpha(a.cmd->raw[*i]) && a.cmd->raw[*i] != '?'))
 	{
 		if (expand(str))
 			return (MALLOC);
@@ -127,11 +127,10 @@ int	add_var(t_why a, t_str *str, size_t *i, short *squote)
 	var_name = new();
 	while (ft_isalnum(a.cmd->raw[*i]))
 	{
-
 		if (expand(&var_name))
 			return (free(str->str), MALLOC);
 		var_name.str[var_name.len] = a.cmd->raw[(*i)++];
-		str->len++;
+		var_name.len++;
 	}
 	return (add(a, str, &var_name));
 }

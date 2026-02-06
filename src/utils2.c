@@ -6,13 +6,14 @@
 /*   By: gcassi-d <gcassi-d@42urduliz.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/28 21:04:39 by gcassi-d          #+#    #+#             */
-/*   Updated: 2026/01/30 19:25:53 by gcassi-d         ###   ########.fr       */
+/*   Updated: 2026/02/06 19:17:11 by gcassi-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	error_msg(char *process, char *details, char *strerror, int error_code) //we hate linux devs
+//we hate linux devs
+int	error_msg(char *process, char *details, char *strerror, int error_code)
 {
 	if (!strerror)
 		perror(process);
