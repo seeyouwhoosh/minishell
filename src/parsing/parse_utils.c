@@ -6,7 +6,7 @@
 /*   By: gcassi-d <gcassi-d@42urduliz.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/18 13:00:32 by xwu               #+#    #+#             */
-/*   Updated: 2026/02/05 22:27:19 by gcassi-d         ###   ########.fr       */
+/*   Updated: 2026/02/07 18:13:45 by gcassi-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,10 +79,11 @@ int	get_commands(t_cmd *cmd, char *str)
 	{
 		current = new();
 		if (!current.str)
-			return (free_raws(cmd), MALLOC);
+			return (free_raws(cmd), error_msg("minishell", "parsing",
+					"memory allocation failed", 1));
 		str = get_next_command(cmd, str, i, current);
 		if (!str)
-			return (free_raws(cmd), MALLOC);
+			return (free_raws(cmd), 1);
 		i++;
 		while (is_whitespace(*str))
 			str++;

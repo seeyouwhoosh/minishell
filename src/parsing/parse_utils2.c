@@ -6,7 +6,7 @@
 /*   By: gcassi-d <gcassi-d@42urduliz.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/04 22:00:12 by gcassi-d          #+#    #+#             */
-/*   Updated: 2026/02/07 16:07:15 by gcassi-d         ###   ########.fr       */
+/*   Updated: 2026/02/07 18:25:29 by gcassi-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,11 +45,10 @@ int	cmds_am(char *line, size_t *holder)
 	size_t	i;
 	short	squote;
 	short	dquote;
-	size_t	count;
 
 	squote = 0;
 	dquote = 0;
-	count = 1;
+	*holder++;
 	i = -1;
 	while (line[++i])
 	{
@@ -58,13 +57,14 @@ int	cmds_am(char *line, size_t *holder)
 		else if (line[i] == '\'' && !dquote)
 			squote = 1 - squote;
 		else if (!dquote && !squote && line[i] == '|')
-			count++;
+			*holder++;
 	}
 	if (squote)
-		return (MISMATCHED_SQUOTE);
+		return (error_msg("minishell", "parsing",
+				"error near unexpected token: `\''", 3));
 	if (dquote)
-		return (MISMATCHED_DQUOTE);
-	*holder = count;
+		return (error_msg("minishell", "parsing",
+				"error near unexpected token: `\"'", 4));
 	return (SUCCESS);
 }
 
@@ -82,12 +82,14 @@ int	extend(t_str *str)
 	else
 	{
 		if (str->capacity == ULONG_MAX - 1)
-			return (free(str->str), MALLOC);
+			return (free(str->str), error_msg("minishell", "parsing",
+					"memory allocation failed", 1));
 		new = ft_calloc(sizeof(char), str->capacity + 2);
 		str->capacity += 1;
 	}
 	if (!new)
-		return (free(str->str), MALLOC);
+		return (free(str->str), error_msg("minishell", "parsing",
+				"memory allocation failed", 1));
 	ft_memcpy(new, str->str, str->len);
 	free(str->str);
 	str->str = new;
@@ -103,7 +105,7 @@ static int	add(t_why a, t_str *str, t_str *var_name)
 	while (*val)
 	{
 		if (extend(str))
-			return (MALLOC);
+			return (1);
 		str->str[str->len++];
 	}
 	return (SUCCESS);
@@ -117,7 +119,7 @@ int	add_var(t_why a, t_str *str, size_t *i, short *squote)
 	if (*squote || (!ft_isalpha(a.cmd->raw[*i]) && a.cmd->raw[*i] != '?'))
 	{
 		if (extend(str))
-			return (MALLOC);
+			return (1);
 		str->str[str->len] = '$';
 		str->len++;
 		return (SUCCESS);
@@ -128,7 +130,7 @@ int	add_var(t_why a, t_str *str, size_t *i, short *squote)
 	while (ft_isalnum(a.cmd->raw[*i]))
 	{
 		if (extend(&var_name))
-			return (free(str->str), MALLOC);
+			return (free(str->str), 1);
 		var_name.str[var_name.len] = a.cmd->raw[(*i)++];
 		var_name.len++;
 	}

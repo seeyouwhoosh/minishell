@@ -6,7 +6,7 @@
 /*   By: gcassi-d <gcassi-d@42urduliz.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/07 15:25:21 by gcassi-d          #+#    #+#             */
-/*   Updated: 2026/02/07 16:15:58 by gcassi-d         ###   ########.fr       */
+/*   Updated: 2026/02/07 18:24:42 by gcassi-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,13 +20,14 @@ static int	parse_hd(t_why a, size_t *i, short *squote, short *dquote)
 	while (is_whitespace(a.cmd->raw[*i]))
 		(*i)++;
 	if (!a.cmd->raw[*i] || a.cmd->raw[*i] == '<' || a.cmd->raw[*i] == '>')
-		return (R_HERE_DOC);
+		return (error_msg("minishell", "parsing",
+				"error near unexpected token: `<<'", 5));
 	while (!is_delimiter(a.cmd->raw[*i], *squote, *dquote))
 	{
 		if (quote_stuff(a.cmd->raw, i, squote, dquote))
 			continue ;
 		if (extend(&str))
-			return (MALLOC);
+			return (1);
 		str.str[str.len] = a.cmd->raw[*i];
 		str.len++;
 		(*i)++;
@@ -42,7 +43,8 @@ static int	parse_ap(t_why a, size_t *i, short *squote, short *dquote)
 	while (is_whitespace(a.cmd->raw[*i]))
 		(*i)++;
 	if (!a.cmd->raw[*i] || a.cmd->raw[*i] == '<' || a.cmd->raw[*i] == '>')
-		return (R_APPEND);
+		return (error_msg("minishell", "parsing",
+				"error near unexpected token: `>>'", 6));
 	while (!is_delimiter(a.cmd->raw[*i], *squote, *dquote))
 	{
 		if (quote_stuff(a.cmd->raw, i, squote, dquote))
@@ -50,11 +52,11 @@ static int	parse_ap(t_why a, size_t *i, short *squote, short *dquote)
 		if (!squote && a.cmd->raw[*i] == '$')
 		{
 			if (add_var(a, &str, i, squote))
-				return (MALLOC);
+				return (1);
 			continue ;
 		}
 		if (extend(&str))
-			return (MALLOC);
+			return (1);
 		str.str[str.len] = a.cmd->raw[*i];
 		str.len++;
 		(*i)++;
@@ -70,7 +72,8 @@ static int	parse_of(t_why a, size_t *i, short *squote, short *dquote)
 	while (is_whitespace(a.cmd->raw[*i]))
 		(*i)++;
 	if (!a.cmd->raw[*i] || a.cmd->raw[*i] == '<' || a.cmd->raw[*i] == '>')
-		return (R_OUTFILE);
+		return (error_msg("minishell", "parsing",
+				"error near unexpected token: `>'", 7));
 	while (!is_delimiter(a.cmd->raw[*i], *squote, *dquote))
 	{
 		if (quote_stuff(a.cmd->raw, i, squote, dquote))
@@ -78,11 +81,11 @@ static int	parse_of(t_why a, size_t *i, short *squote, short *dquote)
 		if (!squote && a.cmd->raw[*i] == '$')
 		{
 			if (add_var(a, &str, i, squote))
-				return (MALLOC);
+				return (1);
 			continue ;
 		}
 		if (extend(&str))
-			return (MALLOC);
+			return (1);
 		str.str[str.len] = a.cmd->raw[*i];
 		str.len++;
 		(*i)++;
@@ -98,7 +101,8 @@ static int	parse_if(t_why a, size_t *i, short *squote, short *dquote)
 	while (is_whitespace(a.cmd->raw[*i]))
 		(*i)++;
 	if (!a.cmd->raw[*i] || a.cmd->raw[*i] == '<' || a.cmd->raw[*i] == '>')
-		return (R_INFILE);
+		return (error_msg("minishell", "parsing",
+				"error near unexpected token: `<'", 8));
 	while (!is_delimiter(a.cmd->raw[*i], *squote, *dquote))
 	{
 		if (quote_stuff(a.cmd->raw, i, squote, dquote))
@@ -106,11 +110,11 @@ static int	parse_if(t_why a, size_t *i, short *squote, short *dquote)
 		if (!squote && a.cmd->raw[*i] == '$')
 		{
 			if (add_var(a, &str, i, squote))
-				return (MALLOC);
+				return (1);
 			continue ;
 		}
 		if (extend(&str))
-			return (MALLOC);
+			return (1);
 		str.str[str.len] = a.cmd->raw[*i];
 		str.len++;
 		(*i)++;
@@ -124,13 +128,15 @@ int	redirection(t_why a, size_t *i, short *squote, short *dquote)
 	if (a.cmd->raw[*i - 1] == '<')
 	{
 		if (!a.cmd->raw[*i])
-			return (R_INFILE);
+			return (error_msg("minishell", "parsing",
+					"error near unexpected token: `<'", 8));
 		if (a.cmd->raw[*i] == '<')
 			return (parse_hd(a, i, squote, dquote));
 		return (parse_if(a, i, squote, dquote));
 	}
 	if (!a.cmd->raw[*i])
-		return (R_OUTFILE);
+		return (error_msg("minishell", "parsing",
+				"error near unexpected token: `>'", 7));
 	if (a.cmd->raw[*i] == '>')
 		return (parse_ap(a, i, squote, dquote));
 	return (parse_of(a, i, squote, dquote));

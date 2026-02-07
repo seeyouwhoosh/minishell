@@ -6,7 +6,7 @@
 /*   By: gcassi-d <gcassi-d@42urduliz.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/04 22:11:29 by gcassi-d          #+#    #+#             */
-/*   Updated: 2026/02/06 19:47:40 by gcassi-d         ###   ########.fr       */
+/*   Updated: 2026/02/07 18:19:51 by gcassi-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,12 +34,13 @@ int	add_exit_code(t_why a, t_str *str, size_t i)
 	(void)i;
 	c = ft_itoa(a.cmdtab->exit_code);
 	if (!c)
-		return (free(str->str), MALLOC);
+		return (free(str->str), error_msg("minishell", "parsing",
+				"memory allocation failed", 1));
 	j = 0;
 	while (c[j])
 	{
 		if (expand(str))
-			return (free(c), MALLOC);
+			return (free(c), 1);
 		str->str[str->len++] = c[j];
 		j++;
 	}
@@ -68,7 +69,8 @@ int	append(char *s, char ***split)
 		i++;
 	new_split = ft_calloc(i + 2, sizeof(char *));
 	if (!new_split)
-		return (MALLOC);
+		return (error_msg("minishell", "parsing",
+				"memory allocation failed", 1));
 	i = -1;
 	while ((*split)[++i])
 		new_split[i] = (*split)[i];
