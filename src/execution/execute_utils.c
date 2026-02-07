@@ -6,7 +6,7 @@
 /*   By: xwu <xwu@student.42urduliz.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/31 10:45:02 by xwu               #+#    #+#             */
-/*   Updated: 2026/02/07 19:36:18 by xwu              ###   ########.fr       */
+/*   Updated: 2026/02/08 00:20:13 by xwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,10 @@ int	exec_bin(char **split_cmd, t_cmdtab *cmdtab)
 	path = get_path(split_cmd[0], cmdtab->env);
 	if (!path)
 	{
+		ext = error_msg("mnsh", split_cmd[0], "command not found", 127);
 		ft_freesplit(split_cmd);
 		free(path);
-		return (error_msg("minishell", split_cmd[0], "Command not found", 127));
+		return (ext);
 	}
 	ext = execve(path, split_cmd, cmdtab->env);
 	if (ext)

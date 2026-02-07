@@ -3,21 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcassi-d <gcassi-d@42urduliz.com>          +#+  +:+       +#+        */
+/*   By: xwu <xwu@student.42urduliz.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/17 20:59:21 by gcassi-d          #+#    #+#             */
-/*   Updated: 2026/02/07 17:05:34 by gcassi-d         ###   ########.fr       */
+/*   Updated: 2026/02/08 00:40:13 by xwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-static int	err(void)
-{
-	ft_putstr_fd("env: ", STDERR_FILENO);
-	ft_putendl_fd("too many arguments", STDERR_FILENO);
-	return (1);
-}
 
 int	env(t_cmdtab *cmdtab, char **args)
 {
@@ -25,7 +18,7 @@ int	env(t_cmdtab *cmdtab, char **args)
 
 	i = 0;
 	if (args && args[1])
-		return (err());
+		return (error_msg("env", NULL, "too many arguments", 1));
 	if (!cmdtab->env)
 		return (error_msg("malloc", NULL, NULL, 1));
 	while (i < cmdtab->env_len)
