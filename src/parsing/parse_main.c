@@ -6,7 +6,7 @@
 /*   By: gcassi-d <gcassi-d@42urduliz.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/01 18:05:48 by gcassi-d          #+#    #+#             */
-/*   Updated: 2026/02/07 16:13:11 by gcassi-d         ###   ########.fr       */
+/*   Updated: 2026/02/07 18:11:42 by gcassi-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,12 +44,12 @@ int	get_token(t_why a, size_t *i, short *squote, short *dquote)
 		if (!squote && a.cmd->raw[*i] == '$')
 		{
 			flag = add_var(a, &str, i, squote);
-			if (flag)
+			if (add_var(a, &str, i, squote))
 				return (flag);
 			continue ;
 		}
 		if (extend(&str))
-			return (MALLOC);
+			return (1);
 		str.str[str.len] = a.cmd->raw[*i];
 		str.len++;
 		(*i)++;
@@ -95,7 +95,8 @@ static int	check_empty(t_cmdtab *cmdtab)
 	{
 		if (!cmdtab->cmds[i].split_cmd && !cmdtab->cmds[i].infile
 			&& !cmdtab->cmds[i].here_doc && cmdtab->cmds[i].outfile != 1)
-			return (PIPE);
+			return (error_msg("minishell", "parsing",
+					"error near unexpected token: `|'", 2));
 	}
 	return (SUCCESS);
 }
@@ -112,7 +113,8 @@ int	parse_main(t_cmdtab *cmdtab, char *cmd)
 	cmdtab->cmds = ft_calloc(cmdtab->n_cmds + 1, sizeof(t_cmd));
 	correct_outfile(cmdtab);
 	if (!cmdtab->cmds)
-		return (free(cmd), MALLOC);
+		return (free(cmd), error_msg("minishell", "parsing",
+				"memory allocation failed", 1));
 	flag = get_commands(cmdtab->cmds, cmd);
 	if (flag)
 		return (free(cmd), flag);

@@ -6,7 +6,7 @@
 /*   By: gcassi-d <gcassi-d@42urduliz.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/18 13:00:32 by xwu               #+#    #+#             */
-/*   Updated: 2026/02/07 17:13:06 by gcassi-d         ###   ########.fr       */
+/*   Updated: 2026/02/07 17:56:39 by gcassi-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,21 @@ int	main(int ac, char **av, char **ev)
 	cmdtab->cmds[0].outfile = 1;
 	cmdtab->cmds[0].split_cmd = ft_split_charset(line, TOKEN_DELIMITER);
 	execute_all(cmdtab);
+
+	int b = 0;
+	int azul = fork();
+	int	*a;
+
+	a = &b;
+	*a = 0;
+	if (!azul)
+	{
+		(*a)++;
+		printf("%d h\n", *a);
+		exit(EXIT_SUCCESS);
+	}
+	waitpid(azul, NULL, 0);
+	printf("%d b\n", *a);
 /* ------------------------------------------------------- */
 
 		add_history(line);
