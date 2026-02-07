@@ -6,7 +6,7 @@
 /*   By: gcassi-d <gcassi-d@42urduliz.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 16:46:16 by xwu               #+#    #+#             */
-/*   Updated: 2026/02/07 16:24:17 by gcassi-d         ###   ########.fr       */
+/*   Updated: 2026/02/07 16:46:45 by gcassi-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,7 +111,7 @@ enum
 	R_APPEND,
 	R_OUTFILE,
 	R_INFILE,
-	FILE,
+	FILE_NOT_FOUND,
 };
 
 /* INITS */

@@ -6,7 +6,7 @@
 /*   By: gcassi-d <gcassi-d@42urduliz.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/18 13:00:32 by xwu               #+#    #+#             */
-/*   Updated: 2026/02/07 16:22:02 by gcassi-d         ###   ########.fr       */
+/*   Updated: 2026/02/07 17:13:06 by gcassi-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,6 @@ int	main(int ac, char **av, char **ev)
 	cmdtab->cmds[0].outfile = 1;
 	cmdtab->cmds[0].split_cmd = ft_split_charset(line, TOKEN_DELIMITER);
 	execute_all(cmdtab);
-	free_split(&(cmdtab->cmds[0].split_cmd));
 /* ------------------------------------------------------- */
 
 		add_history(line);

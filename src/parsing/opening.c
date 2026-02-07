@@ -6,7 +6,7 @@
 /*   By: gcassi-d <gcassi-d@42urduliz.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/07 16:17:48 by gcassi-d          #+#    #+#             */
-/*   Updated: 2026/02/07 16:26:50 by gcassi-d         ###   ########.fr       */
+/*   Updated: 2026/02/07 16:46:53 by gcassi-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int	opening(t_why a, int mode, t_str str)
 	fd = ft_open(str.str, mode);
 	free(str.str);
 	if (fd < 0)
-		return (FILE);
+		return (FILE_NOT_FOUND);
 	if (mode == APPEND || mode == INFILE)
 		a.cmd->outfile = fd;
 	else

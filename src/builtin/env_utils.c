@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: xwu <xwu@student.42urduliz.com>            +#+  +:+       +#+        */
+/*   By: gcassi-d <gcassi-d@42urduliz.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/27 19:34:17 by gcassi-d          #+#    #+#             */
-/*   Updated: 2026/02/06 20:20:36 by xwu              ###   ########.fr       */
+/*   Updated: 2026/02/07 17:29:58 by gcassi-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,9 +60,12 @@ static int	realloc_env_vars(t_cmdtab *cmdtab)
 	if (cmdtab->env_capacity == INT_MAX)
 		return (free_split(&(cmdtab->env)), EXIT_FAILURE);
 	if (cmdtab->env_capacity < INT_MAX / 2)
+	{
 		new_env = ft_calloc(2 * cmdtab->env_capacity, sizeof(char *));
+		cmdtab->env_capacity *= 2;
+	}
 	else
-		new_env = ft_calloc(1 + cmdtab->env_capacity, sizeof(char *));
+		new_env = ft_calloc(1 + cmdtab->env_capacity++, sizeof(char *));
 	if (!new_env)
 		return (free_split(&(cmdtab->env)), EXIT_FAILURE);
 	i = 0;
@@ -71,7 +74,7 @@ static int	realloc_env_vars(t_cmdtab *cmdtab)
 		new_env[i] = cmdtab->env[i];
 		i++;
 	}
-	free_split(&(cmdtab->env));
+	free(cmdtab->env);
 	cmdtab->env = new_env;
 	return (EXIT_SUCCESS);
 }
@@ -90,9 +93,7 @@ int	set_env_var(t_cmdtab *cmdtab, char *var, char *val)
 		return (EXIT_FAILURE);
 	i = get_env_ind(cmdtab, cmdtab->env, var);
 	if (i == -1)
-		i = cmdtab->env_len;
-	if (i == -1)
-		cmdtab->env_len++;
+		i = cmdtab->env_len++;
 	else
 		free_pointer(&(cmdtab->env[i]));
 	pos = ft_strlen(var);
