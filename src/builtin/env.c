@@ -6,7 +6,7 @@
 /*   By: gcassi-d <gcassi-d@42urduliz.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/17 20:59:21 by gcassi-d          #+#    #+#             */
-/*   Updated: 2026/01/30 19:36:37 by gcassi-d         ###   ########.fr       */
+/*   Updated: 2026/02/07 17:05:34 by gcassi-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int	env(t_cmdtab *cmdtab, char **args)
 		return (err());
 	if (!cmdtab->env)
 		return (error_msg("malloc", NULL, NULL, 1));
-	while (cmdtab->env[i])
+	while (i < cmdtab->env_len)
 		ft_putendl_fd(cmdtab->env[i++], STDOUT_FILENO);
 	return (EXIT_SUCCESS);
 }

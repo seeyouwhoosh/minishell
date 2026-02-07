@@ -6,7 +6,7 @@
 /*   By: gcassi-d <gcassi-d@42urduliz.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/28 22:04:18 by gcassi-d          #+#    #+#             */
-/*   Updated: 2026/02/01 18:52:44 by gcassi-d         ###   ########.fr       */
+/*   Updated: 2026/02/07 17:30:58 by gcassi-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ char	*get_env_val(t_cmdtab *cmdtab, char **env, char *var)
 	while (++i < cmdtab->env_len)
 	{
 		if (!ft_strncmp(var, env[i], n) && env[i][n] == '=')
-			return (env[i] + n + 1); //devuelve un puntero no copiado, no debería de haber problemas porque no es algo que se vaya a modificar en parsing, sólo en export
+			return (env[i] + n + 1);
 	}
 	return (NULL);
 }

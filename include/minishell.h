@@ -6,7 +6,7 @@
 /*   By: xwu <xwu@student.42urduliz.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 16:46:16 by xwu               #+#    #+#             */
-/*   Updated: 2026/02/07 18:23:50 by xwu              ###   ########.fr       */
+/*   Updated: 2026/02/07 18:27:48 by xwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,6 +107,11 @@ enum
 	MISMATCHED_SQUOTE,
 	MISMATCHED_DQUOTE,
 	PIPE,
+	R_HERE_DOC,
+	R_APPEND,
+	R_OUTFILE,
+	R_INFILE,
+	FILE_NOT_FOUND,
 };
 
 /* INITS */
@@ -170,6 +175,10 @@ t_str	new(void);
 int		add_var(t_why a, t_str *str, size_t *i, short *squote);
 int		get_token(t_why a, size_t *i, short *squote, short *dquote);
 int		parse_command(t_cmdtab *cmdtab, t_cmd *cmd);
+int		redirection(t_why a, size_t *i, short *squote, short *dquote);
+bool	quote_stuff(char *str, size_t *i, short *squote, short *dquote);
+int		opening(t_why a, int mode, t_str str);
+int		ft_open(const char *filename, int mode);
 
 /* EXECUTING */
 int		execute_all(t_cmdtab *cmdtab);

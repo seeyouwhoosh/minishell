@@ -6,7 +6,7 @@
 /*   By: gcassi-d <gcassi-d@42urduliz.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/17 20:59:43 by gcassi-d          #+#    #+#             */
-/*   Updated: 2026/01/30 19:52:36 by gcassi-d         ###   ########.fr       */
+/*   Updated: 2026/02/07 15:57:33 by gcassi-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int	export(t_cmdtab *cmdtab, char **args)
 
 	i = 0;
 	flag = 0;
-	while (++i)
+	while (args[++i])
 	{
 		if (!args[i][0] || !is_valid_env_var(args[i]))
 		{
