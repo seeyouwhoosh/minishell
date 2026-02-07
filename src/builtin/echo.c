@@ -6,7 +6,7 @@
 /*   By: xwu <xwu@student.42urduliz.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/09 17:10:31 by gcassi-d          #+#    #+#             */
-/*   Updated: 2026/02/07 13:18:44 by xwu              ###   ########.fr       */
+/*   Updated: 2026/02/07 15:02:02 by xwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ bool	isnflag(char *arg)
 	int		i;
 	bool	flag;
 
-	i = 1;
+	i = 0;
 	flag = false;
 	if (arg[i] != '-')
 		return (false);

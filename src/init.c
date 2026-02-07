@@ -6,7 +6,7 @@
 /*   By: xwu <xwu@student.42urduliz.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/18 13:00:32 by xwu               #+#    #+#             */
-/*   Updated: 2026/02/06 00:43:40 by xwu              ###   ########.fr       */
+/*   Updated: 2026/02/07 15:10:04 by xwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,14 +26,12 @@ void	correct_outfile(t_cmdtab *cmdtab)
 
 int	init_cmdtab(t_cmdtab *cmdtab, char **ev)
 {
-	char	path[PATH_MAX];
-
 	if (!cmdtab)
 		return (1);
 	if (copy_env(cmdtab, ev))
 		return (free_cmdtab(cmdtab), 1);
 	cmdtab->stdout_fd = dup(STDOUT_FILENO);
-	cmdtab->cwd = getcwd(path, PATH_MAX);
+	cmdtab->cwd = getcwd(NULL, 0);
 	if (!cmdtab->cwd)
 		return (error_msg("malloc", NULL, NULL, 1));
 	cmdtab->previous_wd = strdup("");
