@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: xwu <xwu@student.42urduliz.com>            +#+  +:+       +#+        */
+/*   By: gcassi-d <gcassi-d@42urduliz.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/17 20:59:37 by gcassi-d          #+#    #+#             */
-/*   Updated: 2026/01/31 12:17:41 by xwu              ###   ########.fr       */
+/*   Updated: 2026/02/07 16:00:45 by gcassi-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ int	ft_exit(t_cmdtab *cmdtab, char **args)
 
 	if (split_len(args) > 2)
 		return (err());
-	else if (!split_len(args))
+	else if (split_len(args) == 1)
 		exit_code = cmdtab->exit_code;
 	else
 		exit_code = get_exit_code(args[1]);

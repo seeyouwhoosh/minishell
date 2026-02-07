@@ -1,14 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parse.c                                            :+:      :+:    :+:   */
+/*   opening.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gcassi-d <gcassi-d@42urduliz.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/01/18 13:00:32 by xwu               #+#    #+#             */
-/*   Updated: 2026/02/06 19:35:32 by gcassi-d         ###   ########.fr       */
+/*   Created: 2026/02/07 16:17:48 by gcassi-d          #+#    #+#             */
+/*   Updated: 2026/02/07 16:26:50 by gcassi-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+int	opening(t_why a, int mode, t_str str)
+{
+	int	fd;
+
+	if (mode == HERE_DOC)
+	{
+		free_pointer(&(a.cmd->here_doc));
+		a.cmd->here_doc = str.str;
+		return (SUCCESS);
+	}
+	fd = ft_open(str.str, mode);
+	free(str.str);
+	if (fd < 0)
+		return (FILE);
+	if (mode == APPEND || mode == INFILE)
+		a.cmd->outfile = fd;
+	else
+		a.cmd->infile = fd;
+	return (SUCCESS);
+}

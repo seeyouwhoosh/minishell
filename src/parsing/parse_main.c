@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   parse_main.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: xwu <xwu@student.42urduliz.com>            +#+  +:+       +#+        */
+/*   By: gcassi-d <gcassi-d@42urduliz.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/01 18:05:48 by gcassi-d          #+#    #+#             */
-/*   Updated: 2026/02/06 20:32:38 by xwu              ###   ########.fr       */
+/*   Updated: 2026/02/07 16:13:11 by gcassi-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static bool	quote_stuff(char *str, size_t *i, short *squote, short *dquote)
+bool	quote_stuff(char *str, size_t *i, short *squote, short *dquote)
 {
 	if (!*squote && str[*i] == '\"')
 	{
@@ -35,7 +35,7 @@ int	get_token(t_why a, size_t *i, short *squote, short *dquote)
 	int		flag;
 
 	if (a.cmd->raw[*i] == '>' || a.cmd->raw[*i] == '<')
-		redirection(a.cmd, i, squote, dquote);
+		return (redirection(a, i, squote, dquote));
 	str = new();
 	while (!is_delimiter(a.cmd->raw[*i], *squote, *dquote))
 	{
