@@ -6,7 +6,7 @@
 /*   By: xwu <xwu@student.42urduliz.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/31 10:45:02 by xwu               #+#    #+#             */
-/*   Updated: 2026/02/07 14:09:12 by xwu              ###   ########.fr       */
+/*   Updated: 2026/02/07 18:25:39 by xwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,21 +30,14 @@ int	exec_bin(char **split_cmd, t_cmdtab *cmdtab)
 	return (0);
 }
 
-int	just_redirection(t_cmd *cmd)
-{
-	if (!cmd->split_cmd)
-	{
-		ft_putendl_fd(0, 1);
-		return (1);
-	}
-	return (0);
-}
-
 int	exec_last_cmd(t_cmd *cmd, t_cmdtab *cmdtab)
 {
 	int		ext;
 	pid_t	command;
 
+	ext = exec_builtin(cmd, cmdtab);
+	if (ext != -1)
+		return (ext);
 	command = fork();
 	if (command == -1)
 		return (error_msg("fork", NULL, NULL, ENOMEM));
@@ -57,16 +50,14 @@ int	exec_last_cmd(t_cmd *cmd, t_cmdtab *cmdtab)
 			exit(EXIT_SUCCESS);
 		if (manage_outfile(cmd, cmdtab))
 			exit(EXIT_FAILURE);
-		ext = exec_builtin(cmd, cmdtab);
-		if (ext == -1)
-			ext = exec_bin(cmd->split_cmd, cmdtab);
+		ext = exec_bin(cmd->split_cmd, cmdtab);
 		exit(ext);
 	}
 	waitpid(command, &ext, 0);
 	return (ext);
 }
 
-int	child_process(t_cmd *cmd, t_cmdtab *cmdtab, int fd[2])
+int	exec_pipe_cmd(t_cmd *cmd, t_cmdtab *cmdtab, int fd[2])
 {
 	int	ext;
 
@@ -78,10 +69,21 @@ int	child_process(t_cmd *cmd, t_cmdtab *cmdtab, int fd[2])
 		if (ft_dup(fd[1], STDOUT_FILENO))
 			return (1);
 	}
-	ext = exec_builtin(cmd, cmdtab);
-	if (ext == -1)
-		ext = exec_bin(cmd->split_cmd, cmdtab);
+	ext = exec_bin(cmd->split_cmd, cmdtab);
 	return (ext);
+}
+
+void	exec_p_subprocess(t_cmdtab *cmdtab, t_cmd *cmd, int fd[2])
+{
+	if (manage_infile(cmd, cmdtab))
+		exit(EXIT_FAILURE);
+	if (!cmd->split_cmd)
+	{
+		ft_putendl_fd(0, 1);
+		exit(EXIT_SUCCESS);
+	}
+	if (exec_pipe_cmd(cmd, cmdtab, fd))
+		exit(EXIT_FAILURE);
 }
 
 int	exec_cmd(t_cmd *cmd, t_cmdtab *cmdtab)
@@ -92,22 +94,15 @@ int	exec_cmd(t_cmd *cmd, t_cmdtab *cmdtab)
 
 	if (pipe(fd))
 		return (error_msg("pipe", NULL, NULL, EPIPE));
+	ext = exec_builtin(cmd, cmdtab);
+	if (ext != -1)
+		return (ext);
+	ext = 0;
 	command = fork();
 	if (command == -1)
 		return (error_msg("fork", NULL, NULL, ENOMEM));
-	ext = 0;
 	if (!command)
-	{
-		if (manage_infile(cmd, cmdtab))
-			exit(EXIT_FAILURE);
-		if (!cmd->split_cmd)
-		{
-			ft_putendl_fd(0, 1);
-			exit(EXIT_SUCCESS);
-		}
-		if (child_process(cmd, cmdtab, fd))
-			exit(EXIT_FAILURE);
-	}
+		exec_p_subprocess(cmdtab, cmd, fd);
 	close(fd[1]);
 	if (ft_dup(fd[0], STDIN_FILENO))
 		return (1);

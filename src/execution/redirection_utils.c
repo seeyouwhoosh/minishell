@@ -6,7 +6,7 @@
 /*   By: xwu <xwu@student.42urduliz.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/07 13:43:07 by xwu               #+#    #+#             */
-/*   Updated: 2026/02/07 13:44:58 by xwu              ###   ########.fr       */
+/*   Updated: 2026/02/07 18:20:53 by xwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,5 +34,16 @@ int	manage_outfile(t_cmd *cmd, t_cmdtab *cmdtab)
 		return (1);
 	else if (ft_dup(cmdtab->stdout_fd, STDOUT_FILENO))
 		return (1);
+	return (0);
+}
+
+/* In case there is no command, just rediretion */
+int	just_redirection(t_cmd *cmd)
+{
+	if (!cmd->split_cmd)
+	{
+		ft_putendl_fd(0, 1);
+		return (1);
+	}
 	return (0);
 }
