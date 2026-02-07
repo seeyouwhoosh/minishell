@@ -6,7 +6,7 @@
 /*   By: xwu <xwu@student.42urduliz.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/09 17:10:31 by gcassi-d          #+#    #+#             */
-/*   Updated: 2026/02/06 20:06:22 by xwu              ###   ########.fr       */
+/*   Updated: 2026/02/07 13:18:44 by xwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ int	echo(t_cmdtab *cmdtab, char **args)
 
 	(void)cmdtab;
 	i = 1;
+	flag = false;
 	while (args[i] && isnflag(args[i]))
 	{
 		flag = true;
@@ -52,6 +53,6 @@ int	echo(t_cmdtab *cmdtab, char **args)
 			ft_putchar_fd(' ', 1);
 	}
 	if (!flag)
-		ft_putchar_fd(1, '\n');
+		ft_putchar_fd('\n', 1);
 	return (EXIT_SUCCESS);
 }

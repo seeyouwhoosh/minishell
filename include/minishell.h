@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcassi-d <gcassi-d@42urduliz.com>          +#+  +:+       +#+        */
+/*   By: xwu <xwu@student.42urduliz.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 16:46:16 by xwu               #+#    #+#             */
-/*   Updated: 2026/02/06 20:07:58 by gcassi-d         ###   ########.fr       */
+/*   Updated: 2026/02/07 13:43:23 by xwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -175,6 +175,7 @@ int		parse_command(t_cmdtab *cmdtab, t_cmd *cmd);
 int		execute_all(t_cmdtab *cmdtab);
 int		exec_cmd(t_cmd *cmd, t_cmdtab *cmdtab);
 int		manage_infile(t_cmd *cmd, t_cmdtab *cmdtab);
+int		manage_outfile(t_cmd *cmd, t_cmdtab *cmdtab);
 int		child_process(t_cmd *cmd, t_cmdtab *cmdtab, int fd[2]);
 int		exec_last_cmd(t_cmd *cmd, t_cmdtab *cmdtab);
 int		exec_bin(char **split_cmd, t_cmdtab *cmdtab);

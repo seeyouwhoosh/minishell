@@ -6,7 +6,7 @@
 /*   By: xwu <xwu@student.42urduliz.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/18 13:00:32 by xwu               #+#    #+#             */
-/*   Updated: 2026/02/06 20:32:04 by xwu              ###   ########.fr       */
+/*   Updated: 2026/02/07 14:28:02 by xwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,20 +30,32 @@ int	main(int ac, char **av, char **ev)
 	while (line)
 	{
 		line = readline("Minishell> ");
+		if (!line)
+			break ;
 		rl_on_new_line();
 		if (all_whitespace(line))
+		{
+			free(line);
 			continue ;
+		}
 /* 		if (!process_line(line, cmdtab))
 			execute_line(cmdtab); */
 
 /* -------------------- TESTING AREA --------------------- */
 	cmdtab->cmds = calloc(2, sizeof(t_cmd));
-
+	cmdtab->n_cmds = 1;
+	cmdtab->cmds[0].here_doc = NULL;
+	cmdtab->cmds[0].infile = 0;
+	cmdtab->cmds[0].outfile = 1;
+	cmdtab->cmds[0].split_cmd = ft_split_charset(line, TOKEN_DELIMITER);
+	execute_all(cmdtab);
 
 
 /* ------------------------------------------------------- */
 
 		add_history(line);
+		free_cmds(cmdtab);
 		free(line);
 	}
+	free_cmdtab(cmdtab);
 }
