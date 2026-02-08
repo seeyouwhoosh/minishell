@@ -50,7 +50,7 @@ int	append(char *s, char ***split)
 	new_split = ft_calloc(i + 2, sizeof(char *));
 	if (!new_split)
 		return (error_msg("mnsh", NULL,
-					"memory allocation failed", 1)));
+					"memory allocation failed", 1));
 	i = -1;
 	while ((*split)[++i])
 		new_split[i] = (*split)[i];

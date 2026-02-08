@@ -94,7 +94,7 @@ static int	check_empty(t_cmdtab *cmdtab)
 	{
 		if (!cmdtab->cmds[i].split_cmd && !cmdtab->cmds[i].infile
 			&& !cmdtab->cmds[i].here_doc && cmdtab->cmds[i].outfile == 1)
-			return (error_msg("minishell", "parsing",
+			return (error_msg("mnsh", NULL,
 					"error near unexpected token: `|'", 2));
 	}
 	return (SUCCESS);

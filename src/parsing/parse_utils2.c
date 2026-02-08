@@ -32,10 +32,10 @@ int	cmds_am(char *line, size_t *holder)
 			(*holder)++;
 	}
 	if (squote)
-		return (error_msg("minishell", "parsing",
+		return (error_msg("mnsh", NULL,
 				"error near unexpected token: `\''", 3));
 	if (dquote)
-		return (error_msg("minishell", "parsing",
+		return (error_msg("mnshl", NULL,
 				"error near unexpected token: `\"'", 4));
 	return (SUCCESS);
 }
