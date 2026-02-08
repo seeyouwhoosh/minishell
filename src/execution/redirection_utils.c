@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirection_utils.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: xwu <xwu@student.42urduliz.com>            +#+  +:+       +#+        */
+/*   By: gcassi-d <gcassi-d@42urduliz.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/07 13:43:07 by xwu               #+#    #+#             */
-/*   Updated: 2026/02/08 19:14:40 by xwu              ###   ########.fr       */
+/*   Updated: 2026/02/08 19:49:52 by gcassi-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,8 @@ int	manage_infile(t_cmd *cmd, t_cmdtab *cmdtab)
 {
 	if (cmd->here_doc && here_doc(cmd->here_doc, cmdtab->n_cmds))
 		return (1);
-	if (cmd->infile && (cmd->last != INFILE) && ft_dup(cmd->infile, STDIN_FILENO))
+	if (cmd->infile && (cmd->last != INFILE)
+		&& ft_dup(cmd->infile, STDIN_FILENO))
 		return (1);
 	return (0);
 }
