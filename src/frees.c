@@ -6,7 +6,7 @@
 /*   By: gcassi-d <gcassi-d@42urduliz.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/18 13:00:32 by xwu               #+#    #+#             */
-/*   Updated: 2026/02/08 15:09:34 by gcassi-d         ###   ########.fr       */
+/*   Updated: 2026/02/08 18:00:20 by gcassi-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,11 @@ void	free_cmds(t_cmdtab *cmdtab)
 	size_t	i;
 
 	i = -1;
-	while (cmdtab->n_cmds < ++i && cmdtab->cmds + i)
+	while (cmdtab->n_cmds > ++i)
 		free_cmd(cmdtab->cmds + i);
 	free(cmdtab->cmds);
 	cmdtab->cmds = NULL;
+	cmdtab->n_cmds = 0;
 }
 
 void	free_cmd(t_cmd *cmd)
