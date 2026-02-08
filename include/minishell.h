@@ -6,7 +6,7 @@
 /*   By: gcassi-d <gcassi-d@42urduliz.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 16:46:16 by xwu               #+#    #+#             */
-/*   Updated: 2026/02/08 17:48:28 by gcassi-d         ###   ########.fr       */
+/*   Updated: 2026/02/08 19:14:37 by gcassi-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -177,6 +177,7 @@ int		opening(t_why a, int mode, t_str str);
 int		ft_open(const char *filename, int mode);
 int		parse_main(t_cmdtab *cmdtab, char *cmd);
 int		append(char *s, char ***split);
+int		add_to_str(t_cmd *cmd, size_t *i, t_str *str);
 
 /* EXECUTING */
 int		execute_all(t_cmdtab *cmdtab);

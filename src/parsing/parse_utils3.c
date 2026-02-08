@@ -6,7 +6,7 @@
 /*   By: gcassi-d <gcassi-d@42urduliz.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/04 22:11:29 by gcassi-d          #+#    #+#             */
-/*   Updated: 2026/02/08 15:04:00 by gcassi-d         ###   ########.fr       */
+/*   Updated: 2026/02/08 19:13:16 by gcassi-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,4 +64,13 @@ int	is_delimiter(int c, short squote, short dquote)
 	if (squote || dquote)
 		return (0);
 	return (is_whitespace(c) || c == '>' || c == '<' || !c);
+}
+
+int	add_to_str(t_cmd *cmd, size_t *i, t_str *str)
+{
+	if (extend(str))
+		return (1);
+	str->str[str->len++] = cmd->raw[*i];
+	(*i)++;
+	return (SUCCESS);
 }
