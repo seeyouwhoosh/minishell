@@ -46,5 +46,6 @@ int	opening(t_why a, int mode, t_str str)
 			close(a.cmd->infile);
 		a.cmd->infile = fd;
 	}
+	free(str.str);
 	return (SUCCESS);
 }
