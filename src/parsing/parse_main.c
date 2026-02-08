@@ -6,7 +6,7 @@
 /*   By: gcassi-d <gcassi-d@42urduliz.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/01 18:05:48 by gcassi-d          #+#    #+#             */
-/*   Updated: 2026/02/08 18:00:33 by gcassi-d         ###   ########.fr       */
+/*   Updated: 2026/02/08 19:48:25 by gcassi-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,6 @@ int	parse_command(t_cmdtab *cmdtab, t_cmd *cmd)
 
 	a.cmd = cmd;
 	a.cmdtab = cmdtab;
-
 	squote = 0;
 	dquote = 0;
 	i = 0;
