@@ -6,7 +6,7 @@
 /*   By: xwu <xwu@student.42urduliz.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/05 01:53:13 by xwu               #+#    #+#             */
-/*   Updated: 2026/02/08 21:36:06 by xwu              ###   ########.fr       */
+/*   Updated: 2026/02/08 21:53:40 by xwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,11 +72,11 @@ int	exec_last_builtin(t_cmd *cmd, t_cmdtab *cmdtab)
 	exit = builtin_cmd(cmd, cmdtab, exit);
 	ft_dup(cmdtab->stdin_fd, STDIN_FILENO);
 	ft_dup(cmdtab->stdout_fd, STDOUT_FILENO);
-	printf("He llegado hasta aquí\n");
 	return (exit);
 }
 
 /* int	exec_builtin(char *cmd, t_cmdtab *cmdtab)
 {
 	;
-} */
+}
+*/

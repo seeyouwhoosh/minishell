@@ -6,18 +6,19 @@
 /*   By: xwu <xwu@student.42urduliz.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/07 16:17:48 by gcassi-d          #+#    #+#             */
-/*   Updated: 2026/02/08 21:23:43 by xwu              ###   ########.fr       */
+/*   Updated: 2026/02/08 21:54:55 by xwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	errr(t_str str)
+static int	err(t_str str)
 {
 	ft_putstr_fd("mnsh: ", 2);
 	ft_putstr_fd(str.str, 2);
-	ft_putstr_fd(": no such file or directory\n");
+	ft_putstr_fd(": no such file or directory\n", 2);
 	free(str.str);
+	return (1);
 }
 
 int	opening(t_why a, int mode, t_str str)
