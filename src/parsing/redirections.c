@@ -24,7 +24,7 @@ static int	parse_hd(t_why a, size_t *i, short *squote, short *dquote)
 	while (is_whitespace(a.cmd->raw[*i]))
 		(*i)++;
 	if (!a.cmd->raw[*i] || a.cmd->raw[*i] == '<' || a.cmd->raw[*i] == '>')
-		return (error_msg("minishell", NULL
+		return (error_msg("mnsh", NULL,
 				"error near unexpected token: `<<'", 5));
 	while (!is_delimiter(a.cmd->raw[*i], *squote, *dquote))
 	{
@@ -51,7 +51,7 @@ static int	parse_ap(t_why a, size_t *i, short *squote, short *dquote)
 	while (is_whitespace(a.cmd->raw[*i]))
 		(*i)++;
 	if (!a.cmd->raw[*i] || a.cmd->raw[*i] == '<' || a.cmd->raw[*i] == '>')
-		return (error_msg("minishell", NULL,
+		return (error_msg("mnsh", NULL,
 				"error near unexpected token: `>>'", 6));
 	while (!is_delimiter(a.cmd->raw[*i], *squote, *dquote))
 	{
@@ -80,7 +80,7 @@ static int	parse_of(t_why a, size_t *i, short *squote, short *dquote)
 	while (is_whitespace(a.cmd->raw[*i]))
 		(*i)++;
 	if (!a.cmd->raw[*i] || a.cmd->raw[*i] == '<' || a.cmd->raw[*i] == '>')
-		return (error_msg("minishell", NULL,
+		return (error_msg("mnsh", NULL,
 				"error near unexpected token: `>'", 7));
 	while (!is_delimiter(a.cmd->raw[*i], *squote, *dquote))
 	{
