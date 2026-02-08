@@ -12,6 +12,14 @@
 
 #include "minishell.h"
 
+static int	errr(t_str str)
+{
+	ft_putstr_fd("mnsh: ", 2);
+	ft_putstr_fd(str.str, 2);
+	ft_putstr_fd(": no such file or directory\n");
+	free(str.str);
+}
+
 int	opening(t_why a, int mode, t_str str)
 {
 	int	fd;
@@ -23,12 +31,19 @@ int	opening(t_why a, int mode, t_str str)
 		return (SUCCESS);
 	}
 	fd = ft_open(str.str, mode);
-	free(str.str);
 	if (fd < 0)
-		return (error_msg("minishell", "a", "no such file or directory", 1));
-	if (mode == APPEND || mode == INFILE)
+		return (err(str));
+	if (mode == APPEND || mode == OUTFILE)
+	{
+		if (a.cmd->outfile != 1)
+			close(a.cmd->outfile);
 		a.cmd->outfile = fd;
+	}
 	else
+	{
+		if (a.cmd->infile)
+			close(a.cmd->infile);
 		a.cmd->infile = fd;
+	}
 	return (SUCCESS);
 }
