@@ -11,7 +11,7 @@ NC			= \033[0m
 # Compiler
 NAME		= minishell
 CC			= cc
-CFLAGS		= -Wall  -Wextra -g
+CFLAGS		= -Wall -Werror -Wextra -g
 MAKE		= make -sC
 RM			= rm -rf
 

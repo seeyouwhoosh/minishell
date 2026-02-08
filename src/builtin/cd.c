@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: xwu <xwu@student.42urduliz.com>            +#+  +:+       +#+        */
+/*   By: gcassi-d <gcassi-d@42urduliz.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/17 20:59:07 by gcassi-d          #+#    #+#             */
-/*   Updated: 2026/02/08 00:38:47 by xwu              ###   ########.fr       */
+/*   Updated: 2026/02/08 19:45:24 by gcassi-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ static int	change_wd_env(t_cmdtab *cmdtab, char *wd)
 	if (!cmdtab->cwd)
 		return (error_msg("malloc", NULL, NULL, 1));
 	if (set_env_var(cmdtab, "PWD", cmdtab->cwd))
-		return (1);;
+		return (1);
 	return (0);
 }
 
