@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcassi-d <gcassi-d@42urduliz.com>          +#+  +:+       +#+        */
+/*   By: xwu <xwu@student.42urduliz.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/23 10:35:28 by gcassi-d          #+#    #+#             */
-/*   Updated: 2025/12/12 00:03:26 by gcassi-d         ###   ########.fr       */
+/*   Updated: 2026/02/08 21:08:06 by xwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,18 +57,4 @@ char	*get_next_line(int fd)
 	}
 }
 
-#include <stdio.h>
-
-int main()
-{
-	int fd = open("prueba.txt", O_RDONLY);
-	char* line = get_next_line(fd);
-	while (line)
-	{
-		printf("%s", line);
-		free(line);
-		line = get_next_line(fd);
-	}
-	close(fd);
-}
  

@@ -3,26 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcassi-d <gcassi-d@student.42.fr>          +#+  +:+       +#+        */
+/*   By: xwu <xwu@student.42urduliz.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/23 10:36:05 by gcassi-d          #+#    #+#             */
-/*   Updated: 2025/10/10 21:09:50 by gcassi-d         ###   ########.fr       */
+/*   Updated: 2026/02/08 21:07:28 by xwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
-
-static size_t	ft_strlen(char *str)
-{
-	size_t	i;
-
-	i = 0;
-	while (str[i] && str[i] != '\n')
-		i++;
-	if (str[i] == '\n')
-		i++;
-	return (i);
-}
 
 static int	ft_strcat(char *dest, char *src)
 {
@@ -46,7 +34,7 @@ static int	ft_strcat(char *dest, char *src)
 	return (0);
 }
 
-static void	ft_memcpy(char *dest, char *src)
+static void	ftr_memcpy(char *dest, char *src)
 {
 	size_t	i;
 
@@ -86,7 +74,7 @@ int	ft_update(char **line, char *aux)
 	*line = new;
 	if (ft_strcat(new, aux))
 	{
-		ft_memcpy(aux, aux + ft_strlen(aux));
+		ftr_memcpy(aux, aux + ft_strlen(aux));
 		return (2);
 	}
 	return (1);

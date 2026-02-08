@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcassi-d <gcassi-d@42urduliz.com>          +#+  +:+       +#+        */
+/*   By: xwu <xwu@student.42urduliz.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/18 13:00:32 by xwu               #+#    #+#             */
-/*   Updated: 2026/02/08 18:02:56 by gcassi-d         ###   ########.fr       */
+/*   Updated: 2026/02/08 21:37:57 by xwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,8 @@ int	main(int ac, char **av, char **ev)
 				}
 				printf("\n\n");
 			}
+			cmdtab->cmds[0].outfile = ft_open("test", OUTFILE);
+			cmdtab->cmds[0].infile = 0;
 			execute_all(cmdtab);
 		}
 /* ------------------------------------------------------- */

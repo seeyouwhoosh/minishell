@@ -6,7 +6,7 @@
 /*   By: xwu <xwu@student.42urduliz.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/31 10:45:02 by xwu               #+#    #+#             */
-/*   Updated: 2026/02/08 19:27:02 by xwu              ###   ########.fr       */
+/*   Updated: 2026/02/08 20:59:13 by xwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,17 +36,17 @@ int	exec_last_cmd(t_cmd *cmd, t_cmdtab *cmdtab)
 	int		ext;
 	pid_t	command;
 
-	if (manage_infile(cmd, cmdtab))
-		exit(EXIT_FAILURE);
-	ext = exec_builtin(cmd, cmdtab);
+	ext = exec_last_builtin(cmd, cmdtab);
 	if (ext != -1)
-		return (ext);
+	return (ext);
 	command = fork();
 	if (command == -1)
-		return (error_msg("fork", NULL, NULL, ENOMEM));
+	return (error_msg("fork", NULL, NULL, ENOMEM));
 	ext = 0;
 	if (!command)
 	{
+		if (manage_infile(cmd, cmdtab))
+			exit(EXIT_FAILURE);
 		if (just_redirection(cmd))
 			exit(EXIT_SUCCESS);
 		if (manage_outfile(cmd, cmdtab))
@@ -55,7 +55,7 @@ int	exec_last_cmd(t_cmd *cmd, t_cmdtab *cmdtab)
 		exit(ext);
 	}
 	waitpid(command, &ext, 0);
-	return (ext);
+	return (which_exit(ext));
 }
 
 int	exec_pipe_cmd(t_cmd *cmd, t_cmdtab *cmdtab, int fd[2])
@@ -95,7 +95,7 @@ int	exec_cmd(t_cmd *cmd, t_cmdtab *cmdtab)
 
 	if (pipe(fd))
 		return (error_msg("pipe", NULL, NULL, EPIPE));
-	ext = exec_builtin(cmd, cmdtab);
+	//ext = exec_builtin(cmd, cmdtab);
 	if (ext != -1)
 		return (ext);
 	ext = 0;
