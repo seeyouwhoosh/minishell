@@ -67,7 +67,7 @@ static void	free_raws(t_cmd *cmd)
 	}
 }
 
-int	get_commands(t_cmd *cmd, char *str)
+int	get_commands(t_cmd *cmd, char *str, size_t max)
 {
 	t_str	current;
 	size_t	i;
@@ -88,5 +88,8 @@ int	get_commands(t_cmd *cmd, char *str)
 		while (is_whitespace(*str))
 			str++;
 	}
+	if (check_rest(cmd, i, max))
+		return (error_msg("mnsh", NULL,
+					"memory allocation failed", 1));
 	return (SUCCESS);
 }

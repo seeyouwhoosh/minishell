@@ -151,7 +151,7 @@ char	*get_path(char *cmd, char **env);
 
 /* PARSING */
 int		cmds_am(char *line, size_t *holder);
-int		get_commands(t_cmd *cmd, char *str);
+int		get_commands(t_cmd *cmd, char *str, size_t max);
 char	*get_next_command(t_cmd *cmd, char *pos, size_t ind, t_str str);
 int		extend(t_str *str);
 int		is_delimiter(int c, short squote, short dquote);
@@ -166,6 +166,7 @@ int		ft_open(const char *filename, int mode);
 int		parse_main(t_cmdtab *cmdtab, char *cmd);
 int		append(char *s, char ***split);
 int		add_to_str(t_cmd *cmd, size_t *i, t_str *str);
+int		check_rest(t_cmd *cmd, size_t i, size_t max);
 
 /* EXECUTING */
 int		execute_all(t_cmdtab *cmdtab);

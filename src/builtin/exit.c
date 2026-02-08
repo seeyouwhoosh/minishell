@@ -41,5 +41,6 @@ int	ft_exit(t_cmdtab *cmdtab, char **args)
 	else
 		exit_code = get_exit_code(args[1]);
 	free_cmdtab(cmdtab);
+	ft_putstr_fd("exit\n", 1);
 	exit(exit_code);
 }
