@@ -17,9 +17,7 @@
 # include <unistd.h>
 # include "libft.h"
 
-# ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 214748364
-# endif
+# define BUFFER_SIZE 10000
 
 char	*get_next_line(int fd);
 int		ft_update(char **line, char *aux);

@@ -30,7 +30,8 @@ static int	create_split(char ***split, char *s)
 {
 	*split = ft_calloc(2, sizeof(char *));
 	if (!(*split))
-		return (error_msg("Malloc", NULL, NULL, 1));
+		return (error_msg("mnsh", NULL,
+					"memory allocation failed", 1));
 	(*split)[0] = s;
 	return (SUCCESS);
 }
@@ -48,8 +49,8 @@ int	append(char *s, char ***split)
 		i++;
 	new_split = ft_calloc(i + 2, sizeof(char *));
 	if (!new_split)
-		return (error_msg("minishell", "parsing",
-				"memory allocation failed", 1));
+		return (error_msg("mnsh", NULL,
+					"memory allocation failed", 1)));
 	i = -1;
 	while ((*split)[++i])
 		new_split[i] = (*split)[i];

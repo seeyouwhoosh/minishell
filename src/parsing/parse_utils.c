@@ -79,7 +79,7 @@ int	get_commands(t_cmd *cmd, char *str)
 	{
 		current = new();
 		if (!current.str)
-			return (free_raws(cmd), error_msg("minishell", "parsing",
+			return (free_raws(cmd), error_msg("mnsh", NULL,
 					"memory allocation failed", 1));
 		str = get_next_command(cmd, str, i, current);
 		if (!str)
