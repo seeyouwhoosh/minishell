@@ -112,7 +112,7 @@ int	parse_main(t_cmdtab *cmdtab, char *cmd)
 	cmdtab->cmds = ft_calloc(cmdtab->n_cmds + 1, sizeof(t_cmd));
 	correct_outfile(cmdtab);
 	if (!cmdtab->cmds)
-		return (error_msg("minishell", "parsing",
+		return (error_msg("mnsh", NULL,
 				"memory allocation failed", 1));
 	flag = get_commands(cmdtab->cmds, cmd);
 	if (flag)

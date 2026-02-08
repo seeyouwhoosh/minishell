@@ -19,7 +19,8 @@ static int	parse_hd(t_why a, size_t *i, short *squote, short *dquote)
 	(*i)++;
 	str = new();
 	if (!str.str)
-		return (error_msg("malloc", NULL, NULL, 1));
+		return (error_msg("mnsh", NULL,
+				"memory allocation failed", 1));
 	while (is_whitespace(a.cmd->raw[*i]))
 		(*i)++;
 	if (!a.cmd->raw[*i] || a.cmd->raw[*i] == '<' || a.cmd->raw[*i] == '>')
@@ -44,7 +45,8 @@ static int	parse_ap(t_why a, size_t *i, short *squote, short *dquote)
 
 	str = new();
 	if (!str.str)
-		return (error_msg("malloc", NULL, NULL, 1));
+		return (error_msg("mnsh", NULL,
+				"memory allocation failed", 1));
 	(*i)++;
 	while (is_whitespace(a.cmd->raw[*i]))
 		(*i)++;
@@ -73,7 +75,8 @@ static int	parse_of(t_why a, size_t *i, short *squote, short *dquote)
 
 	str = new();
 	if (!str.str)
-		return (error_msg("malloc", NULL, NULL, 1));
+		return (error_msg("mnsh", NULL,
+				"memory allocation failed", 1));
 	while (is_whitespace(a.cmd->raw[*i]))
 		(*i)++;
 	if (!a.cmd->raw[*i] || a.cmd->raw[*i] == '<' || a.cmd->raw[*i] == '>')
@@ -101,7 +104,8 @@ static int	parse_if(t_why a, size_t *i, short *squote, short *dquote)
 
 	str = new();
 	if (!str.str)
-		return (error_msg("malloc", NULL, NULL, 1));
+		return (error_msg("mnsh", NULL,
+				"memory allocation failed", 1));
 	while (is_whitespace(a.cmd->raw[*i]))
 		(*i)++;
 	if (!a.cmd->raw[*i] || a.cmd->raw[*i] == '<' || a.cmd->raw[*i] == '>')

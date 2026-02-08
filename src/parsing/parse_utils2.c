@@ -54,14 +54,14 @@ int	extend(t_str *str)
 	else
 	{
 		if (str->capacity == ULONG_MAX - 1)
-			return (free(str->str), error_msg("minishell", "parsing",
+			return (free(str->str), error_msg("mnsh", NULL,
 					"memory allocation failed", 1));
 		new = ft_calloc(sizeof(char), str->capacity + 2);
 		str->capacity += 1;
 	}
 	if (!new)
-		return (free(str->str), error_msg("minishell", "parsing",
-				"memory allocation failed", 1));
+		return (free(str->str), error_msg("mnsh", NULL,
+					"memory allocation failed", 1));
 	ft_memcpy(new, str->str, str->len);
 	free(str->str);
 	str->str = new;
@@ -94,8 +94,8 @@ static int	add_exit_code(t_why a, t_str *str, size_t i)
 	(void)i;
 	c = ft_itoa(a.cmdtab->exit_code);
 	if (!c)
-		return (free(str->str), error_msg("minishell", "parsing",
-				"memory allocation failed", 1));
+		return (free(str->str), error_msg("mnsh", NULL,
+					"memory allocation failed", 1));
 	j = 0;
 	while (c[j])
 	{
