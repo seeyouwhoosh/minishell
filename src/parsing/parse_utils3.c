@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_utils3.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcassi-d <gcassi-d@42urduliz.com>          +#+  +:+       +#+        */
+/*   By: xwu <xwu@student.42urduliz.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/04 22:11:29 by gcassi-d          #+#    #+#             */
-/*   Updated: 2026/02/08 19:13:16 by gcassi-d         ###   ########.fr       */
+/*   Updated: 2026/02/08 22:02:06 by xwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ int	append(char *s, char ***split)
 	new_split = ft_calloc(i + 2, sizeof(char *));
 	if (!new_split)
 		return (error_msg("mnsh", NULL,
-					"memory allocation failed", 1)));
+					"memory allocation failed", 1));
 	i = -1;
 	while ((*split)[++i])
 		new_split[i] = (*split)[i];

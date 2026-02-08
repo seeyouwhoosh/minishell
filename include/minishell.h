@@ -6,7 +6,7 @@
 /*   By: xwu <xwu@student.42urduliz.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 16:46:16 by xwu               #+#    #+#             */
-/*   Updated: 2026/02/08 21:04:24 by xwu              ###   ########.fr       */
+/*   Updated: 2026/02/08 22:54:34 by xwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -170,17 +170,18 @@ int		add_to_str(t_cmd *cmd, size_t *i, t_str *str);
 /* EXECUTING */
 int		execute_all(t_cmdtab *cmdtab);
 int		exec_cmd(t_cmd *cmd, t_cmdtab *cmdtab);
-int		manage_infile(t_cmd *cmd, t_cmdtab *cmdtab);
-int		manage_outfile(t_cmd *cmd, t_cmdtab *cmdtab);
+int		manage_infile(t_cmd *cmd, t_cmdtab *cmdtab, int fd[2]);
+int		manage_outfile(t_cmd *cmd, t_cmdtab *cmdtab, int fd[2]);
+int		manage_last_outfile(t_cmd *cmd, t_cmdtab *cmdtab);
 int		just_redirection(t_cmd *cmd);
-void	exec_p_subprocess(t_cmdtab *cmdtab, t_cmd *cmd, int fd[2]);
-int		exec_pipe_cmd(t_cmd *cmd, t_cmdtab *cmdtab, int fd[2]);
+void	exec_pipe_cmd(t_cmdtab *cmdtab, t_cmd *cmd, int fd[2]);
 int		exec_last_cmd(t_cmd *cmd, t_cmdtab *cmdtab);
 int		exec_bin(char **split_cmd, t_cmdtab *cmdtab);
 int		exec_last_builtin(t_cmd *cmd, t_cmdtab *cmdtab);
 int		which_exit(int status);
 int		is_builtin(char *str_cmd, t_cmdtab *cmdtab);
 int		builtin_cmd(t_cmd *cmd, t_cmdtab *cmdtab, int code);
+int		exec_builtin(t_cmd *cmd, t_cmdtab *cmdtab, int fd[2]);
 
 /* HERE_DOC */
 int		here_doc(char *limiter, size_t n_cmds);

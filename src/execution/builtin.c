@@ -6,7 +6,7 @@
 /*   By: xwu <xwu@student.42urduliz.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/05 01:53:13 by xwu               #+#    #+#             */
-/*   Updated: 2026/02/08 21:53:40 by xwu              ###   ########.fr       */
+/*   Updated: 2026/02/08 22:56:30 by xwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,29 +54,40 @@ int	builtin_cmd(t_cmd *cmd, t_cmdtab *cmdtab, int code)
 
 int	exec_last_builtin(t_cmd *cmd, t_cmdtab *cmdtab)
 {
-	int	exit;
+	int	ext;
 
-	exit = is_builtin(cmd->split_cmd[0], cmdtab);
-	if (exit == -1)
-		return (exit);
-	if (manage_infile(cmd, cmdtab))
+	ext = is_builtin(cmd->split_cmd[0], cmdtab);
+	if (ext == -1)
+		return (ext);
+	if (manage_infile(cmd, cmdtab, NULL))
 	{
 		ft_dup(cmdtab->stdin_fd, STDIN_FILENO);
 		return (1);
 	}
-	if (manage_outfile(cmd, cmdtab))
+	if (manage_last_outfile(cmd, cmdtab))
 	{
 		ft_dup(cmdtab->stdout_fd, STDOUT_FILENO);
 		return (1);
 	}
-	exit = builtin_cmd(cmd, cmdtab, exit);
+	ext = builtin_cmd(cmd, cmdtab, ext);
 	ft_dup(cmdtab->stdin_fd, STDIN_FILENO);
 	ft_dup(cmdtab->stdout_fd, STDOUT_FILENO);
-	return (exit);
+	return (ext);
 }
 
-/* int	exec_builtin(char *cmd, t_cmdtab *cmdtab)
+int	exec_builtin(t_cmd *cmd, t_cmdtab *cmdtab, int fd[2])
 {
-	;
+	int ext;
+
+	ext = is_builtin(cmd->split_cmd[0], cmdtab);
+	if (ext == -1)
+		return (ext);
+	if (manage_infile(cmd, cmdtab, fd))
+		return (1);
+	if (just_redirection(cmd))
+		return (0);
+	if (manage_outfile(cmd, cmdtab, fd))
+		return (1);
+	ext = builtin_cmd(cmd, cmdtab, ext);
+	return (ext);
 }
-*/
