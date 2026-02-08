@@ -6,7 +6,7 @@
 /*   By: gcassi-d <gcassi-d@42urduliz.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/07 15:25:21 by gcassi-d          #+#    #+#             */
-/*   Updated: 2026/02/08 16:05:37 by gcassi-d         ###   ########.fr       */
+/*   Updated: 2026/02/08 19:14:08 by gcassi-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,10 +61,8 @@ static int	parse_ap(t_why a, size_t *i, short *squote, short *dquote)
 				return (1);
 			continue ;
 		}
-		if (extend(&str))
+		if (add_to_str(a.cmd, i, &str))
 			return (1);
-		str.str[str.len++] = a.cmd->raw[*i];
-		(*i)++;
 	}
 	return (opening(a, APPEND, str));
 }
@@ -91,10 +89,8 @@ static int	parse_of(t_why a, size_t *i, short *squote, short *dquote)
 				return (1);
 			continue ;
 		}
-		if (extend(&str))
+		if (add_to_str(a.cmd, i, &str))
 			return (1);
-		str.str[str.len++] = a.cmd->raw[*i];
-		(*i)++;
 	}
 	return (opening(a, OUTFILE, str));
 }
@@ -121,10 +117,8 @@ static int	parse_if(t_why a, size_t *i, short *squote, short *dquote)
 				return (1);
 			continue ;
 		}
-		if (extend(&str))
+		if (add_to_str(a.cmd, i, &str))
 			return (1);
-		str.str[str.len++] = a.cmd->raw[*i];
-		(*i)++;
 	}
 	return (opening(a, INFILE, str));
 }
