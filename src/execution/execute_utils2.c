@@ -6,11 +6,18 @@
 /*   By: xwu <xwu@student.42urduliz.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/05 01:53:55 by xwu               #+#    #+#             */
-/*   Updated: 2026/02/07 13:45:13 by xwu              ###   ########.fr       */
+/*   Updated: 2026/02/08 21:00:08 by xwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+int	which_exit(int status)
+{
+	if (WIFEXITED(status))
+		return (WEXITSTATUS(status));
+	return (1);
+}
 
 char	*get_path(char *cmd, char **env)
 {

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   opening.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcassi-d <gcassi-d@42urduliz.com>          +#+  +:+       +#+        */
+/*   By: xwu <xwu@student.42urduliz.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/07 16:17:48 by gcassi-d          #+#    #+#             */
-/*   Updated: 2026/02/08 16:08:58 by gcassi-d         ###   ########.fr       */
+/*   Updated: 2026/02/08 21:23:43 by xwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int	opening(t_why a, int mode, t_str str)
 	fd = ft_open(str.str, mode);
 	free(str.str);
 	if (fd < 0)
-		return (error_msg("minishell", "a", "no such file or directory", 1));
+		return (error_msg("mnsh", str.str, "no such file or directory", 1));
 	if (mode == APPEND || mode == INFILE)
 		a.cmd->outfile = fd;
 	else

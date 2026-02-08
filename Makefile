@@ -30,7 +30,8 @@ SRC_DIR		= src
 SOURCES		= main.c utils.c utils2.c signal.c init.c frees.c \
 	builtin/cd.c builtin/echo.c builtin/env_utils.c builtin/env_utils2.c builtin/env.c builtin/exit.c builtin/export.c builtin/pwd.c builtin/unset.c \
 	execution/builtin.c execution/execute_main.c execution/execute_utils.c execution/execute_utils2.c execution/here_doc.c execution/redirection_utils.c \
-	parsing/parse_main.c parsing/parse_utils.c parsing/parse_utils2.c parsing/parse_utils3.c parsing/opening.c parsing/redirections.c 
+	parsing/parse_main.c parsing/parse_utils.c parsing/parse_utils2.c parsing/parse_utils3.c parsing/opening.c parsing/redirections.c \
+	gnl/get_next_line_utils.c gnl/get_next_line.c
 
 # Objects
 OBJ_DIR		= obj
@@ -69,6 +70,7 @@ $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
 	@mkdir -p $(OBJ_DIR)/builtin
 	@mkdir -p $(OBJ_DIR)/execution
 	@mkdir -p $(OBJ_DIR)/parsing
+	@mkdir -p $(OBJ_DIR)/gnl
 	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@ 
 
 

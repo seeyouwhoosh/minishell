@@ -3,15 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcassi-d <gcassi-d@42urduliz.com>          +#+  +:+       +#+        */
+/*   By: xwu <xwu@student.42urduliz.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 16:46:16 by xwu               #+#    #+#             */
-/*   Updated: 2026/02/08 19:14:37 by gcassi-d         ###   ########.fr       */
+/*   Updated: 2026/02/08 21:04:24 by xwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
+# include "get_next_line.h"
+# include "libft.h"
 # include <unistd.h>
 # include <errno.h>
 # include <stdbool.h>
@@ -25,7 +27,6 @@
 # include <sys/stat.h>
 # include <sys/types.h>
 # include <sys/wait.h>
-# include "libft.h"
 # include <string.h>
 # include <errno.h>
 
@@ -37,13 +38,6 @@
 #  define TOKEN_DELIMITER " \t\r\n\a"
 # endif
 
-/* typedef struct s_file
-{
-	char	*name;
-	int		fd;
-	int		mode;
-}			t_file;
- */
 typedef struct s_cmds
 {
 	char	**split_cmd;
@@ -58,6 +52,7 @@ typedef struct s_cmdtab
 {
 	t_cmd	*cmds;
 	int		stdout_fd;
+	int		stdin_fd;
 	size_t	n_cmds;
 	char	*cwd;
 	char	*previous_wd;
@@ -125,16 +120,9 @@ void	free_cmdtab(t_cmdtab *cmdtab);
 void	free_cmd(t_cmd *cmd);
 void	free_cmds(t_cmdtab *cmdtab);
 
-/* VARIABLE EXPANSION */
-size_t	n_cmds(char *line);
-
 /* SIGNAL MANAGER */
 void	int_signal(int n);
 void	signal_manager(void);
-
-/* FIND BUILT-IN*/
-int		is_builtin(char *str_cmd, t_cmdtab *cmdtab);
-int		exec_builtin(t_cmd *cmd, t_cmdtab *cmdtab);
 
 /* BUILT-IN */
 int		echo(t_cmdtab *cmdtab, char **args);
@@ -189,10 +177,14 @@ void	exec_p_subprocess(t_cmdtab *cmdtab, t_cmd *cmd, int fd[2]);
 int		exec_pipe_cmd(t_cmd *cmd, t_cmdtab *cmdtab, int fd[2]);
 int		exec_last_cmd(t_cmd *cmd, t_cmdtab *cmdtab);
 int		exec_bin(char **split_cmd, t_cmdtab *cmdtab);
+int		exec_last_builtin(t_cmd *cmd, t_cmdtab *cmdtab);
+int		which_exit(int status);
+int		is_builtin(char *str_cmd, t_cmdtab *cmdtab);
+int		builtin_cmd(t_cmd *cmd, t_cmdtab *cmdtab, int code);
 
 /* HERE_DOC */
 int		here_doc(char *limiter, size_t n_cmds);
-void	here_doc_put(char *limiter, size_t n_cmds);
+void	here_doc_put(char *limiter, size_t n_cmds, int fd);
 void	put_heredoc_prompt(size_t n_cmds);
 char	*get_next_line(int fd);
 void	get_line(int fd, char **line, size_t size);

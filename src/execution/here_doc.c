@@ -6,67 +6,21 @@
 /*   By: xwu <xwu@student.42urduliz.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/05 01:50:45 by xwu               #+#    #+#             */
-/*   Updated: 2026/02/08 19:46:14 by xwu              ###   ########.fr       */
+/*   Updated: 2026/02/08 21:41:20 by xwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	get_line(int fd, char **line, size_t size)
-{
-	size_t	i;
-	int		nread;
-	char	c;
-
-	i = 0;
-	nread = read(fd, &c, 1);
-	while (nread > 0)
-	{
-		if (i + 1 >= size)
-		{
-			*line = ft_realloc(*line, size, size * 2);
-			size *= 2;
-		}
-		(*line)[i++] = c;
-		if (c == '\n')
-			break ;
-		nread = read(fd, &c, 1);
-	}
-	if (nread == -1 || (!nread && !i))
-	{
-		free(*line);
-		*line = NULL;
-		return ;
-	}
-	(*line)[i] = '\0';
-}
-
-char	*get_next_line(int fd)
-{
-	char	*line;
-	size_t	size;
-
-	size = 32;
-	if (fd < 0)
-		return (NULL);
-	line = malloc(size);
-	if (!line)
-		return (NULL);
-	get_line(fd, &line, size);
-	if (!line)
-		return (NULL);
-	return (line);
-}
-
-void	eof_warning_message(size_t nline, char *limiter)
+static void	eof_warning_message(int nline, char *limiter)
 {
 	ft_putstr_fd("warning: here-document at line ", 1);
-	ft_putstr_fd(ft_atoi(nline), 1);
+	ft_putstr_fd(ft_itoa(nline), 1);
 	ft_putstr_fd(" delimited by end-of-file (wanted `", 1);
-	ft_pustr_fd(limiter, 1);
-	ft_pustr_fd("')", 1);
+	ft_putstr_fd(limiter, 1);
+	ft_putstr_fd("')", 1);
 }
-
+1
 void	put_heredoc_prompt(size_t n_cmds)
 {
 	while (--n_cmds > 0)
@@ -74,7 +28,7 @@ void	put_heredoc_prompt(size_t n_cmds)
 	ft_putstr_fd("here_doc> ", 1);
 }
 
-void	here_doc_put(char *limiter, size_t n_cmds)
+void	here_doc_put(char *limiter, size_t n_cmds, int fd)
 {
 	char	*input;
 	char	*new_limiter;
@@ -82,7 +36,7 @@ void	here_doc_put(char *limiter, size_t n_cmds)
 
 	new_limiter = ft_strjoin(limiter, "\n");
 	if (!new_limiter)
-	return ;
+		return ;
 	put_heredoc_prompt(n_cmds);
 	input = get_next_line(0);
 	nline = 0;
@@ -92,15 +46,15 @@ void	here_doc_put(char *limiter, size_t n_cmds)
 		{
 			free(new_limiter);
 			free(input);
-			exit(0);
+			return ;
 		}
-		ft_putstr_fd(input, 1);
+		ft_putstr_fd(input, fd);
 		free(input);
 		put_heredoc_prompt(n_cmds);
 		input = get_next_line(0);
 		nline++;
 	}
-	return (eof_warning_message(nline, limiter), 0);
+	return (eof_warning_message(nline, limiter));
 }
 
 int	here_doc(char *limiter, size_t n_cmds)
@@ -116,7 +70,7 @@ int	here_doc(char *limiter, size_t n_cmds)
 	if (!read)
 	{
 		close(fd[0]);
-		here_doc_put(limiter, n_cmds);
+		here_doc_put(limiter, n_cmds, fd[1]);
 		if (ft_dup(fd[1], STDOUT_FILENO))
 			exit(1);
 		exit(0);

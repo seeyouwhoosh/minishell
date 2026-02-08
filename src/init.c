@@ -6,7 +6,7 @@
 /*   By: xwu <xwu@student.42urduliz.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/18 13:00:32 by xwu               #+#    #+#             */
-/*   Updated: 2026/02/07 15:10:04 by xwu              ###   ########.fr       */
+/*   Updated: 2026/02/08 20:21:04 by xwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ int	init_cmdtab(t_cmdtab *cmdtab, char **ev)
 	if (copy_env(cmdtab, ev))
 		return (free_cmdtab(cmdtab), 1);
 	cmdtab->stdout_fd = dup(STDOUT_FILENO);
+	cmdtab->stdin_fd = dup(STDIN_FILENO);
 	cmdtab->cwd = getcwd(NULL, 0);
 	if (!cmdtab->cwd)
 		return (error_msg("malloc", NULL, NULL, 1));

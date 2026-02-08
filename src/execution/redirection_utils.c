@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirection_utils.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcassi-d <gcassi-d@42urduliz.com>          +#+  +:+       +#+        */
+/*   By: xwu <xwu@student.42urduliz.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/07 13:43:07 by xwu               #+#    #+#             */
-/*   Updated: 2026/02/08 19:49:52 by gcassi-d         ###   ########.fr       */
+/*   Updated: 2026/02/08 21:21:23 by xwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int	manage_outfile(t_cmd *cmd, t_cmdtab *cmdtab)
 {
 	if (cmd->outfile != 1 && ft_dup(cmd->outfile, STDOUT_FILENO))
 		return (1);
-	else if (ft_dup(cmdtab->stdout_fd, STDOUT_FILENO))
+	else if (cmd->outfile == 1 && ft_dup(cmdtab->stdout_fd, STDOUT_FILENO))
 		return (1);
 	return (0);
 }
