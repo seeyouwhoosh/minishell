@@ -6,7 +6,7 @@
 /*   By: xwu <xwu@student.42urduliz.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/31 10:45:02 by xwu               #+#    #+#             */
-/*   Updated: 2026/02/08 22:47:01 by xwu              ###   ########.fr       */
+/*   Updated: 2026/02/08 23:49:32 by xwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,10 +39,10 @@ int	exec_last_cmd(t_cmd *cmd, t_cmdtab *cmdtab)
 	ext = exec_last_builtin(cmd, cmdtab);
 	if (ext != -1)
 		return (ext);
+	ext = 0;
 	command = fork();
 	if (command == -1)
 		return (error_msg("fork", NULL, NULL, ENOMEM));
-	ext = 0;
 	if (!command)
 	{
 		if (manage_infile(cmd, cmdtab, NULL))

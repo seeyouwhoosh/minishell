@@ -6,7 +6,7 @@
 /*   By: xwu <xwu@student.42urduliz.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/07 13:43:07 by xwu               #+#    #+#             */
-/*   Updated: 2026/02/08 22:57:20 by xwu              ###   ########.fr       */
+/*   Updated: 2026/02/08 23:49:49 by xwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	ft_dup(int new_fd, int og_fd)
 
 int	manage_infile(t_cmd *cmd, t_cmdtab *cmdtab, int fd[2])
 {
-	if (cmd->here_doc || cmd->infile)
+	if (fd != NULL && (cmd->here_doc || cmd->infile))
 		close(fd[0]);
 	if (cmd->here_doc && here_doc(cmd->here_doc, cmdtab->n_cmds))
 		return (1);
@@ -59,7 +59,7 @@ int	just_redirection(t_cmd *cmd)
 {
 	if (!cmd->split_cmd)
 	{
-		ft_putendl_fd(0, 1);
+		ft_putstr_fd("\n", 1);
 		return (1);
 	}
 	return (0);

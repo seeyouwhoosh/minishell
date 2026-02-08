@@ -6,7 +6,7 @@
 /*   By: xwu <xwu@student.42urduliz.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/17 01:26:00 by xwu               #+#    #+#             */
-/*   Updated: 2026/02/07 13:27:10 by xwu              ###   ########.fr       */
+/*   Updated: 2026/02/08 23:54:03 by xwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@ void	int_signal(int n)
 	(void)n;
 	signal(SIGINT, SIG_IGN);
 	write(STDERR_FILENO, "\n", 1);
-	rl_on_new_line();
 	rl_replace_line("", 0);
 	rl_redisplay();
 	signal(SIGINT, int_signal);
