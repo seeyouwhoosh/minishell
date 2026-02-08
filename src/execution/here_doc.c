@@ -6,7 +6,7 @@
 /*   By: xwu <xwu@student.42urduliz.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/05 01:50:45 by xwu               #+#    #+#             */
-/*   Updated: 2026/02/06 20:20:05 by xwu              ###   ########.fr       */
+/*   Updated: 2026/02/08 19:35:26 by xwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,11 +58,16 @@ char	*get_next_line(int fd)
 	return (line);
 }
 
+void	eof_warning_message(size_t nline, char *limiter)
+{
+	
+}
+
 void	put_heredoc_prompt(size_t n_cmds)
 {
 	while (--n_cmds > 0)
 		ft_putstr_fd("pipe ", 1);
-	ft_putstr_fd("here_doc>", 1);
+	ft_putstr_fd("here_doc> ", 1);
 }
 
 void	here_doc_put(char *limiter, size_t n_cmds)
@@ -83,11 +88,12 @@ void	here_doc_put(char *limiter, size_t n_cmds)
 			free(input);
 			exit(0);
 		}
-		write(1, input, ft_strlen(input));
+		ft_putstr_fd(input, 1);
 		free(input);
 		put_heredoc_prompt(n_cmds);
 		input = get_next_line(0);
 	}
+	return (eof_warning_message())
 }
 
 int	here_doc(char *limiter, size_t n_cmds)
@@ -103,10 +109,10 @@ int	here_doc(char *limiter, size_t n_cmds)
 	if (!read)
 	{
 		close(fd[0]);
-		if (ft_dup(fd[1], STDOUT_FILENO))
-			return (1);
 		here_doc_put(limiter, n_cmds);
-		return (0);
+		if (ft_dup(fd[1], STDOUT_FILENO))
+			exit(1);
+		exit(0);
 	}
 	else if (read > 0)
 	{
