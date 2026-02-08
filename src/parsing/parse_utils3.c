@@ -6,7 +6,7 @@
 /*   By: gcassi-d <gcassi-d@42urduliz.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/04 22:11:29 by gcassi-d          #+#    #+#             */
-/*   Updated: 2026/02/07 18:19:51 by gcassi-d         ###   ########.fr       */
+/*   Updated: 2026/02/08 15:04:00 by gcassi-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,32 +26,11 @@ int	ft_open(const char *filename, int mode)
 	return (fd);
 }
 
-int	add_exit_code(t_why a, t_str *str, size_t i)
-{
-	char	*c;
-	int		j;
-
-	(void)i;
-	c = ft_itoa(a.cmdtab->exit_code);
-	if (!c)
-		return (free(str->str), error_msg("minishell", "parsing",
-				"memory allocation failed", 1));
-	j = 0;
-	while (c[j])
-	{
-		if (expand(str))
-			return (free(c), 1);
-		str->str[str->len++] = c[j];
-		j++;
-	}
-	return (free(c), SUCCESS);
-}
-
 static int	create_split(char ***split, char *s)
 {
 	*split = ft_calloc(2, sizeof(char *));
 	if (!(*split))
-		return (MALLOC);
+		return (error_msg("Malloc", NULL, NULL, 1));
 	(*split)[0] = s;
 	return (SUCCESS);
 }
@@ -62,7 +41,7 @@ int	append(char *s, char ***split)
 	char	**new_split;
 	size_t	i;
 
-	if (*split)
+	if (!(*split))
 		return (create_split(split, s));
 	i = 0;
 	while ((*split)[i])

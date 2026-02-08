@@ -6,13 +6,13 @@
 /*   By: gcassi-d <gcassi-d@42urduliz.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/18 13:00:32 by xwu               #+#    #+#             */
-/*   Updated: 2026/02/07 18:13:45 by gcassi-d         ###   ########.fr       */
+/*   Updated: 2026/02/08 14:56:05 by gcassi-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	quote_stuff(int pos, short *squote, short *dquote)
+static void	quotes(int pos, short *squote, short *dquote)
 {
 	if (!*squote && pos == '\"')
 		*dquote = 1 - *dquote;
@@ -34,7 +34,7 @@ char	*get_next_command(t_cmd *cmd, char *pos, size_t ind, t_str str)
 			cmd[ind].raw = NULL;
 			return (NULL);
 		}
-		quote_stuff(*pos, &squote, &dquote);
+		quotes(*pos, &squote, &dquote);
 		str.str[str.len] = *pos;
 		str.len++;
 		pos++;

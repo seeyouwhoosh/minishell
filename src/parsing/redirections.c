@@ -6,7 +6,7 @@
 /*   By: gcassi-d <gcassi-d@42urduliz.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/07 15:25:21 by gcassi-d          #+#    #+#             */
-/*   Updated: 2026/02/07 18:24:42 by gcassi-d         ###   ########.fr       */
+/*   Updated: 2026/02/08 16:05:37 by gcassi-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,9 @@ static int	parse_hd(t_why a, size_t *i, short *squote, short *dquote)
 	t_str	str;
 
 	(*i)++;
+	str = new();
+	if (!str.str)
+		return (error_msg("malloc", NULL, NULL, 1));
 	while (is_whitespace(a.cmd->raw[*i]))
 		(*i)++;
 	if (!a.cmd->raw[*i] || a.cmd->raw[*i] == '<' || a.cmd->raw[*i] == '>')
@@ -39,6 +42,9 @@ static int	parse_ap(t_why a, size_t *i, short *squote, short *dquote)
 {
 	t_str	str;
 
+	str = new();
+	if (!str.str)
+		return (error_msg("malloc", NULL, NULL, 1));
 	(*i)++;
 	while (is_whitespace(a.cmd->raw[*i]))
 		(*i)++;
@@ -49,7 +55,7 @@ static int	parse_ap(t_why a, size_t *i, short *squote, short *dquote)
 	{
 		if (quote_stuff(a.cmd->raw, i, squote, dquote))
 			continue ;
-		if (!squote && a.cmd->raw[*i] == '$')
+		if (!*squote && a.cmd->raw[*i] == '$')
 		{
 			if (add_var(a, &str, i, squote))
 				return (1);
@@ -57,8 +63,7 @@ static int	parse_ap(t_why a, size_t *i, short *squote, short *dquote)
 		}
 		if (extend(&str))
 			return (1);
-		str.str[str.len] = a.cmd->raw[*i];
-		str.len++;
+		str.str[str.len++] = a.cmd->raw[*i];
 		(*i)++;
 	}
 	return (opening(a, APPEND, str));
@@ -68,7 +73,9 @@ static int	parse_of(t_why a, size_t *i, short *squote, short *dquote)
 {
 	t_str	str;
 
-	(*i)++;
+	str = new();
+	if (!str.str)
+		return (error_msg("malloc", NULL, NULL, 1));
 	while (is_whitespace(a.cmd->raw[*i]))
 		(*i)++;
 	if (!a.cmd->raw[*i] || a.cmd->raw[*i] == '<' || a.cmd->raw[*i] == '>')
@@ -78,7 +85,7 @@ static int	parse_of(t_why a, size_t *i, short *squote, short *dquote)
 	{
 		if (quote_stuff(a.cmd->raw, i, squote, dquote))
 			continue ;
-		if (!squote && a.cmd->raw[*i] == '$')
+		if (!*squote && a.cmd->raw[*i] == '$')
 		{
 			if (add_var(a, &str, i, squote))
 				return (1);
@@ -86,8 +93,7 @@ static int	parse_of(t_why a, size_t *i, short *squote, short *dquote)
 		}
 		if (extend(&str))
 			return (1);
-		str.str[str.len] = a.cmd->raw[*i];
-		str.len++;
+		str.str[str.len++] = a.cmd->raw[*i];
 		(*i)++;
 	}
 	return (opening(a, OUTFILE, str));
@@ -97,7 +103,9 @@ static int	parse_if(t_why a, size_t *i, short *squote, short *dquote)
 {
 	t_str	str;
 
-	(*i)++;
+	str = new();
+	if (!str.str)
+		return (error_msg("malloc", NULL, NULL, 1));
 	while (is_whitespace(a.cmd->raw[*i]))
 		(*i)++;
 	if (!a.cmd->raw[*i] || a.cmd->raw[*i] == '<' || a.cmd->raw[*i] == '>')
@@ -107,7 +115,7 @@ static int	parse_if(t_why a, size_t *i, short *squote, short *dquote)
 	{
 		if (quote_stuff(a.cmd->raw, i, squote, dquote))
 			continue ;
-		if (!squote && a.cmd->raw[*i] == '$')
+		if (!*squote && a.cmd->raw[*i] == '$')
 		{
 			if (add_var(a, &str, i, squote))
 				return (1);
@@ -115,8 +123,7 @@ static int	parse_if(t_why a, size_t *i, short *squote, short *dquote)
 		}
 		if (extend(&str))
 			return (1);
-		str.str[str.len] = a.cmd->raw[*i];
-		str.len++;
+		str.str[str.len++] = a.cmd->raw[*i];
 		(*i)++;
 	}
 	return (opening(a, INFILE, str));

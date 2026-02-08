@@ -6,7 +6,7 @@
 /*   By: gcassi-d <gcassi-d@42urduliz.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/18 13:00:32 by xwu               #+#    #+#             */
-/*   Updated: 2026/02/07 17:39:48 by gcassi-d         ###   ########.fr       */
+/*   Updated: 2026/02/08 15:09:34 by gcassi-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,8 @@ void	free_cmd(t_cmd *cmd)
 {
 	if (cmd->split_cmd)
 		free_split(&(cmd->split_cmd));
-	if (cmd->here_doc)
-		free_pointer(&(cmd->here_doc));
+	free_pointer(&(cmd->here_doc));
+	free_pointer(&(cmd->raw));
 }
 
 void	free_pointer(char **p)

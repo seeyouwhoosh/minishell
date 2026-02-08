@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: xwu <xwu@student.42urduliz.com>            +#+  +:+       +#+        */
+/*   By: gcassi-d <gcassi-d@42urduliz.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 16:46:16 by xwu               #+#    #+#             */
-/*   Updated: 2026/02/07 18:27:48 by xwu              ###   ########.fr       */
+/*   Updated: 2026/02/08 14:53:22 by gcassi-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,10 +127,6 @@ void	free_cmds(t_cmdtab *cmdtab);
 
 /* VARIABLE EXPANSION */
 size_t	n_cmds(char *line);
-char	*search_var(char *var, char **ev);
-char	*next_word(char *line);
-int		insert_var(char **line, char *var, size_t n, char **ev);
-int		variable_expansion(char **line, char **ev);
 
 /* SIGNAL MANAGER */
 void	int_signal(int n);
@@ -179,6 +175,8 @@ int		redirection(t_why a, size_t *i, short *squote, short *dquote);
 bool	quote_stuff(char *str, size_t *i, short *squote, short *dquote);
 int		opening(t_why a, int mode, t_str str);
 int		ft_open(const char *filename, int mode);
+int		parse_main(t_cmdtab *cmdtab, char *cmd);
+int		append(char *s, char ***split);
 
 /* EXECUTING */
 int		execute_all(t_cmdtab *cmdtab);

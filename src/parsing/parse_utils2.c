@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_utils2.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: xwu <xwu@student.42urduliz.com>            +#+  +:+       +#+        */
+/*   By: gcassi-d <gcassi-d@42urduliz.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/04 22:00:12 by gcassi-d          #+#    #+#             */
-/*   Updated: 2026/02/07 19:44:38 by xwu              ###   ########.fr       */
+/*   Updated: 2026/02/08 16:16:52 by gcassi-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int	cmds_am(char *line, size_t *holder)
 
 	squote = 0;
 	dquote = 0;
-	*holder++;
+	(*holder)++;
 	i = -1;
 	while (line[++i])
 	{
@@ -29,7 +29,7 @@ int	cmds_am(char *line, size_t *holder)
 		else if (line[i] == '\'' && !dquote)
 			squote = 1 - squote;
 		else if (!dquote && !squote && line[i] == '|')
-			*holder++;
+			(*holder)++;
 	}
 	if (squote)
 		return (error_msg("minishell", "parsing",
@@ -74,13 +74,37 @@ static int	add(t_why a, t_str *str, t_str *var_name)
 
 	val = get_env_val(a.cmdtab, a.cmdtab->env, var_name->str);
 	free(var_name->str);
+	if (!val)
+		return (SUCCESS);
 	while (*val)
 	{
 		if (extend(str))
 			return (1);
-		str->str[str->len++];
+		str->str[str->len++] = *val;
+		val++;
 	}
 	return (SUCCESS);
+}
+
+static int	add_exit_code(t_why a, t_str *str, size_t i)
+{
+	char	*c;
+	int		j;
+
+	(void)i;
+	c = ft_itoa(a.cmdtab->exit_code);
+	if (!c)
+		return (free(str->str), error_msg("minishell", "parsing",
+				"memory allocation failed", 1));
+	j = 0;
+	while (c[j])
+	{
+		if (extend(str))
+			return (free(c), 1);
+		str->str[str->len++] = c[j];
+		j++;
+	}
+	return (free(c), SUCCESS);
 }
 
 int	add_var(t_why a, t_str *str, size_t *i, short *squote)
@@ -96,7 +120,7 @@ int	add_var(t_why a, t_str *str, size_t *i, short *squote)
 		str->len++;
 		return (SUCCESS);
 	}
-	if (a.cmd->raw[*i] != '?')
+	if (a.cmd->raw[*i] == '?')
 		return (add_exit_code(a, str, (*i)++));
 	var_name = new();
 	while (ft_isalnum(a.cmd->raw[*i]))
