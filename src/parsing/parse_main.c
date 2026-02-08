@@ -114,7 +114,7 @@ int	parse_main(t_cmdtab *cmdtab, char *cmd)
 	if (!cmdtab->cmds)
 		return (error_msg("mnsh", NULL,
 				"memory allocation failed", 1));
-	flag = get_commands(cmdtab->cmds, cmd);
+	flag = get_commands(cmdtab->cmds, cmd, cmdtab->n_cmds);
 	if (flag)
 		return (flag);
 	i = -1;

@@ -49,3 +49,15 @@ int	opening(t_why a, int mode, t_str str)
 	free(str.str);
 	return (SUCCESS);
 }
+
+int	check_rest(t_cmd *cmd, size_t i, size_t max)
+{
+	while (i < max)
+	{
+		cmd[i].raw = ft_calloc(1, 1);
+		if (!cmd[i].raw)
+			return (MALLOC);
+		i++;
+	}
+	return (SUCCESS);
+}
