@@ -6,7 +6,7 @@
 /*   By: xwu <xwu@student.42urduliz.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/05 01:53:13 by xwu               #+#    #+#             */
-/*   Updated: 2026/02/06 20:11:33 by xwu              ###   ########.fr       */
+/*   Updated: 2026/02/08 19:53:14 by xwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,11 +33,8 @@ int	is_builtin(char *str_cmd, t_cmdtab *cmdtab)
 		return (-1);
 }
 
-int	exec_builtin(t_cmd *cmd, t_cmdtab *cmdtab)
+int	exec_builtin(t_cmd *cmd, t_cmdtab *cmdtab, int code)
 {
-	int	code;
-
-	code = is_builtin(cmd->split_cmd[0], cmdtab);
 	if (code == CD)
 		return (cd(cmdtab, cmd->split_cmd));
 	else if (code == ECHO)

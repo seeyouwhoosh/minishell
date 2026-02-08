@@ -6,7 +6,7 @@
 /*   By: xwu <xwu@student.42urduliz.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/05 01:50:45 by xwu               #+#    #+#             */
-/*   Updated: 2026/02/08 19:35:26 by xwu              ###   ########.fr       */
+/*   Updated: 2026/02/08 19:46:14 by xwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,11 @@ char	*get_next_line(int fd)
 
 void	eof_warning_message(size_t nline, char *limiter)
 {
-	
+	ft_putstr_fd("warning: here-document at line ", 1);
+	ft_putstr_fd(ft_atoi(nline), 1);
+	ft_putstr_fd(" delimited by end-of-file (wanted `", 1);
+	ft_pustr_fd(limiter, 1);
+	ft_pustr_fd("')", 1);
 }
 
 void	put_heredoc_prompt(size_t n_cmds)
@@ -74,12 +78,14 @@ void	here_doc_put(char *limiter, size_t n_cmds)
 {
 	char	*input;
 	char	*new_limiter;
+	int		nline;
 
 	new_limiter = ft_strjoin(limiter, "\n");
 	if (!new_limiter)
-		return ;
+	return ;
 	put_heredoc_prompt(n_cmds);
 	input = get_next_line(0);
+	nline = 0;
 	while (input)
 	{
 		if (!ft_strcmp(input, new_limiter))
@@ -92,8 +98,9 @@ void	here_doc_put(char *limiter, size_t n_cmds)
 		free(input);
 		put_heredoc_prompt(n_cmds);
 		input = get_next_line(0);
+		nline++;
 	}
-	return (eof_warning_message())
+	return (eof_warning_message(nline, limiter), 0);
 }
 
 int	here_doc(char *limiter, size_t n_cmds)
