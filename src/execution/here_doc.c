@@ -6,7 +6,7 @@
 /*   By: xwu <xwu@student.42urduliz.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/05 01:50:45 by xwu               #+#    #+#             */
-/*   Updated: 2026/02/08 21:48:39 by xwu              ###   ########.fr       */
+/*   Updated: 2026/02/09 22:20:43 by xwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,11 @@
 
 static void	eof_warning_message(int nline, char *limiter)
 {
-	ft_putstr_fd("warning: here-document at line ", 1);
+	ft_putstr_fd("\nwarning: here-document at line ", 1);
 	ft_putstr_fd(ft_itoa(nline), 1);
 	ft_putstr_fd(" delimited by end-of-file (wanted `", 1);
 	ft_putstr_fd(limiter, 1);
-	ft_putstr_fd("')", 1);
+	ft_putstr_fd("')\n", 1);
 }
 
 void	put_heredoc_prompt(size_t n_cmds)
