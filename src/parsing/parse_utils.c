@@ -6,7 +6,7 @@
 /*   By: gcassi-d <gcassi-d@42urduliz.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/18 13:00:32 by xwu               #+#    #+#             */
-/*   Updated: 2026/02/08 14:56:05 by gcassi-d         ###   ########.fr       */
+/*   Updated: 2026/02/09 20:41:06 by gcassi-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,6 @@ int	get_commands(t_cmd *cmd, char *str, size_t max)
 	}
 	if (check_rest(cmd, i, max))
 		return (error_msg("mnsh", NULL,
-					"memory allocation failed", 1));
+				"memory allocation failed", 1));
 	return (SUCCESS);
 }

@@ -6,7 +6,7 @@
 /*   By: gcassi-d <gcassi-d@42urduliz.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/07 15:25:21 by gcassi-d          #+#    #+#             */
-/*   Updated: 2026/02/08 19:14:08 by gcassi-d         ###   ########.fr       */
+/*   Updated: 2026/02/09 20:41:47 by gcassi-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,8 +45,7 @@ static int	parse_ap(t_why a, size_t *i, short *squote, short *dquote)
 
 	str = new();
 	if (!str.str)
-		return (error_msg("mnsh", NULL,
-				"memory allocation failed", 1));
+		return (error_msg("mnsh", NULL, "memory allocation failed", 1));
 	(*i)++;
 	while (is_whitespace(a.cmd->raw[*i]))
 		(*i)++;
