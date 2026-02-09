@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_utils2.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: xwu <xwu@student.42urduliz.com>            +#+  +:+       +#+        */
+/*   By: gcassi-d <gcassi-d@42urduliz.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/04 22:00:12 by gcassi-d          #+#    #+#             */
-/*   Updated: 2026/02/09 12:12:53 by xwu              ###   ########.fr       */
+/*   Updated: 2026/02/09 19:40:30 by gcassi-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,7 +112,8 @@ int	add_var(t_why a, t_str *str, size_t *i, short *squote)
 	t_str	var_name;
 
 	(*i)++;
-	if (*squote || (!ft_isalpha(a.cmd->raw[*i]) && a.cmd->raw[*i] != '?'))
+	if (*squote || (!(ft_isalpha(a.cmd->raw[*i])
+				|| a.cmd->raw[*i] == '_') && a.cmd->raw[*i] != '?'))
 	{
 		if (extend(str))
 			return (1);
@@ -123,7 +124,7 @@ int	add_var(t_why a, t_str *str, size_t *i, short *squote)
 	if (a.cmd->raw[*i] == '?')
 		return (add_exit_code(a, str, (*i)++));
 	var_name = new();
-	while (ft_isalnum(a.cmd->raw[*i]))
+	while (ft_isalnum(a.cmd->raw[*i]) || a.cmd->raw[*i] == '_')
 	{
 		if (extend(&var_name))
 			return (free(str->str), 1);
