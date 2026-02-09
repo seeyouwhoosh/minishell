@@ -6,7 +6,7 @@
 /*   By: xwu <xwu@student.42urduliz.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/31 10:45:02 by xwu               #+#    #+#             */
-/*   Updated: 2026/02/09 20:17:38 by xwu              ###   ########.fr       */
+/*   Updated: 2026/02/09 20:51:21 by xwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,9 @@ int	exec_bin(char **split_cmd, t_cmdtab *cmdtab)
 	char	*path;
 	int		ext;
 
-	if (ft_strncmp("./", split_cmd[0], 2))
+	if (!ft_strncmp("./", split_cmd[0], 2))
+		ext = execve(split_cmd[0], split_cmd, cmdtab->env);
+	else
 	{
 		path = get_path(split_cmd[0], cmdtab->env);
 		if (!path)
@@ -27,8 +29,8 @@ int	exec_bin(char **split_cmd, t_cmdtab *cmdtab)
 			free(path);
 			return (ext);
 		}
+		ext = execve(path, split_cmd, cmdtab->env);
 	}
-	ext = execve(path, split_cmd, cmdtab->env);
 	if (ext)
 		return (free(path), error_msg(split_cmd[0], NULL, NULL, ext));
 	return (0);
