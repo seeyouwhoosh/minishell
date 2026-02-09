@@ -6,7 +6,7 @@
 /*   By: gcassi-d <gcassi-d@42urduliz.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/04 22:00:12 by gcassi-d          #+#    #+#             */
-/*   Updated: 2026/02/09 19:40:30 by gcassi-d         ###   ########.fr       */
+/*   Updated: 2026/02/09 20:54:46 by gcassi-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,7 +113,7 @@ int	add_var(t_why a, t_str *str, size_t *i, short *squote)
 
 	(*i)++;
 	if (*squote || (!(ft_isalpha(a.cmd->raw[*i])
-				|| a.cmd->raw[*i] == '_') && a.cmd->raw[*i] != '?'))
+				|| a.cmd->raw[*i] != '_' || a.cmd->raw[*i] != '?')))
 	{
 		if (extend(str))
 			return (1);
