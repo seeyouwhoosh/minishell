@@ -6,7 +6,7 @@
 /*   By: xwu <xwu@student.42urduliz.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 16:46:16 by xwu               #+#    #+#             */
-/*   Updated: 2026/02/08 22:54:34 by xwu              ###   ########.fr       */
+/*   Updated: 2026/02/09 22:09:20 by xwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,8 +121,10 @@ void	free_cmd(t_cmd *cmd);
 void	free_cmds(t_cmdtab *cmdtab);
 
 /* SIGNAL MANAGER */
-void	int_signal(int n);
-void	signal_manager(void);
+void	global_int_signal(int n);
+void	global_signal_manager(void);
+void	child_signal_manager(void);
+void	parent_signal_manager(void);
 
 /* BUILT-IN */
 int		echo(t_cmdtab *cmdtab, char **args);

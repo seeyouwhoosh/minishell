@@ -6,24 +6,37 @@
 /*   By: xwu <xwu@student.42urduliz.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/17 01:26:00 by xwu               #+#    #+#             */
-/*   Updated: 2026/02/08 23:54:03 by xwu              ###   ########.fr       */
+/*   Updated: 2026/02/09 22:16:20 by xwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	int_signal(int n)
+void	global_int_signal(int n)
 {
 	(void)n;
 	signal(SIGINT, SIG_IGN);
 	write(STDERR_FILENO, "\n", 1);
+	rl_on_new_line();
 	rl_replace_line("", 0);
 	rl_redisplay();
-	signal(SIGINT, int_signal);
+	signal(SIGINT, global_int_signal);
 }
 
-void	signal_manager(void)
+void	global_signal_manager(void)
 {
-	signal(SIGINT, int_signal);
+	signal(SIGINT, global_int_signal);
 	signal(SIGQUIT, SIG_IGN);
+}
+
+void	parent_signal_manager(void)
+{
+	signal(SIGINT, SIG_IGN);
+	signal(SIGQUIT, SIG_IGN);
+}
+
+void	child_signal_manager(void)
+{
+	signal(SIGINT, SIG_DFL);
+	signal(SIGQUIT, SIG_DFL);
 }

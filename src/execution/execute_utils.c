@@ -6,7 +6,7 @@
 /*   By: xwu <xwu@student.42urduliz.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/31 10:45:02 by xwu               #+#    #+#             */
-/*   Updated: 2026/02/09 20:51:21 by xwu              ###   ########.fr       */
+/*   Updated: 2026/02/09 22:10:48 by xwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,15 +41,16 @@ int	exec_last_cmd(t_cmd *cmd, t_cmdtab *cmdtab)
 	int		ext;
 	pid_t	command;
 
+	parent_signal_manager();
 	ext = exec_last_builtin(cmd, cmdtab);
 	if (ext != -1)
 		return (ext);
-	ext = 0;
 	command = fork();
 	if (command == -1)
 		return (error_msg("fork", NULL, NULL, ENOMEM));
 	if (!command)
 	{
+		child_signal_manager();
 		if (manage_infile(cmd, cmdtab, NULL))
 			exit(EXIT_FAILURE);
 		if (just_redirection(cmd))
@@ -60,6 +61,7 @@ int	exec_last_cmd(t_cmd *cmd, t_cmdtab *cmdtab)
 		exit(ext);
 	}
 	waitpid(command, &ext, 0);
+	global_signal_manager();
 	return (which_exit(ext));
 }
 
@@ -67,6 +69,7 @@ void	exec_pipe_cmd(t_cmdtab *cmdtab, t_cmd *cmd, int fd[2])
 {
 	int	ext;
 
+	child_signal_manager();
 	if (manage_infile(cmd, cmdtab, fd))
 		exit(EXIT_FAILURE);
 	if (just_redirection(cmd))
@@ -86,6 +89,7 @@ int	exec_cmd(t_cmd *cmd, t_cmdtab *cmdtab)
 	int		fd[2];
 	pid_t	command;
 
+	parent_signal_manager();
 	if (pipe(fd))
 		return (error_msg("pipe", NULL, NULL, EPIPE));
 	command = fork();
@@ -97,5 +101,6 @@ int	exec_cmd(t_cmd *cmd, t_cmdtab *cmdtab)
 	if (ft_dup(fd[0], STDIN_FILENO))
 		return (1);
 	waitpid(command, &ext, 0);
+	global_signal_manager();
 	return (which_exit(ext));
 }

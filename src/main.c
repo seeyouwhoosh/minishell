@@ -6,7 +6,7 @@
 /*   By: xwu <xwu@student.42urduliz.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/18 13:00:32 by xwu               #+#    #+#             */
-/*   Updated: 2026/02/09 12:42:34 by xwu              ###   ########.fr       */
+/*   Updated: 2026/02/09 20:46:14 by xwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	main(int ac, char **av, char **ev)
 	(void)av;
 	if (ac != 1)
 		return (ft_putendl_fd("\e[1;31mToo many arguments\e[0m\n", 2), 1);
-	signal_manager();
+	global_signal_manager();
 	cmdtab = ft_calloc(1, sizeof(t_cmdtab));
 	if (!cmdtab)
 		return (1);

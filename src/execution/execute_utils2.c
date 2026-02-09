@@ -6,7 +6,7 @@
 /*   By: xwu <xwu@student.42urduliz.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/05 01:53:55 by xwu               #+#    #+#             */
-/*   Updated: 2026/02/08 21:00:08 by xwu              ###   ########.fr       */
+/*   Updated: 2026/02/09 21:47:21 by xwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@ int	which_exit(int status)
 {
 	if (WIFEXITED(status))
 		return (WEXITSTATUS(status));
+	if (WIFSIGNALED(status))
+		return (WTERMSIG(status) + 128);
 	return (1);
 }
 
