@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   frees.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcassi-d <gcassi-d@42urduliz.com>          +#+  +:+       +#+        */
+/*   By: xwu <xwu@student.42urduliz.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/18 13:00:32 by xwu               #+#    #+#             */
-/*   Updated: 2026/02/08 19:48:00 by gcassi-d         ###   ########.fr       */
+/*   Updated: 2026/02/09 12:26:49 by xwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,11 @@ void	free_cmds(t_cmdtab *cmdtab)
 	size_t	i;
 
 	i = -1;
+	if (!cmdtab->cmds)
+	{
+		cmdtab->n_cmds = 0;
+		return ;
+	}
 	while (cmdtab->n_cmds > ++i)
 		free_cmd(cmdtab->cmds + i);
 	free(cmdtab->cmds);

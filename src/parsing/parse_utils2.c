@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_utils2.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcassi-d <gcassi-d@42urduliz.com>          +#+  +:+       +#+        */
+/*   By: xwu <xwu@student.42urduliz.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/04 22:00:12 by gcassi-d          #+#    #+#             */
-/*   Updated: 2026/02/08 16:16:52 by gcassi-d         ###   ########.fr       */
+/*   Updated: 2026/02/09 12:12:53 by xwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ int	extend(t_str *str)
 	}
 	if (!new)
 		return (free(str->str), error_msg("mnsh", NULL,
-					"memory allocation failed", 1));
+				"memory allocation failed", 1));
 	ft_memcpy(new, str->str, str->len);
 	free(str->str);
 	str->str = new;
@@ -95,7 +95,7 @@ static int	add_exit_code(t_why a, t_str *str, size_t i)
 	c = ft_itoa(a.cmdtab->exit_code);
 	if (!c)
 		return (free(str->str), error_msg("mnsh", NULL,
-					"memory allocation failed", 1));
+				"memory allocation failed", 1));
 	j = 0;
 	while (c[j])
 	{

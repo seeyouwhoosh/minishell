@@ -6,7 +6,7 @@
 /*   By: xwu <xwu@student.42urduliz.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/07 13:43:07 by xwu               #+#    #+#             */
-/*   Updated: 2026/02/09 00:29:17 by xwu              ###   ########.fr       */
+/*   Updated: 2026/02/09 12:35:20 by xwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ int	manage_outfile(t_cmd *cmd, t_cmdtab *cmdtab, int fd[2])
 /* In case there is no command, just rediretion */
 int	just_redirection(t_cmd *cmd)
 {
-	if (!cmd->split_cmd)
+	if (!(cmd->split_cmd))
 	{
 		ft_putstr_fd("\n", 1);
 		return (1);

@@ -6,7 +6,7 @@
 /*   By: xwu <xwu@student.42urduliz.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/18 13:00:32 by xwu               #+#    #+#             */
-/*   Updated: 2026/02/08 21:55:41 by xwu              ###   ########.fr       */
+/*   Updated: 2026/02/09 12:42:34 by xwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ int	main(int ac, char **av, char **ev)
 {
 	char		*line;
 	t_cmdtab	*cmdtab;
+	int			flag;
 
 	(void)av;
 	if (ac != 1)
@@ -50,7 +51,8 @@ int	main(int ac, char **av, char **ev)
 		cmdtab->cmds[0].split_cmd = ft_split_charset(line, TOKEN_DELIMITER);
 		execute_all(cmdtab); */
 
-		if (!parse_main(cmdtab, line))
+		flag = parse_main(cmdtab, line);
+		if (!flag)
 		{
 			for (size_t i = 0; i < cmdtab->n_cmds; i++)
 			{
@@ -69,11 +71,14 @@ int	main(int ac, char **av, char **ev)
 
 			execute_all(cmdtab);
 		}
+		else
+			cmdtab->exit_code = flag;
 /* ------------------------------------------------------- */
 
 		add_history(line);
 		free_cmds(cmdtab);
 		free(line);
+		flag = 0;
 	}
 	free_cmdtab(cmdtab);
 }

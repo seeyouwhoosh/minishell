@@ -6,7 +6,7 @@
 /*   By: xwu <xwu@student.42urduliz.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/05 01:53:13 by xwu               #+#    #+#             */
-/*   Updated: 2026/02/09 00:33:00 by xwu              ###   ########.fr       */
+/*   Updated: 2026/02/09 12:39:09 by xwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,8 @@ int	exec_last_builtin(t_cmd *cmd, t_cmdtab *cmdtab)
 {
 	int	ext;
 
+	if (!cmd->split_cmd)
+		return (-1);
 	ext = is_builtin(cmd->split_cmd[0], cmdtab);
 	if (ext == -1)
 		return (ext);

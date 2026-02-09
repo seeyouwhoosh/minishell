@@ -6,7 +6,7 @@
 /*   By: xwu <xwu@student.42urduliz.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/31 10:45:02 by xwu               #+#    #+#             */
-/*   Updated: 2026/02/09 00:49:39 by xwu              ###   ########.fr       */
+/*   Updated: 2026/02/09 12:39:43 by xwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ int	exec_last_cmd(t_cmd *cmd, t_cmdtab *cmdtab)
 void	exec_pipe_cmd(t_cmdtab *cmdtab, t_cmd *cmd, int fd[2])
 {
 	int	ext;
-	
+
 	if (manage_infile(cmd, cmdtab, fd))
 		exit(EXIT_FAILURE);
 	if (just_redirection(cmd))
