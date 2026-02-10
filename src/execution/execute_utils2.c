@@ -6,7 +6,7 @@
 /*   By: xwu <xwu@student.42urduliz.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/05 01:53:55 by xwu               #+#    #+#             */
-/*   Updated: 2026/02/09 21:47:21 by xwu              ###   ########.fr       */
+/*   Updated: 2026/02/10 21:54:18 by xwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,8 @@ char	*get_path(char *cmd, char **env)
 	char	*pathplus;
 	char	*path;
 
+	if (!env || !cmd)
+		return (NULL);
 	i = -1;
 	while (env[++i] && !ft_strnstr(env[i], "PATH=", 5))
 		;
