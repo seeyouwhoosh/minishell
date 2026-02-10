@@ -6,7 +6,7 @@
 /*   By: xwu <xwu@student.42urduliz.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/17 20:59:07 by gcassi-d          #+#    #+#             */
-/*   Updated: 2026/02/10 20:58:26 by xwu              ###   ########.fr       */
+/*   Updated: 2026/02/10 21:05:48 by xwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ static int	change_wd_env(t_cmdtab *cmdtab, char *wd)
 	if (!wd)
 		cmdtab->cwd = strdup(get_env_val(cmdtab, cmdtab->env, "HOME"));
 	else
-		getcwd(cmdtab->cwd, PATH_MAX);
+		cmdtab->cwd = getcwd(NULL, PATH_MAX);
 	if (!cmdtab->cwd)
 		return (error_msg("malloc", NULL, NULL, 1));
 	if (set_env_var(cmdtab, "PWD", cmdtab->cwd))

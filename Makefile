@@ -46,8 +46,7 @@ BSOURCES	=
 BOBJ_DIR	= obj_bonus
 BOBJECTS	= $(addprefix $(BOBJ_DIR)/, $(BSOURCES:.c=.o))
 
-OS = $(uname)
-ifeq (OS, Darwin)
+ifeq ($(shell uname), Darwin)
 	LINKER	+= -L/opt/homebrew/opt/readline/lib
 	INCLUDES+= -I/opt/homebrew/opt/readline/include
 endif
