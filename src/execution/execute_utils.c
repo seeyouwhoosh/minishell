@@ -6,7 +6,7 @@
 /*   By: xwu <xwu@student.42urduliz.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/31 10:45:02 by xwu               #+#    #+#             */
-/*   Updated: 2026/02/09 22:10:48 by xwu              ###   ########.fr       */
+/*   Updated: 2026/02/10 21:35:38 by xwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@ int	exec_bin(char **split_cmd, t_cmdtab *cmdtab)
 		ext = execve(split_cmd[0], split_cmd, cmdtab->env);
 	else
 	{
+		if (get_env_ind(cmdtab, cmdtab->env, "PATH") == -1)
+			ext = error_msg("mnsh", split_cmd[0], "command not found", 127);
 		path = get_path(split_cmd[0], cmdtab->env);
 		if (!path)
 		{

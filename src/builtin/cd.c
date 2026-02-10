@@ -6,7 +6,7 @@
 /*   By: xwu <xwu@student.42urduliz.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/17 20:59:07 by gcassi-d          #+#    #+#             */
-/*   Updated: 2026/02/10 21:05:48 by xwu              ###   ########.fr       */
+/*   Updated: 2026/02/10 21:41:14 by xwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static int	go_to_home(t_cmdtab *cmdtab)
 
 	home_dir = get_env_val(cmdtab, cmdtab->env, "HOME");
 	if (!home_dir)
-		return (error_msg("malloc", NULL, NULL, ENOMEM));
+		return (error_msg("cd", NULL, strerror(ENOENT), ENOENT));
 	chdir(home_dir);
 	return (0);
 }
@@ -32,7 +32,7 @@ static int	change_wd_env(t_cmdtab *cmdtab, char *wd)
 	if (set_env_var(cmdtab, "OLDPWD", cmdtab->previous_wd))
 		return (1);
 	if (!wd)
-		cmdtab->cwd = strdup(get_env_val(cmdtab, cmdtab->env, "HOME"));
+		cmdtab->cwd = ft_strdup(get_env_val(cmdtab, cmdtab->env, "HOME"));
 	else
 		cmdtab->cwd = getcwd(NULL, PATH_MAX);
 	if (!cmdtab->cwd)
@@ -44,7 +44,12 @@ static int	change_wd_env(t_cmdtab *cmdtab, char *wd)
 
 static int	go_to_arg(char *wd)
 {
-	if (!opendir(wd))
+	DIR	*direc;
+
+	direc = opendir(wd);
+	if (!direc)
+		return (error_msg("cd", wd, strerror(errno), errno));
+	if (closedir(direc))
 		return (error_msg("cd", wd, strerror(errno), errno));
 	if (chdir(wd) == -1)
 		return (error_msg("cd", wd, strerror(errno), errno));
