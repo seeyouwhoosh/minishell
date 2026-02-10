@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcassi-d <gcassi-d@42urduliz.com>          +#+  +:+       +#+        */
+/*   By: xwu <xwu@student.42urduliz.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/17 20:59:07 by gcassi-d          #+#    #+#             */
-/*   Updated: 2026/02/08 19:45:24 by gcassi-d         ###   ########.fr       */
+/*   Updated: 2026/02/10 20:58:26 by xwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,6 @@ static int	go_to_home(t_cmdtab *cmdtab)
 
 static int	change_wd_env(t_cmdtab *cmdtab, char *wd)
 {
-	char	path[PATH_MAX];
-
 	if (cmdtab->previous_wd)
 		free(cmdtab->previous_wd);
 	cmdtab->previous_wd = cmdtab->cwd;
@@ -36,7 +34,7 @@ static int	change_wd_env(t_cmdtab *cmdtab, char *wd)
 	if (!wd)
 		cmdtab->cwd = strdup(get_env_val(cmdtab, cmdtab->env, "HOME"));
 	else
-		cmdtab->cwd = strdup(getcwd(path, PATH_MAX));
+		getcwd(cmdtab->cwd, PATH_MAX);
 	if (!cmdtab->cwd)
 		return (error_msg("malloc", NULL, NULL, 1));
 	if (set_env_var(cmdtab, "PWD", cmdtab->cwd))

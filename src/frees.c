@@ -6,7 +6,7 @@
 /*   By: xwu <xwu@student.42urduliz.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/18 13:00:32 by xwu               #+#    #+#             */
-/*   Updated: 2026/02/09 22:01:32 by xwu              ###   ########.fr       */
+/*   Updated: 2026/02/10 20:53:34 by xwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,6 @@ void	free_cmd(t_cmd *cmd)
 		close(cmd->infile);
 	if (cmd->outfile != 1)
 		close(cmd->outfile);
-	
 }
 
 void	free_pointer(char **p)
