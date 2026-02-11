@@ -6,7 +6,7 @@
 /*   By: xwu <xwu@student.42urduliz.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/07 13:43:07 by xwu               #+#    #+#             */
-/*   Updated: 2026/02/10 22:06:01 by xwu              ###   ########.fr       */
+/*   Updated: 2026/02/10 22:15:26 by xwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,6 @@ int	ft_dup(int new_fd, int og_fd)
 {
 	if (dup2(new_fd, og_fd) == -1)
 		return (error_msg("dup2", NULL, NULL, 1));
-	if (new_fd > 2)
-		close(new_fd);
 	return (0);
 }
 
