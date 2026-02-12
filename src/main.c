@@ -6,7 +6,7 @@
 /*   By: xwu <xwu@student.42urduliz.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/18 13:00:32 by xwu               #+#    #+#             */
-/*   Updated: 2026/02/12 23:31:29 by xwu              ###   ########.fr       */
+/*   Updated: 2026/02/12 23:39:26 by xwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,6 @@ void	main_loop(t_cmdtab *cmdtab)
 				}
 				printf("\n\n");
 			}
-
 			execute_all(cmdtab);
 		}
 		else
