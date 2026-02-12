@@ -6,7 +6,7 @@
 /*   By: xwu <xwu@student.42urduliz.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 16:46:16 by xwu               #+#    #+#             */
-/*   Updated: 2026/02/12 22:28:01 by xwu              ###   ########.fr       */
+/*   Updated: 2026/02/12 23:06:54 by xwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,10 +109,12 @@ enum e_parsing_errors
 	FILE_NOT_FOUND,
 };
 
-volatile int	g_signal;
+extern volatile int	g_signal;
 
 /* INITS */
 int		init_cmdtab(t_cmdtab **cmdtab, char **ev);
+
+/* REDIRECTION UTILS */
 void	correct_outfile(t_cmdtab *cmdtab);
 
 /* FREES */
