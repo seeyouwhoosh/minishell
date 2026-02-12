@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signal.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: xwu <xwu@student.42urduliz.com>            +#+  +:+       +#+        */
+/*   By: gcassi-d <gcassi-d@42urduliz.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/17 01:26:00 by xwu               #+#    #+#             */
-/*   Updated: 2026/02/12 21:57:42 by xwu              ###   ########.fr       */
+/*   Updated: 2026/02/12 23:46:49 by gcassi-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	check_signal(t_cmdtab *cmdtab)
 {
 	if (g_signal == SIGINT)
 	{
-		cmdtab->exit_code = 1;
+		cmdtab->exit_code = 130;
 		g_signal = 0;
 	}
 }
