@@ -6,7 +6,7 @@
 /*   By: xwu <xwu@student.42urduliz.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/05 01:50:45 by xwu               #+#    #+#             */
-/*   Updated: 2026/02/12 20:12:37 by xwu              ###   ########.fr       */
+/*   Updated: 2026/02/12 20:42:58 by xwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,10 +65,10 @@ int	here_doc(char *limiter, size_t n_cmds)
 
 	parent_signal_manager();
 	if (pipe(fd))
-		return (error_msg("pipe", NULL, NULL, EPIPE));
+		return (-error_msg("pipe", NULL, NULL, errno));
 	read = fork();
 	if (read == -1)
-		return (error_msg("fork", NULL, NULL, ENOMEM));
+		return (-error_msg("fork", NULL, NULL, errno));
 	if (!read)
 	{
 		child_signal_manager();
@@ -82,7 +82,7 @@ int	here_doc(char *limiter, size_t n_cmds)
 	waitpid(read, &status, 0);
 	global_signal_manager();
 	if (which_exit(status))
-		return (-1);
+		return (-which_exit(status));
 	return (fd[0]);
 }
 
@@ -98,8 +98,8 @@ int	manage_heredoc(t_cmdtab *cmdtab)
 		{
 			new_input = here_doc(cmdtab->cmds[i].here_doc,
 					cmdtab->n_cmds);
-			if (new_input == -1)
-				return (1);
+			if (new_input < 0)
+				return (new_input);
 			if (!cmdtab->cmds[i].infile)
 				cmdtab->cmds[i].infile = new_input;
 			else

@@ -6,7 +6,7 @@
 /*   By: xwu <xwu@student.42urduliz.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 16:46:16 by xwu               #+#    #+#             */
-/*   Updated: 2026/02/12 20:05:07 by xwu              ###   ########.fr       */
+/*   Updated: 2026/02/12 20:30:07 by xwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,7 @@ enum e_builtins
 	UNSET
 };
 
-enum
+enum e_parsing_errors
 {
 	SUCCESS,
 	MALLOC,
