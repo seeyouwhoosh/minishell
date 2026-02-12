@@ -6,7 +6,7 @@
 /*   By: xwu <xwu@student.42urduliz.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 16:46:16 by xwu               #+#    #+#             */
-/*   Updated: 2026/02/12 23:06:54 by xwu              ###   ########.fr       */
+/*   Updated: 2026/02/13 00:26:47 by xwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,11 +111,17 @@ enum e_parsing_errors
 
 extern volatile int	g_signal;
 
-/* INITS */
+/* MAIN UTILS */
+int		get_line(char **line);
+void	main_loop(t_cmdtab *cmdtab);
 int		init_cmdtab(t_cmdtab **cmdtab, char **ev);
 
-/* REDIRECTION UTILS */
-void	correct_outfile(t_cmdtab *cmdtab);
+/* GENERAL UTILS */
+int		max(int a, int b);
+int		split_len(char **split);
+bool	is_whitespace(int c);
+int		all_whitespace(char	*s);
+int		error_msg(char *process, char *details, char *strerror, int error_code);
 
 /* FREES */
 void	free_split(char ***split);
@@ -140,45 +146,37 @@ int		env(t_cmdtab *cmdtab, char **args);
 int		export(t_cmdtab *cmdtab, char **args);
 int		cd(t_cmdtab *cmdtab, char **args);
 
-/* ENV */
+/* ENV UTILS */
 bool	is_valid_env_var(char *var);
 int		get_env_ind(t_cmdtab *cmdtab, char **env, char *var);
 int		copy_env(t_cmdtab *cmdtab, char **ev);
 int		set_env_var(t_cmdtab *cmdtab, char *var, char *val);
 char	*get_env_val(t_cmdtab *cmdtab, char **env, char *var);
 
-/* UTILS */
-int		get_line(char **line);
-int		max(int a, int b);
-int		split_len(char **split);
-int		error_msg(char *process, char *details, char *strerror, int error_code);
-bool	is_whitespace(int c);
-int		all_whitespace(char	*s);
-int		ft_dup(int new_fd, int og_fd);
-char	*get_path(char *cmd, char **env);
-
 /* PARSING */
 int		cmds_am(char *line, size_t *holder);
+int		parse_main(t_cmdtab *cmdtab, char *cmd);
+int		parse_command(t_cmdtab *cmdtab, t_cmd *cmd);
+int		get_token(t_why a, size_t *i, short *squote, short *dquote);
+bool	quote_stuff(char *str, size_t *i, short *squote, short *dquote);
+t_str	new(void);
 int		get_commands(t_cmd *cmd, char *str, size_t max);
 char	*get_next_command(t_cmd *cmd, char *pos, size_t ind, t_str str);
-int		extend(t_str *str);
-int		is_delimiter(int c, short squote, short dquote);
-t_str	new(void);
 int		add_var(t_why a, t_str *str, size_t *i, short *squote);
-int		get_token(t_why a, size_t *i, short *squote, short *dquote);
-int		parse_command(t_cmdtab *cmdtab, t_cmd *cmd);
-int		redirection(t_why a, size_t *i, short *squote, short *dquote);
-bool	quote_stuff(char *str, size_t *i, short *squote, short *dquote);
-int		opening(t_why a, int mode, t_str str);
-int		ft_open(const char *filename, int mode);
-int		parse_main(t_cmdtab *cmdtab, char *cmd);
+int		extend(t_str *str);
 int		append(char *s, char ***split);
+int		is_delimiter(int c, short squote, short dquote);
 int		add_to_str(t_cmd *cmd, size_t *i, t_str *str);
 int		check_rest(t_cmd *cmd, size_t i, size_t max);
+int		opening(t_why a, int mode, t_str str);
+int		redirection(t_why a, size_t *i, short *squote, short *dquote);
+void	correct_outfile(t_cmdtab *cmdtab);
+int		ft_open(const char *filename, int mode);
 
 /* EXECUTING */
 int		execute_all(t_cmdtab *cmdtab);
 int		exec_cmd(t_cmd *cmd, t_cmdtab *cmdtab);
+int		manage_heredoc(t_cmdtab *cmdtab);
 int		manage_infile(t_cmd *cmd);
 int		manage_outfile(t_cmd *cmd, t_cmdtab *cmdtab, int fd[2]);
 int		manage_last_outfile(t_cmd *cmd, t_cmdtab *cmdtab);
@@ -186,17 +184,12 @@ int		just_redirection(t_cmd *cmd);
 void	exec_pipe_cmd(t_cmdtab *cmdtab, t_cmd *cmd, int fd[2]);
 int		exec_last_cmd(t_cmd *cmd, t_cmdtab *cmdtab);
 int		exec_bin(char **split_cmd, t_cmdtab *cmdtab);
+int		exec_builtin(t_cmd *cmd, t_cmdtab *cmdtab, int fd[2]);
 int		exec_last_builtin(t_cmd *cmd, t_cmdtab *cmdtab);
 int		which_exit(int status);
-int		is_builtin(char *str_cmd, t_cmdtab *cmdtab);
-int		builtin_cmd(t_cmd *cmd, t_cmdtab *cmdtab, int code);
-int		exec_builtin(t_cmd *cmd, t_cmdtab *cmdtab, int fd[2]);
-
-/* HERE_DOC */
-int		manage_heredoc(t_cmdtab *cmdtab);
+int		ft_dup(int new_fd, int og_fd);
+char	*get_path(char *cmd, char **env);
 int		here_doc(char *limiter, size_t n_cmds);
-void	here_doc_put(char *limiter, size_t n_cmds, int fd);
-void	put_heredoc_prompt(size_t n_cmds);
 char	*get_next_line(int fd);
 
 #endif /* MINISHELL_H */

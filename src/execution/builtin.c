@@ -6,13 +6,13 @@
 /*   By: xwu <xwu@student.42urduliz.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/05 01:53:13 by xwu               #+#    #+#             */
-/*   Updated: 2026/02/12 20:27:19 by xwu              ###   ########.fr       */
+/*   Updated: 2026/02/13 00:25:13 by xwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	is_builtin(char *str_cmd, t_cmdtab *cmdtab)
+static int	is_builtin(char *str_cmd, t_cmdtab *cmdtab)
 {
 	(void)cmdtab;
 	if (!strcmp(str_cmd, "cd"))
@@ -33,7 +33,7 @@ int	is_builtin(char *str_cmd, t_cmdtab *cmdtab)
 		return (-1);
 }
 
-int	builtin_cmd(t_cmd *cmd, t_cmdtab *cmdtab, int code)
+static int	builtin_cmd(t_cmd *cmd, t_cmdtab *cmdtab, int code)
 {
 	if (code == CD)
 		return (cd(cmdtab, cmd->split_cmd));

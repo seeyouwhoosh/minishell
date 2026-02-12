@@ -6,7 +6,7 @@
 /*   By: xwu <xwu@student.42urduliz.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/18 13:00:32 by xwu               #+#    #+#             */
-/*   Updated: 2026/02/12 23:39:26 by xwu              ###   ########.fr       */
+/*   Updated: 2026/02/13 00:29:44 by xwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,10 +29,10 @@ void	main_loop(t_cmdtab *cmdtab)
 		else if (flag == 2)
 			continue ;
 		flag = parse_main(cmdtab, line);
-/* 		if (!flag)
+		if (!flag)
 			execute_all(cmdtab);
 		else
-			cmdtab->exit_code = flag; */
+			cmdtab->exit_code = flag;
 		
 /* -------------------- TESTING AREA --------------------- */
 		if (!flag)
@@ -60,7 +60,6 @@ void	main_loop(t_cmdtab *cmdtab)
 		free(line);
 	}
 }
-
 
 int	main(int ac, char **av, char **ev)
 {

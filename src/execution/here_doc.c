@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcassi-d <gcassi-d@42urduliz.com>          +#+  +:+       +#+        */
+/*   By: xwu <xwu@student.42urduliz.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/05 01:50:45 by xwu               #+#    #+#             */
-/*   Updated: 2026/02/12 23:22:47 by gcassi-d         ###   ########.fr       */
+/*   Updated: 2026/02/13 00:22:35 by xwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,14 +21,14 @@ static void	eof_warning_message(int nline, char *limiter)
 	ft_putstr_fd("')\n", 1);
 }
 
-void	put_heredoc_prompt(size_t n_cmds)
+static void	put_heredoc_prompt(size_t n_cmds)
 {
 	while (--n_cmds > 0)
 		ft_putstr_fd("pipe ", 1);
 	ft_putstr_fd("here_doc> ", 1);
 }
 
-void	here_doc_put(char *limiter, size_t n_cmds, int fd)
+static void	here_doc_put(char *limiter, size_t n_cmds, int fd)
 {
 	char	*input;
 	char	*new_limiter;
