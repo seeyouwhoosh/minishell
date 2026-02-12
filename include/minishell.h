@@ -6,7 +6,7 @@
 /*   By: xwu <xwu@student.42urduliz.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 16:46:16 by xwu               #+#    #+#             */
-/*   Updated: 2026/02/12 21:45:04 by xwu              ###   ########.fr       */
+/*   Updated: 2026/02/12 22:28:01 by xwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,7 +112,7 @@ enum e_parsing_errors
 volatile int	g_signal;
 
 /* INITS */
-int		init_cmdtab(t_cmdtab *cmdtab, char **ev);
+int		init_cmdtab(t_cmdtab **cmdtab, char **ev);
 void	correct_outfile(t_cmdtab *cmdtab);
 
 /* FREES */
@@ -123,6 +123,7 @@ void	free_cmd(t_cmd *cmd);
 void	free_cmds(t_cmdtab *cmdtab);
 
 /* SIGNAL MANAGER */
+void	check_signal(t_cmdtab *cmdtab);
 void	global_int_signal(int n);
 void	global_signal_manager(void);
 void	child_signal_manager(void);
@@ -145,6 +146,7 @@ int		set_env_var(t_cmdtab *cmdtab, char *var, char *val);
 char	*get_env_val(t_cmdtab *cmdtab, char **env, char *var);
 
 /* UTILS */
+int		get_line(char **line);
 int		max(int a, int b);
 int		split_len(char **split);
 int		error_msg(char *process, char *details, char *strerror, int error_code);
@@ -194,6 +196,5 @@ int		here_doc(char *limiter, size_t n_cmds);
 void	here_doc_put(char *limiter, size_t n_cmds, int fd);
 void	put_heredoc_prompt(size_t n_cmds);
 char	*get_next_line(int fd);
-void	get_line(int fd, char **line, size_t size);
 
 #endif /* MINISHELL_H */

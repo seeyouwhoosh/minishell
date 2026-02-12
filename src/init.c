@@ -6,25 +6,26 @@
 /*   By: xwu <xwu@student.42urduliz.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/18 13:00:32 by xwu               #+#    #+#             */
-/*   Updated: 2026/02/12 20:49:04 by xwu              ###   ########.fr       */
+/*   Updated: 2026/02/12 22:16:44 by xwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	init_cmdtab(t_cmdtab *cmdtab, char **ev)
+int	init_cmdtab(t_cmdtab **cmdtab, char **ev)
 {
-	if (!cmdtab)
+	*cmdtab = ft_calloc(1, sizeof(t_cmdtab));
+	if (!(*cmdtab))
 		return (1);
-	if (copy_env(cmdtab, ev))
-		return (free_cmdtab(cmdtab), 1);
-	cmdtab->stdout_fd = dup(STDOUT_FILENO);
-	cmdtab->stdin_fd = dup(STDIN_FILENO);
-	cmdtab->cwd = getcwd(NULL, 0);
-	if (!cmdtab->cwd)
+	if (copy_env(*cmdtab, ev))
+		return (free_cmdtab(*cmdtab), 1);
+	(*cmdtab)->stdout_fd = dup(STDOUT_FILENO);
+	(*cmdtab)->stdin_fd = dup(STDIN_FILENO);
+	(*cmdtab)->cwd = getcwd(NULL, 0);
+	if (!(*cmdtab)->cwd)
 		return (error_msg("malloc", NULL, NULL, 1));
-	cmdtab->previous_wd = strdup("");
-	if (!cmdtab->previous_wd)
+	(*cmdtab)->previous_wd = strdup("");
+	if (!(*cmdtab)->previous_wd)
 		return (error_msg("malloc", NULL, NULL, 1));
 	return (0);
 }

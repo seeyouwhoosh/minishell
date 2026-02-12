@@ -6,11 +6,20 @@
 /*   By: xwu <xwu@student.42urduliz.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/17 01:26:00 by xwu               #+#    #+#             */
-/*   Updated: 2026/02/12 21:45:46 by xwu              ###   ########.fr       */
+/*   Updated: 2026/02/12 21:57:42 by xwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	check_signal(t_cmdtab *cmdtab)
+{
+	if (g_signal == SIGINT)
+	{
+		cmdtab->exit_code = 1;
+		g_signal = 0;
+	}
+}
 
 void	global_int_signal(int n)
 {
