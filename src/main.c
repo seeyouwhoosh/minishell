@@ -6,11 +6,13 @@
 /*   By: xwu <xwu@student.42urduliz.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/18 13:00:32 by xwu               #+#    #+#             */
-/*   Updated: 2026/02/09 20:46:14 by xwu              ###   ########.fr       */
+/*   Updated: 2026/02/12 21:46:36 by xwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+volatile int	g_signal = 0;
 
 int	main(int ac, char **av, char **ev)
 {
@@ -19,9 +21,9 @@ int	main(int ac, char **av, char **ev)
 	int			flag;
 
 	(void)av;
+	global_signal_manager();
 	if (ac != 1)
 		return (ft_putendl_fd("\e[1;31mToo many arguments\e[0m\n", 2), 1);
-	global_signal_manager();
 	cmdtab = ft_calloc(1, sizeof(t_cmdtab));
 	if (!cmdtab)
 		return (1);
@@ -30,6 +32,12 @@ int	main(int ac, char **av, char **ev)
 	line = (char *)1;
 	while (line)
 	{
+		if (g_signal == SIGINT)
+		{
+			cmdtab->exit_code = 1;
+			g_signal = 0;
+		}
+
 		line = readline("Minishell> ");
 		if (!line)
 			break ;

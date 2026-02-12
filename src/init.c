@@ -6,23 +6,11 @@
 /*   By: xwu <xwu@student.42urduliz.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/18 13:00:32 by xwu               #+#    #+#             */
-/*   Updated: 2026/02/08 20:21:04 by xwu              ###   ########.fr       */
+/*   Updated: 2026/02/12 20:49:04 by xwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-void	correct_outfile(t_cmdtab *cmdtab)
-{
-	size_t	i;
-
-	i = 0;
-	while (i < cmdtab->n_cmds)
-	{
-		cmdtab->cmds[i].outfile = 1;
-		i++;
-	}
-}
 
 int	init_cmdtab(t_cmdtab *cmdtab, char **ev)
 {

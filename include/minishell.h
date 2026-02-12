@@ -6,7 +6,7 @@
 /*   By: xwu <xwu@student.42urduliz.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 16:46:16 by xwu               #+#    #+#             */
-/*   Updated: 2026/02/12 20:30:07 by xwu              ###   ########.fr       */
+/*   Updated: 2026/02/12 21:45:04 by xwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,6 +108,8 @@ enum e_parsing_errors
 	R_INFILE,
 	FILE_NOT_FOUND,
 };
+
+volatile int	g_signal;
 
 /* INITS */
 int		init_cmdtab(t_cmdtab *cmdtab, char **ev);

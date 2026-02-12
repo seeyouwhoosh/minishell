@@ -6,7 +6,7 @@
 /*   By: xwu <xwu@student.42urduliz.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/17 01:26:00 by xwu               #+#    #+#             */
-/*   Updated: 2026/02/09 22:16:20 by xwu              ###   ########.fr       */
+/*   Updated: 2026/02/12 21:45:46 by xwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ void	global_int_signal(int n)
 	rl_on_new_line();
 	rl_replace_line("", 0);
 	rl_redisplay();
+	g_signal = SIGINT;
 	signal(SIGINT, global_int_signal);
 }
 

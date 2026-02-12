@@ -6,7 +6,7 @@
 /*   By: xwu <xwu@student.42urduliz.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/31 10:45:02 by xwu               #+#    #+#             */
-/*   Updated: 2026/02/12 19:28:52 by xwu              ###   ########.fr       */
+/*   Updated: 2026/02/12 21:42:58 by xwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ int	exec_last_cmd(t_cmd *cmd, t_cmdtab *cmdtab)
 	parent_signal_manager();
 	ext = exec_last_builtin(cmd, cmdtab);
 	if (ext != -1)
-		return (ext);
+		return (global_signal_manager(), ext);
 	command = fork();
 	if (command == -1)
 		return (error_msg("fork", NULL, NULL, ENOMEM));

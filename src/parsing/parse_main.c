@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_main.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcassi-d <gcassi-d@42urduliz.com>          +#+  +:+       +#+        */
+/*   By: xwu <xwu@student.42urduliz.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/01 18:05:48 by gcassi-d          #+#    #+#             */
-/*   Updated: 2026/02/08 19:48:25 by gcassi-d         ###   ########.fr       */
+/*   Updated: 2026/02/12 20:49:29 by xwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,6 @@ static int	check_empty(t_cmdtab *cmdtab)
 	return (SUCCESS);
 }
 
-//orden: pipes, tokens, locate redirections, env_vars
 int	parse_main(t_cmdtab *cmdtab, char *cmd)
 {
 	size_t	i;

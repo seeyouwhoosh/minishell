@@ -6,7 +6,7 @@
 /*   By: xwu <xwu@student.42urduliz.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/07 16:17:48 by gcassi-d          #+#    #+#             */
-/*   Updated: 2026/02/09 12:20:46 by xwu              ###   ########.fr       */
+/*   Updated: 2026/02/12 20:49:14 by xwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,4 +60,16 @@ int	check_rest(t_cmd *cmd, size_t i, size_t max)
 		i++;
 	}
 	return (SUCCESS);
+}
+
+void	correct_outfile(t_cmdtab *cmdtab)
+{
+	size_t	i;
+
+	i = 0;
+	while (i < cmdtab->n_cmds)
+	{
+		cmdtab->cmds[i].outfile = 1;
+		i++;
+	}
 }
