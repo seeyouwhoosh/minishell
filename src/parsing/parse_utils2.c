@@ -6,7 +6,7 @@
 /*   By: gcassi-d <gcassi-d@42urduliz.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/04 22:00:12 by gcassi-d          #+#    #+#             */
-/*   Updated: 2026/02/09 20:54:46 by gcassi-d         ###   ########.fr       */
+/*   Updated: 2026/02/12 23:19:45 by gcassi-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,10 +33,10 @@ int	cmds_am(char *line, size_t *holder)
 	}
 	if (squote)
 		return (error_msg("mnsh", NULL,
-				"error near unexpected token: `\''", 3));
+				"error near unexpected token: `\''", 2));
 	if (dquote)
 		return (error_msg("mnshl", NULL,
-				"error near unexpected token: `\"'", 4));
+				"error near unexpected token: `\"'", 2));
 	return (SUCCESS);
 }
 
