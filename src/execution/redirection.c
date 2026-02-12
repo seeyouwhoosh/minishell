@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   redirection_utils.c                                :+:      :+:    :+:   */
+/*   redirection.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: xwu <xwu@student.42urduliz.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/07 13:43:07 by xwu               #+#    #+#             */
-/*   Updated: 2026/02/10 22:15:26 by xwu              ###   ########.fr       */
+/*   Updated: 2026/02/12 19:25:48 by xwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,11 +19,8 @@ int	ft_dup(int new_fd, int og_fd)
 	return (0);
 }
 
-int	manage_infile(t_cmd *cmd, t_cmdtab *cmdtab, int fd[2])
+int	manage_infile(t_cmd *cmd)
 {
-	(void)fd;
-	if (cmd->here_doc && here_doc(cmd->here_doc, cmdtab->n_cmds))
-		return (1);
 	if (cmd->infile && (cmd->last != INFILE)
 		&& ft_dup(cmd->infile, STDIN_FILENO))
 		return (1);

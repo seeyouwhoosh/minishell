@@ -6,7 +6,7 @@
 /*   By: xwu <xwu@student.42urduliz.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 16:46:16 by xwu               #+#    #+#             */
-/*   Updated: 2026/02/09 22:09:20 by xwu              ###   ########.fr       */
+/*   Updated: 2026/02/12 20:05:07 by xwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -173,7 +173,7 @@ int		check_rest(t_cmd *cmd, size_t i, size_t max);
 /* EXECUTING */
 int		execute_all(t_cmdtab *cmdtab);
 int		exec_cmd(t_cmd *cmd, t_cmdtab *cmdtab);
-int		manage_infile(t_cmd *cmd, t_cmdtab *cmdtab, int fd[2]);
+int		manage_infile(t_cmd *cmd);
 int		manage_outfile(t_cmd *cmd, t_cmdtab *cmdtab, int fd[2]);
 int		manage_last_outfile(t_cmd *cmd, t_cmdtab *cmdtab);
 int		just_redirection(t_cmd *cmd);
@@ -187,6 +187,7 @@ int		builtin_cmd(t_cmd *cmd, t_cmdtab *cmdtab, int code);
 int		exec_builtin(t_cmd *cmd, t_cmdtab *cmdtab, int fd[2]);
 
 /* HERE_DOC */
+int		manage_heredoc(t_cmdtab *cmdtab);
 int		here_doc(char *limiter, size_t n_cmds);
 void	here_doc_put(char *limiter, size_t n_cmds, int fd);
 void	put_heredoc_prompt(size_t n_cmds);

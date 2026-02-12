@@ -6,7 +6,7 @@
 /*   By: xwu <xwu@student.42urduliz.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/05 01:50:45 by xwu               #+#    #+#             */
-/*   Updated: 2026/02/09 22:20:43 by xwu              ###   ########.fr       */
+/*   Updated: 2026/02/12 20:12:37 by xwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,9 @@ int	here_doc(char *limiter, size_t n_cmds)
 {
 	pid_t	read;
 	int		fd[2];
+	int		status;
 
+	parent_signal_manager();
 	if (pipe(fd))
 		return (error_msg("pipe", NULL, NULL, EPIPE));
 	read = fork();
@@ -69,18 +71,41 @@ int	here_doc(char *limiter, size_t n_cmds)
 		return (error_msg("fork", NULL, NULL, ENOMEM));
 	if (!read)
 	{
+		child_signal_manager();
 		close(fd[0]);
 		here_doc_put(limiter, n_cmds, fd[1]);
 		if (ft_dup(fd[1], STDOUT_FILENO))
 			exit(1);
 		exit(0);
 	}
-	else if (read > 0)
+	close(fd[1]);
+	waitpid(read, &status, 0);
+	global_signal_manager();
+	if (which_exit(status))
+		return (-1);
+	return (fd[0]);
+}
+
+int	manage_heredoc(t_cmdtab *cmdtab)
+{
+	size_t	i;
+	int		new_input;
+
+	i = -1;
+	while (cmdtab->n_cmds > ++i)
 	{
-		close(fd[1]);
-		if (ft_dup(fd[0], STDIN_FILENO))
-			return (1);
-		waitpid(read, NULL, 0);
+		if (cmdtab->cmds[i].here_doc)
+		{
+			new_input = here_doc(cmdtab->cmds[i].here_doc,
+					cmdtab->n_cmds);
+			if (new_input == -1)
+				return (1);
+			if (!cmdtab->cmds[i].infile)
+				cmdtab->cmds[i].infile = new_input;
+			else
+				close(new_input);
+		}
 	}
 	return (0);
 }
+

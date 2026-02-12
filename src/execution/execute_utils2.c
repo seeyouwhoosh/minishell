@@ -6,7 +6,7 @@
 /*   By: xwu <xwu@student.42urduliz.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/05 01:53:55 by xwu               #+#    #+#             */
-/*   Updated: 2026/02/10 21:54:18 by xwu              ###   ########.fr       */
+/*   Updated: 2026/02/12 20:02:09 by xwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int	which_exit(int status)
 		return (WEXITSTATUS(status));
 	if (WIFSIGNALED(status))
 		return (WTERMSIG(status) + 128);
-	return (1);
+	return (0);
 }
 
 char	*get_path(char *cmd, char **env)

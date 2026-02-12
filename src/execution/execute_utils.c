@@ -6,7 +6,7 @@
 /*   By: xwu <xwu@student.42urduliz.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/31 10:45:02 by xwu               #+#    #+#             */
-/*   Updated: 2026/02/10 21:58:48 by xwu              ###   ########.fr       */
+/*   Updated: 2026/02/12 19:28:52 by xwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ int	exec_last_cmd(t_cmd *cmd, t_cmdtab *cmdtab)
 	if (!command)
 	{
 		child_signal_manager();
-		if (manage_infile(cmd, cmdtab, NULL))
+		if (manage_infile(cmd))
 			exit(EXIT_FAILURE);
 		if (just_redirection(cmd))
 			exit(EXIT_SUCCESS);
@@ -72,7 +72,7 @@ void	exec_pipe_cmd(t_cmdtab *cmdtab, t_cmd *cmd, int fd[2])
 	int	ext;
 
 	child_signal_manager();
-	if (manage_infile(cmd, cmdtab, fd))
+	if (manage_infile(cmd))
 		exit(EXIT_FAILURE);
 	if (just_redirection(cmd))
 		exit(EXIT_SUCCESS);
