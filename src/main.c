@@ -6,7 +6,7 @@
 /*   By: xwu <xwu@student.42urduliz.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/18 13:00:32 by xwu               #+#    #+#             */
-/*   Updated: 2026/02/12 22:35:31 by xwu              ###   ########.fr       */
+/*   Updated: 2026/02/12 23:01:24 by xwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	main_loop(t_cmdtab *cmdtab)
 		flag = get_line(&line);
 		if (flag == 1)
 			break ;
-		else if (flag == 1)
+		else if (flag == 2)
 			continue ;
 		flag = parse_main(cmdtab, line);
 /* 		if (!flag)
