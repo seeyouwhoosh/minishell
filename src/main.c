@@ -6,7 +6,7 @@
 /*   By: xwu <xwu@student.42urduliz.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/18 13:00:32 by xwu               #+#    #+#             */
-/*   Updated: 2026/02/12 22:33:29 by xwu              ###   ########.fr       */
+/*   Updated: 2026/02/12 22:35:31 by xwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,10 +29,34 @@ void	main_loop(t_cmdtab *cmdtab)
 		else if (flag == 1)
 			continue ;
 		flag = parse_main(cmdtab, line);
-		if (!flag)
+/* 		if (!flag)
 			execute_all(cmdtab);
 		else
+			cmdtab->exit_code = flag; */
+		
+/* -------------------- TESTING AREA --------------------- */
+		if (!flag)
+		{
+			for (size_t i = 0; i < cmdtab->n_cmds; i++)
+			{
+				printf("Cmd number %lu:\n", i);
+				printf("infile: %i, outfile: %i, heredoc: %s\n", cmdtab->cmds[i].infile, cmdtab->cmds[i].outfile, cmdtab->cmds[i].here_doc);
+				printf("Command: ");
+				if (!cmdtab->cmds[i].split_cmd)
+					printf("none");
+				else
+				{
+					for (size_t j = 0; cmdtab->cmds[i].split_cmd[j]; j++)
+						printf("%s ", cmdtab->cmds[i].split_cmd[j]);
+				}
+				printf("\n\n");
+			}
+
+			execute_all(cmdtab);
+		}
+		else
 			cmdtab->exit_code = flag;
+/* ------------------------------------------------------- */
 		add_history(line);
 		free(line);
 	}
