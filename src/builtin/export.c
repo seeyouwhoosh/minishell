@@ -6,7 +6,7 @@
 /*   By: gcassi-d <gcassi-d@42urduliz.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/17 20:59:43 by gcassi-d          #+#    #+#             */
-/*   Updated: 2026/02/07 15:57:33 by gcassi-d         ###   ########.fr       */
+/*   Updated: 2026/02/12 21:36:50 by gcassi-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,19 @@ static int	do1(t_cmdtab *cmdtab, char *arg)
 	return (EXIT_SUCCESS);
 }
 
+static void	show(t_cmdtab *cmdtab)
+{
+	int	i;
+
+	i = 0;
+	while (i < cmdtab->env_len)
+	{
+		ft_putstr_fd("declare -x ", 1);
+		ft_putendl_fd(cmdtab->env[i], 1);
+		i++;
+	}
+}
+
 int	export(t_cmdtab *cmdtab, char **args)
 {
 	int	i;
@@ -35,6 +48,11 @@ int	export(t_cmdtab *cmdtab, char **args)
 
 	i = 0;
 	flag = 0;
+	if (split_len(args) == 1)
+	{
+		show(cmdtab);
+		return (0);
+	}
 	while (args[++i])
 	{
 		if (!args[i][0] || !is_valid_env_var(args[i]))
