@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcassi-d <gcassi-d@42urduliz.com>          +#+  +:+       +#+        */
+/*   By: xwu <xwu@student.42urduliz.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/05 01:53:13 by xwu               #+#    #+#             */
-/*   Updated: 2026/02/09 20:42:31 by gcassi-d         ###   ########.fr       */
+/*   Updated: 2026/02/12 20:27:19 by xwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ int	exec_last_builtin(t_cmd *cmd, t_cmdtab *cmdtab)
 	ext = is_builtin(cmd->split_cmd[0], cmdtab);
 	if (ext == -1)
 		return (ext);
-	if (manage_infile(cmd, cmdtab, NULL))
+	if (manage_infile(cmd))
 	{
 		ft_dup(cmdtab->stdin_fd, STDIN_FILENO);
 		return (1);
@@ -84,7 +84,7 @@ int	exec_builtin(t_cmd *cmd, t_cmdtab *cmdtab, int fd[2])
 	ext = is_builtin(cmd->split_cmd[0], cmdtab);
 	if (ext == -1)
 		return (ext);
-	if (manage_infile(cmd, cmdtab, fd))
+	if (manage_infile(cmd))
 		return (1);
 	if (just_redirection(cmd))
 		return (0);
