@@ -6,7 +6,7 @@
 /*   By: xwu <xwu@student.42urduliz.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/05 01:53:55 by xwu               #+#    #+#             */
-/*   Updated: 2026/02/12 20:02:09 by xwu              ###   ########.fr       */
+/*   Updated: 2026/02/13 11:15:36 by xwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,4 +48,13 @@ char	*get_path(char *cmd, char **env)
 	}
 	ft_freesplit(split_paths);
 	return (NULL);
+}
+
+int	absolute_bin(char *cmd)
+{
+	if (!ft_strncmp("./", cmd, 2) && !access(cmd + 2, X_OK))
+		return (0);
+	else if (*cmd == '/' && !access(cmd, X_OK))
+		return (0);
+	return (1);
 }

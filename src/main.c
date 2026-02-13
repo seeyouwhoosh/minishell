@@ -6,7 +6,7 @@
 /*   By: xwu <xwu@student.42urduliz.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/18 13:00:32 by xwu               #+#    #+#             */
-/*   Updated: 2026/02/13 00:30:08 by xwu              ###   ########.fr       */
+/*   Updated: 2026/02/13 10:57:05 by xwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void	main_loop(t_cmdtab *cmdtab)
 			cmdtab->exit_code = flag;
 		
 /* -------------------- TESTING AREA --------------------- */
-		if (!flag)
+	/* 	if (!flag)
 		{
 			for (size_t i = 0; i < cmdtab->n_cmds; i++)
 			{
@@ -54,7 +54,7 @@ void	main_loop(t_cmdtab *cmdtab)
 			execute_all(cmdtab);
 		}
 		else
-			cmdtab->exit_code = flag;
+			cmdtab->exit_code = flag; */
 /* ------------------------------------------------------- */
 		add_history(line);
 		free(line);

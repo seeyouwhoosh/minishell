@@ -6,7 +6,7 @@
 /*   By: xwu <xwu@student.42urduliz.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/31 10:45:02 by xwu               #+#    #+#             */
-/*   Updated: 2026/02/12 21:42:58 by xwu              ###   ########.fr       */
+/*   Updated: 2026/02/13 11:21:03 by xwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int	exec_bin(char **split_cmd, t_cmdtab *cmdtab)
 	char	*path;
 	int		ext;
 
-	if (!ft_strncmp("./", split_cmd[0], 2))
+	if (!absolute_bin(split_cmd[0]))
 		ext = execve(split_cmd[0], split_cmd, cmdtab->env);
 	else
 	{
@@ -25,12 +25,8 @@ int	exec_bin(char **split_cmd, t_cmdtab *cmdtab)
 			return (error_msg("mnsh", split_cmd[0], "command not found", 127));
 		path = get_path(split_cmd[0], cmdtab->env);
 		if (!path)
-		{
-			ext = error_msg("mnsh", split_cmd[0], "command not found", 127);
-			ft_freesplit(split_cmd);
-			free(path);
-			return (ext);
-		}
+			return (ft_freesplit(split_cmd), free(path), error_msg("mnsh",
+					split_cmd[0], "command not found", 127));
 		ext = execve(path, split_cmd, cmdtab->env);
 	}
 	if (ext)

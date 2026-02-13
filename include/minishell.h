@@ -6,7 +6,7 @@
 /*   By: xwu <xwu@student.42urduliz.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 16:46:16 by xwu               #+#    #+#             */
-/*   Updated: 2026/02/13 00:26:47 by xwu              ###   ########.fr       */
+/*   Updated: 2026/02/13 11:15:54 by xwu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -189,6 +189,7 @@ int		exec_last_builtin(t_cmd *cmd, t_cmdtab *cmdtab);
 int		which_exit(int status);
 int		ft_dup(int new_fd, int og_fd);
 char	*get_path(char *cmd, char **env);
+int		absolute_bin(char *cmd);
 int		here_doc(char *limiter, size_t n_cmds);
 char	*get_next_line(int fd);
 
