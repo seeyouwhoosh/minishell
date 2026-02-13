@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: xwu <xwu@student.42urduliz.com>            +#+  +:+       +#+        */
+/*   By: gcassi-d <gcassi-d@42urduliz.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/18 13:00:32 by xwu               #+#    #+#             */
-/*   Updated: 2026/02/13 10:57:05 by xwu              ###   ########.fr       */
+/*   Updated: 2026/02/13 18:38:09 by gcassi-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,32 +33,10 @@ void	main_loop(t_cmdtab *cmdtab)
 			execute_all(cmdtab);
 		else
 			cmdtab->exit_code = flag;
-		
-/* -------------------- TESTING AREA --------------------- */
-	/* 	if (!flag)
-		{
-			for (size_t i = 0; i < cmdtab->n_cmds; i++)
-			{
-				printf("Cmd number %lu:\n", i);
-				printf("infile: %i, outfile: %i, heredoc: %s\n", cmdtab->cmds[i].infile, cmdtab->cmds[i].outfile, cmdtab->cmds[i].here_doc);
-				printf("Command: ");
-				if (!cmdtab->cmds[i].split_cmd)
-					printf("none");
-				else
-				{
-					for (size_t j = 0; cmdtab->cmds[i].split_cmd[j]; j++)
-						printf("%s ", cmdtab->cmds[i].split_cmd[j]);
-				}
-				printf("\n\n");
-			}
-			execute_all(cmdtab);
-		}
-		else
-			cmdtab->exit_code = flag; */
-/* ------------------------------------------------------- */
 		add_history(line);
 		free(line);
 		free_cmds(cmdtab);
+		flag = 0;
 	}
 }
 

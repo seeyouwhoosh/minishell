@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: xwu <xwu@student.42urduliz.com>            +#+  +:+       +#+        */
+/*   By: gcassi-d <gcassi-d@42urduliz.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/17 20:59:37 by gcassi-d          #+#    #+#             */
-/*   Updated: 2026/02/08 00:40:54 by xwu              ###   ########.fr       */
+/*   Updated: 2026/02/13 18:49:31 by gcassi-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int	ft_exit(t_cmdtab *cmdtab, char **args)
 	int	exit_code;
 
 	if (split_len(args) > 2)
-		return (error_msg("env", NULL, "too many arguments", 1));
+		return (error_msg("exit", NULL, "too many arguments", 1));
 	else if (split_len(args) == 1)
 		exit_code = cmdtab->exit_code;
 	else
