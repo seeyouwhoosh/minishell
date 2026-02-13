@@ -47,6 +47,6 @@ void	parent_signal_manager(void)
 
 void	child_signal_manager(void)
 {
-	signal(SIGINT, SIG_DFL);
+	signal(SIGINT, child_int_signal);
 	signal(SIGQUIT, SIG_DFL);
 }
