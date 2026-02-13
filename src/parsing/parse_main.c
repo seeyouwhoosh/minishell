@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_main.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: xwu <xwu@student.42urduliz.com>            +#+  +:+       +#+        */
+/*   By: gcassi-d <gcassi-d@42urduliz.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/01 18:05:48 by gcassi-d          #+#    #+#             */
-/*   Updated: 2026/02/12 20:49:29 by xwu              ###   ########.fr       */
+/*   Updated: 2026/02/13 22:15:16 by gcassi-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,10 +109,10 @@ int	parse_main(t_cmdtab *cmdtab, char *cmd)
 	if (flag)
 		return (flag);
 	cmdtab->cmds = ft_calloc(cmdtab->n_cmds + 1, sizeof(t_cmd));
-	correct_outfile(cmdtab);
 	if (!cmdtab->cmds)
 		return (error_msg("mnsh", NULL,
 				"memory allocation failed", 1));
+	correct_outfile(cmdtab);
 	flag = get_commands(cmdtab->cmds, cmd, cmdtab->n_cmds);
 	if (flag)
 		return (flag);
