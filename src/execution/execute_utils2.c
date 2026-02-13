@@ -54,7 +54,7 @@ int	absolute_bin(char *cmd)
 {
 	if (!ft_strncmp("./", cmd, 2) && !access(cmd + 2, X_OK))
 		return (0);
-	else if (*cmd == '/' && !access(cmd, X_OK))
+	else if (!access(cmd, X_OK))
 		return (0);
 	return (1);
 }
