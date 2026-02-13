@@ -49,7 +49,7 @@ int	main(int ac, char **av, char **ev)
 	if (ac != 1)
 		return (ft_putendl_fd("\e[1;31mToo many arguments\e[0m\n", 2), 1);
 	if (init_cmdtab(&cmdtab, ev))
-		return (free(cmdtab), 1);
+		return (1);
 	main_loop(cmdtab);
 	free_cmdtab(cmdtab);
 }
