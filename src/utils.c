@@ -44,3 +44,12 @@ int	all_whitespace(char	*s)
 	}
 	return (1);
 }
+
+void	child_int_signal(int n)
+{
+	(void)n;
+	signal(SIGINT, SIG_IGN);
+	write(STDERR_FILENO, "\n", 1);
+	exit(2);
+	signal(SIGINT, child_int_signal);
+}
