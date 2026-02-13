@@ -23,10 +23,10 @@ int	init_cmdtab(t_cmdtab **cmdtab, char **ev)
 	(*cmdtab)->stdin_fd = dup(STDIN_FILENO);
 	(*cmdtab)->cwd = getcwd(NULL, 0);
 	if (!(*cmdtab)->cwd)
-		return (error_msg("malloc", NULL, NULL, 1));
+		return (free_cmdtab(cmdtab), error_msg("malloc", NULL, NULL, 1));
 	(*cmdtab)->previous_wd = strdup("");
 	if (!(*cmdtab)->previous_wd)
-		return (error_msg("malloc", NULL, NULL, 1));
+		return (free_cmdtab(cmdtab), error_msg("malloc", NULL, NULL, 1));
 	return (0);
 }
 
