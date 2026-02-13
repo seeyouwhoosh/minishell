@@ -133,6 +133,7 @@ void	free_cmds(t_cmdtab *cmdtab);
 /* SIGNAL MANAGER */
 void	check_signal(t_cmdtab *cmdtab);
 void	global_int_signal(int n);
+void	child_int_signal(int n);
 void	global_signal_manager(void);
 void	child_signal_manager(void);
 void	parent_signal_manager(void);
